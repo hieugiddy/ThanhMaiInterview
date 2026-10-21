@@ -1,0 +1,2939 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sổ tay ôn phỏng vấn Java Backend: SQL, Java Core, Spring Boot, Frontend, AI workflow và câu hỏi thực tế tại VNPT, MB Bank, FPT.">
+  <meta name="theme-color" content="#4f46e5">
+  <title>Interview Hub · Mai Trần Thị Thanh</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%234f46e5'/%3E%3Ctext x='50%25' y='54%25' text-anchor='middle' dominant-baseline='middle' font-family='Arial' font-size='26' font-weight='700' fill='white'%3EMT%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Bỏ qua điều hướng</a>
+  <div class="scroll-progress" aria-hidden="true"><span id="progressBar"></span></div>
+
+  <header class="topbar" id="topbar">
+    <div class="topbar-inner">
+      <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="Mở mục lục" aria-expanded="false" aria-controls="sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+
+      <a class="brand" href="#home" aria-label="Interview Hub — về đầu trang">
+        <span class="brand-mark">MT</span>
+        <span class="brand-text"><strong>Interview Hub</strong><small>Java Backend</small></span>
+      </a>
+
+      <nav class="topnav" aria-label="Điều hướng chính">
+        <a href="#sql">SQL</a>
+        <a href="#java">Java</a>
+        <a href="#backend">Spring</a>
+        <a href="#frontend">Frontend</a>
+        <a href="#ai">AI</a>
+        <a href="#company">Công ty</a>
+      </nav>
+
+      <div class="topbar-actions">
+        <label class="search-box" for="searchInput">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input id="searchInput" type="search" placeholder="Tìm câu hỏi, keyword..." autocomplete="off" aria-label="Tìm kiếm câu hỏi">
+          <kbd>/</kbd>
+          <button class="search-clear" id="clearSearch" type="button" aria-label="Xóa tìm kiếm" hidden>&times;</button>
+        </label>
+        <button class="icon-btn theme-btn" id="themeBtn" type="button" aria-label="Chuyển sang chế độ tối" aria-pressed="false">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar" aria-label="Mục lục và tiến độ">
+      <div class="sidebar-panel">
+        <div class="progress-card">
+          <div class="progress-head"><span>Tiến độ ôn tập</span><strong id="learnedPercent">0%</strong></div>
+          <div class="progress-track" role="progressbar" aria-label="Tiến độ ôn tập" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="learnedProgress"><span id="learnedBar"></span></div>
+          <p class="progress-meta"><span id="learnedCount">0</span>/<span id="qaTotal">0</span> câu đã đánh dấu</p>
+          <label class="check-row"><input type="checkbox" id="hideLearned"><span>Chỉ hiện câu chưa học</span></label>
+        </div>
+
+        <nav class="toc" aria-label="Mục lục nội dung">
+          <a class="toc-link" href="#intro"><span class="toc-num">01</span><span class="toc-label">Giới thiệu</span><span class="toc-count" data-toc-count="intro">2</span></a>
+          <a class="toc-link" href="#daily"><span class="toc-num">02</span><span class="toc-label">Công việc hằng ngày</span><span class="toc-count" data-toc-count="daily">4</span></a>
+          <a class="toc-link" href="#sql"><span class="toc-num">03</span><span class="toc-label">SQL &amp; Database</span><span class="toc-count" data-toc-count="sql">20</span></a>
+          <a class="toc-link" href="#java"><span class="toc-num">04</span><span class="toc-label">Java Core</span><span class="toc-count" data-toc-count="java">17</span></a>
+          <a class="toc-link" href="#backend"><span class="toc-num">05</span><span class="toc-label">Spring &amp; Backend</span><span class="toc-count" data-toc-count="backend">29</span></a>
+          <a class="toc-link" href="#frontend"><span class="toc-num">06</span><span class="toc-label">Frontend</span><span class="toc-count" data-toc-count="frontend">18</span></a>
+          <a class="toc-link" href="#ai"><span class="toc-num">07</span><span class="toc-label">AI &amp; Claude</span><span class="toc-count" data-toc-count="ai">8</span></a>
+          <a class="toc-link" href="#company"><span class="toc-num">08</span><span class="toc-label">Theo công ty</span><span class="toc-count" data-toc-count="company">6</span></a>
+          <a class="toc-link" href="#resources"><span class="toc-num">09</span><span class="toc-label">Tài nguyên</span><span class="toc-count" data-toc-count="resources">4</span></a>
+        </nav>
+
+        <div class="sidebar-actions">
+          <button class="side-btn" id="randomBtn" type="button">Câu hỏi ngẫu nhiên</button>
+          <button class="side-btn" id="printBtn" type="button">In / Lưu PDF</button>
+          <button class="side-btn danger" id="resetBtn" type="button">Đặt lại tiến độ</button>
+        </div>
+        <p class="sidebar-note">Nhấn <kbd>/</kbd> để tìm nhanh. Tiến độ được lưu trong <code>localStorage</code> của trình duyệt.</p>
+      </div>
+    </aside>
+
+    <div class="sidebar-overlay" id="sidebarOverlay" hidden></div>
+
+    <main class="main" id="main">
+      <section class="hero" id="home">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="pulse" aria-hidden="true"></span> Java Developer · FPT Software Đà Nẵng</p>
+          <h1>Ôn phỏng vấn <span class="grad">Java Backend</span> gọn và có hệ thống.</h1>
+          <p class="hero-lead">Tổng hợp SQL, Java Core, Spring Boot, Frontend, AI workflow và câu hỏi thực tế tại VNPT, MB Bank, FPT — kèm tiến độ học và tìm kiếm nhanh.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#sql">Bắt đầu ôn tập
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+            <a class="btn btn-ghost" href="#intro">Xem giới thiệu</a>
+          </div>
+          <div class="hero-stats">
+            <div class="stat"><strong id="statQuestions">98</strong><span>câu hỏi</span></div>
+            <div class="stat"><strong>2</strong><span>dự án Nhật</span></div>
+            <div class="stat"><strong>9</strong><span>nhóm kiến thức</span></div>
+          </div>
+        </div>
+
+        <div class="hero-visual" aria-hidden="true">
+          <div class="floating-chip chip-1">Spring Boot</div>
+          <div class="floating-chip chip-2">PostgreSQL</div>
+          <div class="code-card">
+            <div class="code-bar">
+              <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+              <span class="code-file">InterviewSnapshot.java</span>
+            </div>
+            <pre><code><span class="c-key">@RestController</span>
+<span class="c-key">@RequestMapping</span>(<span class="c-str">"/api/v1/students"</span>)
+<span class="c-key">public class</span> <span class="c-type">StudentController</span> {
+
+  <span class="c-key">private final</span> StudentService service;
+
+  <span class="c-key">@GetMapping</span>
+  <span class="c-key">public</span> Page&lt;StudentDto&gt; list(Pageable pageable) {
+    <span class="c-key">return</span> service.findAll(pageable);
+  }
+}</code></pre>
+            <div class="code-footer"><span>Java 17</span><span>Spring Boot 3</span><span>REST API</span></div>
+          </div>
+        </div>
+      </section>
+
+      <div class="search-status" id="searchStatus" hidden>
+        <span id="searchText"></span>
+        <button class="text-btn" id="clearSearch2" type="button">Xóa bộ lọc</button>
+      </div>
+
+      <section class="section" id="intro" data-section>
+        <div class="section-head">
+          <div>
+            <span class="section-kicker">01 · Profile</span>
+            <h2>Giới thiệu bản thân</h2>
+            <p>Bản giới thiệu đầy đủ, bản 60 giây và hai dự án đã tham gia.</p>
+          </div>
+          <div class="section-actions">
+            <span class="qa-count">2 dự án</span>
+            <button class="mini-btn" id="copyIntro" type="button">Sao chép bản giới thiệu</button>
+          </div>
+        </div>
+
+        <div class="profile-grid">
+          <article class="profile-card">
+            <div class="avatar">MT</div>
+            <h3>Mai Trần Thị Thanh</h3>
+            <p class="role">Java Developer · FPT Software Đà Nẵng</p>
+            <p class="profile-summary">Tốt nghiệp CNTT — Trường Đại học Sư phạm, Đại học Đà Nẵng (2025). Kinh nghiệm Java backend với Servlet/J2EE, Spring Boot MVC, SQL Server, PostgreSQL và quy trình phát triển cho khách hàng Nhật.</p>
+            <div class="chips">
+              <span class="chip">Java</span>
+              <span class="chip">Spring Boot</span>
+              <span class="chip">MyBatis</span>
+              <span class="chip">SQL Server</span>
+              <span class="chip">PostgreSQL</span>
+              <span class="chip">Git</span>
+            </div>
+            <dl class="facts">
+              <div><dt>Học vấn</dt><dd>CNTT — ĐH Sư phạm, ĐH Đà Nẵng</dd></div>
+              <div><dt>Hiện tại</dt><dd>Java Developer tại FPT Software</dd></div>
+              <div><dt>Mục tiêu</dt><dd>Java Backend · Spring Boot · Database · Architecture</dd></div>
+              <div><dt>Ứng tuyển</dt><dd>VNPT · MB Bank · FPT</dd></div>
+            </dl>
+          </article>
+
+          <div class="intro-copy">
+            <div class="copy-head">
+              <h3>Bản giới thiệu đầy đủ</h3>
+              <span class="badge blue">Copy &amp; dùng ngay</span>
+            </div>
+            <p>Em chào anh/chị, em tên là <strong>Mai Trần Thị Thanh</strong>. Em tốt nghiệp chuyên ngành Công nghệ thông tin tại Trường Đại học Sư phạm – Đại học Đà Nẵng vào năm 2025. Hiện tại em đang làm việc tại <strong>FPT Software Đà Nẵng</strong> với vị trí Java Developer.</p>
+            <p>Trong quá trình làm việc, em đã tham gia hai dự án chính cho khách hàng Nhật. Dự án đầu tiên là <strong>ENEXX</strong> – hệ thống quản lý thiết bị và máy móc trong công ty. Em làm Java Developer với Java Servlet, J2EE, MVC và SQL Server; công việc chính là đọc, phân tích tài liệu Detailed Design của khách hàng Nhật rồi phát triển các màn hình theo thiết kế. Bên cạnh coding, em thực hiện Unit Test, tạo test case, free testing, tạo bug trên Jira và phối hợp với các thành viên để xử lý.</p>
+            <p>Dự án thứ hai là <strong>SEIXX</strong> – hệ thống quản lý hoạt động và quy trình trong nhà máy. Em đang tham gia với vai trò Java Developer, sử dụng Java Spring Boot MVC, PostgreSQL, Eclipse và Git. Ở dự án này, em tham gia khá đầy đủ quy trình phát triển phần mềm, từ Detailed Design, Coding đến Unit Testing.</p>
+            <p>Qua hai dự án, em có kinh nghiệm thực tế với Java backend, MVC, database và quy trình phát triển phần mềm; có kinh nghiệm làm việc với tài liệu Detailed Design của khách hàng Nhật và phối hợp trong môi trường Agile.</p>
+            <p>Hiện tại, em muốn tìm một môi trường mới để phát triển sâu hơn về Java Backend, đặc biệt là Spring Boot, database và các kiến trúc hệ thống. Vì vậy, em rất mong muốn có cơ hội được làm việc và phát triển tại <strong>VNPT</strong>.</p>
+            <div class="callout tip"><strong>Mẹo:</strong> khi phỏng vấn, chỉ giữ 4 ý chính: học vấn → 2 dự án → điểm mạnh thực tế → lý do ứng tuyển. Các chi tiết công nghệ nên gắn với việc bạn đã làm, tránh liệt kê dàn trải.</div>
+          </div>
+        </div>
+
+        <div class="project-grid">
+          <article class="project-card">
+            <div class="project-top"><span class="project-code">ENEXX</span><span class="badge gray">Dự án 1</span></div>
+            <h3>Hệ thống quản lý thiết bị &amp; máy móc</h3>
+            <p>Phát triển màn hình theo Detailed Design cho khách hàng Nhật; đảm bảo đúng nghiệp vụ và chất lượng trước khi bàn giao.</p>
+            <div class="chips">
+              <span class="chip">Java Servlet</span><span class="chip">J2EE</span><span class="chip">MVC</span><span class="chip">SQL Server</span><span class="chip">Jira</span>
+            </div>
+            <ul class="tick-list">
+              <li>Đọc và phân tích tài liệu Detailed Design.</li>
+              <li>Phát triển màn hình, xử lý nghiệp vụ và tương tác database.</li>
+              <li>Viết test case, Unit Test, Free Testing; tạo bug Jira và phối hợp xử lý.</li>
+            </ul>
+          </article>
+
+          <article class="project-card">
+            <div class="project-top"><span class="project-code">SEIXX</span><span class="badge green">Dự án hiện tại</span></div>
+            <h3>Hệ thống quản lý hoạt động &amp; quy trình nhà máy</h3>
+            <p>Tham gia trọn vẹn quy trình từ Detailed Design, Coding đến Unit Testing trong môi trường Agile.</p>
+            <div class="chips">
+              <span class="chip">Spring Boot MVC</span><span class="chip">PostgreSQL</span><span class="chip">MyBatis</span><span class="chip">Eclipse</span><span class="chip">Git</span>
+            </div>
+            <ul class="tick-list">
+              <li>Xây dựng Controller → Service → Mapper XML theo tài liệu DD.</li>
+              <li>Viết SQL trực tiếp trong MyBatis, ánh xạ kết quả về Java model.</li>
+              <li>Viết UTC, chạy Unit Test, chụp evidence và hoàn thiện tài liệu UTR.</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="pitch-card">
+          <div>
+            <span class="section-kicker">Bản 60 giây</span>
+            <h3>Phiên bản ngắn khi nhà tuyển dụng hỏi “giới thiệu về em”</h3>
+          </div>
+          <p>“Em là Mai Trần Thị Thanh, tốt nghiệp CNTT tại ĐH Sư phạm – ĐH Đà Nẵng năm 2025. Hiện em là Java Developer tại FPT Software Đà Nẵng, đã tham gia hai dự án cho khách hàng Nhật: ENEXX dùng Java Servlet, J2EE, MVC, SQL Server và SEIXX dùng Spring Boot MVC, PostgreSQL, MyBatis. Công việc của em trải từ đọc Detailed Design, coding, viết UTC/UTR đến free testing và phối hợp xử lý bug trên Jira. Em muốn phát triển sâu hơn về Java Backend, đặc biệt Spring Boot, database và kiến trúc hệ thống, nên rất mong có cơ hội làm việc tại VNPT.”</p>
+        </div>
+
+        <div id="introSource" hidden>Em chào anh/chị, em tên là Mai Trần Thị Thanh. Em tốt nghiệp chuyên ngành Công nghệ thông tin tại Trường Đại học Sư phạm – Đại học Đà Nẵng vào năm 2025. Hiện tại em đang làm việc tại FPT Software Đà Nẵng với vị trí Java Developer.
+
+Trong quá trình làm việc, em đã tham gia hai dự án chính cho khách hàng Nhật.
+
+Dự án đầu tiên là ENEXX – hệ thống quản lý thiết bị và máy móc trong công ty. Ở dự án này, em làm Java Developer, sử dụng công nghệ Java Servlet, J2EE, MVC và SQL Server. Công việc chính của em là đọc và phân tích tài liệu Detailed Design của khách hàng Nhật, sau đó phát triển các màn hình theo thiết kế. Bên cạnh việc lập trình, em thực hiện Unit Test, tạo test case và kiểm tra các trường hợp khác nhau để đảm bảo chức năng hoạt động đúng. Trong quá trình testing, em cũng thực hiện Free Testing để tìm thêm các trường hợp bất thường, tạo bug trên Jira và phối hợp với các thành viên để xử lý.
+
+Dự án thứ hai là SEIXX – hệ thống quản lý hoạt động và quy trình trong nhà máy. Hiện tại em đang tham gia dự án này với vai trò Java Developer. Công nghệ chính là Java Spring Boot MVC, PostgreSQL, Eclipse và Git. Ở dự án này, em được tham gia khá đầy đủ vào quy trình phát triển phần mềm, từ Detailed Design, Coding cho đến Unit Testing.
+
+Qua những dự án này, em có kinh nghiệm thực tế với Java backend, MVC, database và quy trình phát triển phần mềm. Em cũng có kinh nghiệm làm việc với tài liệu Detailed Design của khách hàng Nhật và phối hợp trong môi trường Agile.
+
+Hiện tại, em muốn tìm một môi trường mới để có thể phát triển sâu hơn về Java Backend, đặc biệt là Spring Boot, database và các kiến trúc hệ thống. Vì vậy, em rất mong muốn có cơ hội được làm việc và phát triển tại VNPT.</div>
+      </section>
+
+      <section class="section" id="daily" data-section>
+        <div class="section-head">
+          <div>
+            <span class="section-kicker">02 · Daily Workflow</span>
+            <h2>Công việc hằng ngày tại dự án</h2>
+            <p>Quy trình làm việc theo giai đoạn: tài liệu DD → coding → Unit Test → UTR.</p>
+          </div>
+          <div class="section-actions"><span class="qa-count">4 bước</span></div>
+        </div>
+
+        <div class="timeline">
+          <div class="timeline-item">
+            <span class="timeline-num">01</span>
+            <div><h3>Tài liệu DD &amp; review</h3><p>Tạo/đọc toàn bộ tài liệu Detailed Design, phân tích requirement của khách hàng Nhật; chờ pass review với Tech Lead trước khi coding.</p></div>
+          </div>
+          <div class="timeline-item">
+            <span class="timeline-num">02</span>
+            <div><h3>Coding theo tầng</h3><p>Xây dựng Controller → Service (business logic) → Mapper/XML MyBatis. Viết SQL trực tiếp trong XML và để MyBatis ánh xạ kết quả về Java model.</p></div>
+          </div>
+          <div class="timeline-item">
+            <span class="timeline-num">03</span>
+            <div><h3>Unit Test</h3><p>Đọc lại DD để viết test case trong tài liệu UTC; chuẩn bị dữ liệu, chạy test và kiểm tra các trường hợp biên.</p></div>
+          </div>
+          <div class="timeline-item">
+            <span class="timeline-num">04</span>
+            <div><h3>Evidence &amp; UTR</h3><p>Chạy UTC, chụp evidence, tổng hợp kết quả vào tài liệu UTR; free testing để tìm edge case, log bug Jira và phối hợp xử lý.</p></div>
+          </div>
+        </div>
+
+        <div class="workflow-card">
+          <div>
+            <span class="section-kicker">MyBatis trong dự án</span>
+            <h3>Luồng xử lý một chức năng</h3>
+            <p>Controller nhận request → Service xử lý nghiệp vụ → Mapper interface → file XML chứa SQL → ResultMap/auto-mapping → trả về Java model → response.</p>
+            <div class="flow" aria-label="Luồng MyBatis">
+              <span>Controller</span><i>→</i><span>Service</span><i>→</i><span>Mapper</span><i>→</i><span>XML SQL</span><i>→</i><span>Model</span>
+            </div>
+          </div>
+          <pre class="mini-code"><code>&lt;select id="selectStudentById"
+        resultType="com.example.model.Student"&gt;
+  SELECT id, name, email
+  FROM students
+  WHERE id = #{id}
+&lt;/select&gt;</code></pre>
+        </div>
+
+        <div class="callout info"><strong>Điểm cần nói khi phỏng vấn:</strong> bạn không chỉ “code màn hình”, mà tham gia từ phân tích tài liệu, thiết kế tầng, viết SQL, kiểm thử đến bàn giao. Đây là điểm mạnh thể hiện quy trình và chất lượng.</div>
+      </section>
+
+      <section class="section" id="sql" data-section>
+        <div class="section-head">
+          <div>
+            <span class="section-kicker">03 · SQL &amp; Database</span>
+            <h2>SQL &amp; Cơ sở dữ liệu</h2>
+            <p>Execution order, subquery, index, join, transaction, stored procedure và tối ưu truy vấn.</p>
+          </div>
+          <div class="section-actions">
+            <span class="qa-count">20 câu hỏi</span>
+            <button class="mini-btn" type="button" data-toggle-section="sql">Mở tất cả</button>
+          </div>
+        </div>
+
+        <div class="qa-list">
+          <details class="qa" id="q-sql-order">
+            <summary>
+              <span class="q-index">01</span>
+              <span class="q-text">Thứ tự thực thi của các câu lệnh trong SQL?</span>
+              <span class="q-tag blue">SQL</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p>Thứ tự <strong>logic</strong> của một câu SELECT (optimizer có thể thực thi khác về vật lý):</p>
+              <div class="code-line">FROM / JOIN → ON → WHERE → GROUP BY → HAVING → SELECT → DISTINCT → ORDER BY → LIMIT / OFFSET (TOP)</div>
+              <ul>
+                <li><strong>FROM/JOIN</strong> lấy dữ liệu thô, <strong>ON</strong> xác định điều kiện ghép bảng.</li>
+                <li><strong>WHERE</strong> lọc từng dòng trước khi gom nhóm; <strong>GROUP BY</strong> gom nhóm; <strong>HAVING</strong> lọc sau khi gom nhóm.</li>
+                <li><strong>SELECT</strong> tính cột/alias; <strong>DISTINCT</strong> loại trùng; <strong>ORDER BY</strong> sắp xếp; <strong>LIMIT/OFFSET</strong> giới hạn kết quả.</li>
+                <li>Alias của SELECT dùng được trong ORDER BY nhưng thường không dùng được trong WHERE. Window function chạy sau WHERE/GROUP BY/HAVING và trước ORDER BY.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="qa" id="q-sql-keys">
+            <summary>
+              <span class="q-index">02</span>
+              <span class="q-text">Phân biệt PRIMARY KEY, UNIQUE, FOREIGN KEY và CHECK?</span>
+              <span class="q-tag blue">Database</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Ràng buộc</th><th>Đặc điểm</th><th>Ví dụ</th></tr></thead>
+                  <tbody>
+                    <tr><td>PRIMARY KEY</td><td>Định danh mỗi dòng; không NULL, không trùng; mỗi bảng chỉ một PK; thường tạo clustered index (SQL Server)</td><td>Mã nhân viên, mã đơn hàng</td></tr>
+                    <tr><td>UNIQUE</td><td>Không trùng nhưng cho phép NULL (tùy DB); một bảng có thể có nhiều UNIQUE</td><td>Email, số điện thoại</td></tr>
+                    <tr><td>FOREIGN KEY</td><td>Tham chiếu PK/UNIQUE của bảng khác, đảm bảo toàn vẹn tham chiếu; có ON DELETE/UPDATE (CASCADE, SET NULL, RESTRICT)</td><td>order.customer_id → customer.id</td></tr>
+                    <tr><td>CHECK</td><td>Điều kiện trên miền giá trị của cột</td><td>age &gt;= 18, status IN (...)</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p><strong>Áp dụng vào SEIXX (quản lý nhà máy):</strong></p>
+              <ul>
+                <li><code>equipment.equipment_code</code> là PK vì mã thiết bị do khách Nhật quy định; thêm <code>UNIQUE (factory_id, equipment_code)</code> để chặn trùng mã trong cùng nhà máy.</li>
+                <li><code>production_log.equipment_id</code> là FK → equipment, đặt <code>ON DELETE RESTRICT</code>: không cho xóa thiết bị đã có lịch sử sản xuất (nghiệp vụ là gắn cờ deleted, không xóa thật).</li>
+                <li><code>CHECK (status IN ('RUNNING','STOPPED','MAINTENANCE'))</code> chặn dữ liệu import CSV sai trạng thái ngay ở tầng DB.</li>
+              </ul>
+              <p><strong>Kể thêm khi phỏng vấn:</strong> “File import có 2 dòng cùng mã thiết bị → nhờ UNIQUE constraint mà batch bị rollback và báo đúng dòng lỗi, thay vì âm thầm ghi đè”.</p>
+            </div>
+          </details>
+
+          <details class="qa" id="q-sql-normalization">
+            <summary>
+              <span class="q-index">03</span>
+              <span class="q-text">Chuẩn hóa dữ liệu 1NF, 2NF, 3NF là gì? Khi nào cần denormalize?</span>
+              <span class="q-tag blue">Database</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <ul>
+                <li><strong>1NF:</strong> mỗi ô chứa giá trị nguyên tử (không nhét danh sách/chuỗi nhiều giá trị vào một cột), mỗi dòng xác định duy nhất.</li>
+                <li><strong>2NF:</strong> đạt 1NF và không có phụ thuộc bộ phận — cột không khóa phải phụ thuộc vào <em>toàn bộ</em> khóa chính (bảng có khóa phức hợp).</li>
+                <li><strong>3NF:</strong> đạt 2NF và không có phụ thuộc bắc cầu — cột không khóa không phụ thuộc vào cột không khóa khác (ví dụ: lưu cả mã phòng ban và tên phòng ban trong bảng nhân viên).</li>
+              </ul>
+              <p><strong>Ví dụ:</strong> bảng chi tiết đơn hàng chỉ lưu product_id; tên/giá sản phẩm nằm ở bảng product. Chuẩn hóa giúp tránh dư thừa, update/insert/delete anomaly.</p>
+              <p><strong>Chuyện thật ở SEIXX:</strong> bảng <code>production_log</code> ban đầu lưu thẳng <code>factory_name</code> và <code>category_name</code> của thiết bị. Khi nhà máy đổi tên, phải update hàng chục nghìn dòng và rất dễ sót; sau đó tách ra bảng <code>factory</code>, <code>equipment_category</code> và chỉ giữ FK — đổi tên 1 dòng, toàn bộ dữ liệu theo đúng.</p>
+              <p><strong>Denormalize khi:</strong> đọc phải join quá nhiều bảng gây chậm (báo cáo, dashboard), cần cột tổng/tóm tắt (total_amount), bảng log/lịch sử. Chấp nhận dư thừa để đổi tốc độ đọc — phải kiểm soát bằng job/trigger đồng bộ hoặc ghi một chiều.</p>
+              <div class="callout tip"><strong>Khi phỏng vấn:</strong> chốt “chuẩn hóa đến 3NF là mặc định, denormalize có chủ đích và luôn đo lại hiệu năng”.</div>
+            </div>
+          </details>
+
+          <details class="qa" id="q-sql-subquery">
+            <summary>
+              <span class="q-index">04</span>
+              <span class="q-text">So sánh subquery và JOIN? Khi nào dùng loại nào?</span>
+              <span class="q-tag blue">SQL</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Tiêu chí</th><th>JOIN</th><th>Subquery</th></tr></thead>
+                  <tbody>
+                    <tr><td>Mục đích</td><td>Ghép cột từ nhiều bảng, lấy dữ liệu liên quan</td><td>Lọc/kiểm tra tồn tại hoặc tính toán trước</td></tr>
+                    <tr><td>Hiệu năng</td><td>Optimizer thường tối ưu tốt; có thể nhân bản dòng nếu quan hệ 1-n</td><td>Correlated subquery có thể chạy lặp theo từng dòng ngoài</td></tr>
+                    <tr><td>Khả năng đọc</td><td>Rõ khi cần lấy nhiều cột</td><td>Rõ khi cần “tồn tại”, aggregate hoặc lọc theo tập kết quả</td></tr>
+                    <tr><td>Dùng khi</td><td>Cần cột của bảng khác, báo cáo, danh sách kèm thông tin</td><td>Cần EXISTS, NOT EXISTS, so sánh với aggregate, bước tiền xử lý</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p><strong>Kinh nghiệm:</strong> ưu tiên JOIN khi cần lấy cột; dùng EXISTS/NOT EXISTS khi chỉ cần kiểm tra tồn tại. Đừng mặc định “JOIN luôn nhanh hơn” — hãy xem execution plan và dữ liệu thực tế.</p>
+              <pre><code>-- Semi-join: chỉ lấy sinh viên có ít nhất một điểm
+SELECT s.id, s.name
+FROM students s
+WHERE EXISTS (
+  SELECT 1 FROM scores sc WHERE sc.student_id = s.id
+);</code></pre>
+            </div>
+          </details>
+
+          <details class="qa" id="q-sql-not-in">
+            <summary>
+              <span class="q-index">05</span>
+              <span class="q-text">Cần chú ý gì khi dùng NOT IN?</span>
+              <span class="q-tag blue">SQL</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <div class="callout warn"><strong>Cạm bẫy NULL:</strong> nếu subquery trả về ít nhất một giá trị NULL, điều kiện <code>NOT IN</code> có thể trả về <strong>không dòng nào</strong>. Lý do: <code>x NOT IN (1, NULL)</code> tương đương <code>x &lt;&gt; 1 AND x &lt;&gt; NULL</code>, mà mọi so sánh với NULL đều là UNKNOWN.</div>
+              <pre><code>-- Có thể sai nếu có student_id NULL
+SELECT * FROM students
+WHERE id NOT IN (SELECT student_id FROM scores);
+
+-- An toàn hơn
+SELECT * FROM students s
+WHERE NOT EXISTS (
+  SELECT 1 FROM scores sc WHERE sc.student_id = s.id
+);
+
+-- Hoặc loại NULL trong subquery
+SELECT * FROM students
+WHERE id NOT IN (
+  SELECT student_id FROM scores WHERE student_id IS NOT NULL
+);</code></pre>
+              <p>Ngoài ra, <code>NOT IN</code> với tập giá trị lớn có thể kém hiệu quả; <code>NOT EXISTS</code> hoặc <code>LEFT JOIN ... WHERE b.id IS NULL</code> thường là lựa chọn tốt hơn.</p>
+            </div>
+          </details>
+
+          <details class="qa" id="q-sql-plsql-exception">
+            <summary>
+              <span class="q-index">06</span>
+              <span class="q-text">PL/SQL xử lý ngoại lệ (Exception Handling) như thế nào?</span>
+              <span class="q-tag blue">PL/SQL</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p>PL/SQL dùng khối <code>BEGIN ... EXCEPTION ... END;</code>. Khi lỗi xảy ra, control chuyển đến phần EXCEPTION; có thể bắt exception có sẵn, exception do người dùng định nghĩa hoặc <code>OTHERS</code>.</p>
+              <pre><code>BEGIN
+  SELECT name INTO v_name
+  FROM students
+  WHERE id = p_id;
+
+  UPDATE students SET name = p_name WHERE id = p_id;
+
+EXCEPTION
+  WHEN NO_DATA_FOUND THEN
+    DBMS_OUTPUT.PUT_LINE('Không tìm thấy sinh viên');
+  WHEN TOO_MANY_ROWS THEN
+    DBMS_OUTPUT.PUT_LINE('Dữ liệu trả về nhiều hơn 1 dòng');
+  WHEN OTHERS THEN
+    DBMS_OUTPUT.PUT_LINE(SQLCODE || ': ' || SQLERRM);
+    ROLLBACK;
+    RAISE; -- không nuốt lỗi
+END;</code></pre>
+              <ul>
+                <li><strong>Predefined exception:</strong> NO_DATA_FOUND, TOO_MANY_ROWS, ZERO_DIVIDE, DUP_VAL_ON_INDEX...</li>
+                <li><strong>User-defined:</strong> khai báo <code>my_ex EXCEPTION;</code>, dùng <code>RAISE my_ex;</code>; có thể gắn mã lỗi bằng <code>PRAGMA EXCEPTION_INIT</code>.</li>
+                <li><strong>RAISE_APPLICATION_ERROR(-20001, 'message')</strong> để trả lỗi nghiệp vụ cho caller.</li>
+                <li><strong>WHEN OTHERS</strong> nên log <code>SQLCODE</code>/<code>SQLERRM</code> và <code>RAISE</code> lại; tránh nuốt lỗi. Transaction nên được rollback ở tầng gọi nếu cần.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="qa" id="q-sql-select-into">
+            <summary>
+              <span class="q-index">07</span>
+              <span class="q-text">Nếu SELECT INTO trả về nhiều hơn một dòng thì chuyện gì xảy ra?</span>
+              <span class="q-tag blue">SQL / PL/SQL</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p><strong>Trong PL/SQL (Oracle):</strong> <code>SELECT ... INTO</code> yêu cầu đúng một dòng. Nếu không có dòng nào → <code>NO_DATA_FOUND</code> (ORA-01403); nếu nhiều hơn một dòng → <code>TOO_MANY_ROWS</code> (ORA-01422).</p>
+              <ul>
+                <li>Muốn lấy nhiều dòng: dùng <code>BULK COLLECT INTO</code> hoặc cursor.</li>
+                <li>Muốn lấy một dòng xác định: thêm điều kiện duy nhất hoặc <code>ROWNUM = 1</code> / <code>FETCH FIRST 1 ROW ONLY</code>.</li>
+                <li>Aggregate như <code>COUNT(*)</code> luôn trả về đúng một dòng (trừ khi có GROUP BY).</li>
+              </ul>
+              <div class="callout info"><strong>Phân biệt:</strong> trong SQL Server, <code>SELECT ... INTO</code> là câu lệnh <em>tạo bảng mới</em> từ kết quả SELECT và có thể chèn nhiều dòng. Còn gán biến kiểu <code>SELECT @x = col FROM ...</code> sẽ lấy dòng cuối cùng, không báo lỗi nhiều dòng.</div>
+            </div>
+          </details>
+
+          <details class="qa" id="q-sql-operators">
+            <summary>
+              <span class="q-index">08</span>
+              <span class="q-text">AND, OR, BETWEEN, so sánh lớn/ nhỏ, IS NULL và NOT NULL khác nhau thế nào?</span>
+              <span class="q-tag blue">SQL</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <ul>
+                <li><strong>AND / OR:</strong> AND có độ ưu tiên cao hơn OR. Luôn dùng ngoặc khi trộn nhiều điều kiện để tránh sai logic.</li>
+                <li><strong>BETWEEN a AND b:</strong> bao gồm cả hai đầu mút. Với ngày tháng, cẩn thận phần giờ: <code>BETWEEN '2026-01-01' AND '2026-01-31'</code> có thể bỏ sót dữ liệu ngày 31 sau 00:00.</li>
+                <li><strong>So sánh:</strong> <code>=</code>, <code>&lt;&gt;</code>/<code>!=</code>, <code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code>, <code>&lt;=</code>.</li>
+                <li><strong>NULL:</strong> dùng <code>IS NULL</code> / <code>IS NOT NULL</code>; không dùng <code>= NULL</code> vì kết quả là UNKNOWN.</li>
+                <li><strong>Hàm thay thế:</strong> SQL Server có <code>ISNULL(col, 0)</code>; Oracle có <code>NVL</code>; PostgreSQL dùng <code>COALESCE</code>. <code>NOTNULL</code> không phải toán tử chuẩn — hãy dùng <code>IS NOT NULL</code>.</li>
+              </ul>
+              <pre><code>SELECT *
+FROM orders
+WHERE status = 'PAID'
+  AND (created_at &gt;= '2026-01-01' OR note IS NOT NULL);</code></pre>
+            </div>
+          </details>
+
+          <details class="qa" id="q-sql-like">
+            <summary>
+              <span class="q-index">09</span>
+              <span class="q-text">LIKE, IN/NOT IN, ORDER BY và kiểu boolean trong SQL?</span>
+              <span class="q-tag blue">SQL</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <ul>
+                <li><strong>LIKE:</strong> <code>%</code> đại diện cho 0 hoặc nhiều ký tự, <code>_</code> đại diện đúng 1 ký tự. <code>'A%'</code> bắt đầu bằng A; <code>'%A'</code> kết thúc bằng A; <code>'%A%'</code> chứa A. Dùng <code>ESCAPE</code> nếu cần tìm chính ký tự <code>%</code> hoặc <code>_</code>.</li>
+                <li><strong>IN / NOT IN:</strong> so sánh với danh sách hoặc subquery. NOT IN cần kiểm tra NULL như mục 3.</li>
+                <li><strong>ORDER BY:</strong> sắp xếp ASC (mặc định) hoặc DESC, nhiều cột, có thể <code>NULLS FIRST/LAST</code> tùy DB.</li>
+                <li><strong>Boolean:</strong> PostgreSQL có <code>BOOLEAN</code> (TRUE/FALSE); SQL Server dùng <code>BIT</code> (0/1); Oracle trước 23c không có kiểu boolean trong SQL (chỉ trong PL/SQL).</li>
+                <li><strong>NOT:</strong> đảo điều kiện. Cẩn thận với NULL vì <code>NOT UNKNOWN</code> vẫn là UNKNOWN.</li>
+              </ul>
+              <pre><code>SELECT id, name
+FROM students
+WHERE name LIKE 'Nguy%'
+  AND status IN ('ACTIVE', 'PENDING')
+ORDER BY created_at DESC;</code></pre>
+            </div>
+          </details>
+
+          <details class="qa" id="q-sql-findby">
+            <summary>
+              <span class="q-index">10</span>
+              <span class="q-text">So sánh findBy, readBy, queryBy trong Spring Data JPA?</span>
+              <span class="q-tag blue">SQL / JPA</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p>Đây là các <strong>từ khóa query derivation</strong> của Spring Data JPA, không phải cú pháp SQL. <code>findBy</code>, <code>readBy</code>, <code>queryBy</code>, <code>getBy</code> có cách hoạt động tương đương: phần sau <code>By</code> được parse thành điều kiện WHERE.</p>
+              <pre><code>Optional&lt;Student&gt; findByEmail(String email);
+List&lt;Student&gt; readByStatus(String status);
+List&lt;Student&gt; queryByClassName(String className);</code></pre>
+              <ul>
+                <li><code>findBy...</code> là cách viết phổ biến nhất, dễ đọc.</li>
+                <li><code>readBy...</code>/<code>queryBy...</code>/<code>getBy...</code> không khác behavior; chủ yếu là style.</li>
+                <li>Kiểu trả về quyết định hành vi: <code>Optional&lt;T&gt;</code>, <code>List&lt;T&gt;</code>, <code>Page&lt;T&gt;</code>, <code>Slice&lt;T&gt;</code>.</li>
+                <li><code>findById</code> trả về <code>Optional</code> và truy vấn DB; <code>getById</code> (bản cũ) trả về reference/proxy và có thể ném lỗi khi truy cập nếu không tồn tại. Ưu tiên <code>findById</code> nếu cần kiểm tra tồn tại.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="qa" id="q-sql-countby">
+            <summary>
+              <span class="q-index">11</span>
+              <span class="q-text">countBy và getBy khác gì nhau?</span>
+              <span class="q-tag blue">JPA</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <ul>
+                <li><strong>countBy...</strong> sinh câu <code>SELECT COUNT(...)</code> và trả về <code>long</code>. Ví dụ <code>long countByStatus(String status)</code>.</li>
+                <li><strong>getBy...</strong> là từ khóa truy vấn tương đương <code>findBy</code>, trả về entity/Optional/List tùy khai báo.</li>
+                <li><strong>existsBy...</strong> trả về boolean, thường hiệu quả hơn khi chỉ cần kiểm tra tồn tại.</li>
+                <li><strong>deleteBy...</strong> trả về số bản ghi bị xóa hoặc void; cần transaction và cẩn thận với dữ liệu liên quan.</li>
+              </ul>
+              <pre><code>long countByStatus(String status);
+boolean existsByEmail(String email);
+Optional&lt;Student&gt; getByEmail(String email);</code></pre>
+            </div>
+          </details>
+
+          <details class="qa" id="q-sql-sp-transaction">
+            <summary>
+              <span class="q-index">12</span>
+              <span class="q-text">Stored Procedure, Transaction và Trigger — hiểu thế nào?</span>
+              <span class="q-tag blue">SQL</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <h4>Stored Procedure</h4>
+              <p>Đoạn logic được lưu trong DB, có tham số vào/ra, có thể chứa nhiều câu SQL, DML, transaction và được tái sử dụng. Gọi bằng <code>CALL</code>/<code>EXEC</code>. Ưu điểm: giảm round-trip, xử lý tập dữ liệu lớn, bảo mật qua quyền execute. Nhược điểm: khó version/test/debug, logic bị phân tán.</p>
+              <h4>Transaction</h4>
+              <p>Đơn vị công việc có tính <strong>ACID</strong>: Atomicity, Consistency, Isolation, Durability. Cần chọn isolation level phù hợp:</p>
+              <ul>
+                <li><strong>READ UNCOMMITTED:</strong> có thể dirty read.</li>
+                <li><strong>READ COMMITTED:</strong> tránh dirty read, còn non-repeatable read.</li>
+                <li><strong>REPEATABLE READ:</strong> tránh non-repeatable read, có thể phantom read (tùy DB).</li>
+                <li><strong>SERIALIZABLE:</strong> mức chặt nhất, giảm concurrency.</li>
+              </ul>
+              <h4>Trigger</h4>
+              <p>Đoạn logic tự động chạy khi INSERT/UPDATE/DELETE. Có BEFORE/AFTER/INSTEAD OF, row-level/statement-level. Dùng cho audit, ràng buộc phức tạp, đồng bộ dữ liệu; nhưng logic ẩn dễ gây khó debug và ảnh hưởng hiệu năng.</p>
+            </div>
+          </details>
+
+          <details class="qa" id="q-sql-sp-vs-be">
+            <summary>
+              <span class="q-index">13</span>
+              <span class="q-text">Khi nào dùng stored procedure, khi nào code trong BE/FE? Làm gì khi có 1 triệu request?</span>
+              <span class="q-tag blue">SQL</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <ul>
+                <li><strong>Nên dùng SP:</strong> xử lý tập dữ liệu lớn ngay trong DB, batch/reporting, migration, logic gần dữ liệu, hệ thống legacy, yêu cầu bảo mật chỉ cho execute.</li>
+                <li><strong>Nên code ở BE:</strong> business rule, orchestration nhiều service, transaction qua nhiều nguồn, cần test/version/review, logic thay đổi thường xuyên. Đây là mặc định cho dự án Spring Boot.</li>
+                <li><strong>FE:</strong> chỉ validation UX (required, format), hiển thị lỗi; không đặt business rule quan trọng vì có thể bypass.</li>
+                <li><strong>1 triệu request:</strong> không chỉ “đẩy hết vào SP”. Cần cache (Redis), async/queue, rate limit, connection pool, index, partition, read replica, horizontal scaling, CDN, giảm N+1 và đo lường bằng metrics.</li>
+                <li><strong>Nguyên tắc:</strong> DB là tài nguyên đắt; đừng để FE gọi DB trực tiếp hoặc đặt logic nghiệp vụ trong trigger/SP nếu không có lý do rõ ràng.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="qa" id="q-sql-index">
+            <summary>
+              <span class="q-index">14</span>
+              <span class="q-text">Có bao nhiêu loại index? Phân biệt, khi nào dùng và cấu trúc dữ liệu?</span>
+              <span class="q-tag blue">SQL</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Loại</th><th>Cấu trúc / đặc điểm</th><th>Dùng khi</th></tr></thead>
+                  <tbody>
+                    <tr><td>B-tree / B+tree</td><td>Cây cân bằng, lá liên kết; hỗ trợ equality, range, ORDER BY</td><td>Mặc định cho cột hay lọc/join/sort</td></tr>
+                    <tr><td>Hash</td><td>Bảng băm; chỉ equality</td><td>Tìm chính xác, không range</td></tr>
+                    <tr><td>Bitmap</td><td>Bitmap theo từng giá trị; cardinality thấp</td><td>Data warehouse, đọc nhiều, ít ghi</td></tr>
+                    <tr><td>Composite</td><td>Nhiều cột; dùng được tiền tố trái nhất</td><td>Query lọc/join theo nhóm cột</td></tr>
+                    <tr><td>Covering</td><td>Index chứa đủ cột SELECT</td><td>Giảm đọc bảng, query chỉ đọc index</td></tr>
+                    <tr><td>Unique</td><td>Ràng buộc duy nhất + index</td><td>Email, mã đơn, username</td></tr>
+                    <tr><td>Partial / Filtered</td><td>Chỉ index một phần dữ liệu</td><td>Query thường xuyên trên tập nhỏ</td></tr>
+                    <tr><td>Full-text</td><td>Cấu trúc tìm kiếm từ khóa</td><td>Tìm kiếm văn bản</td></tr>
+                    <tr><td>GIN/GiST/BRIN (PostgreSQL)</td><td>Inverted index / cây tổng quát / block range</td><td>JSONB, array, full-text, dữ liệu lớn</td></tr>
+                    <tr><td>Columnstore</td><td>Lưu theo cột</td><td>Analytics, aggregate trên bảng lớn</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p><strong>Clustered vs nonclustered:</strong> clustered index quyết định thứ tự vật lý của dữ liệu (mỗi bảng thường chỉ một, ví dụ primary key); nonclustered là cấu trúc riêng chứa key và con trỏ tới dòng dữ liệu.</p>
+              <p><strong>Khi nào không nên:</strong> cột ít chọn lọc (giới tính), bảng ghi rất nhiều, index quá nhiều gây chậm INSERT/UPDATE/DELETE và tốn dung lượng. Luôn kiểm tra bằng execution plan.</p>
+            </div>
+          </details>
+
+          <details class="qa" id="q-sql-join">
+            <summary>
+              <span class="q-index">15</span>
+              <span class="q-text">Có mấy loại JOIN? Cách hoạt động và khi nào dùng?</span>
+              <span class="q-tag blue">SQL</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>JOIN</th><th>Kết quả</th><th>Ghi chú</th></tr></thead>
+                  <tbody>
+                    <tr><td>INNER JOIN</td><td>Chỉ các dòng khớp ở cả hai bảng</td><td>Dùng phổ biến nhất</td></tr>
+                    <tr><td>LEFT JOIN</td><td>Tất cả dòng bên trái + dòng khớp bên phải (NULL nếu không khớp)</td><td>Giữ dữ liệu bảng chính</td></tr>
+                    <tr><td>RIGHT JOIN</td><td>Ngược lại LEFT JOIN</td><td>Ít dùng, có thể đổi thứ tự bảng</td></tr>
+                    <tr><td>FULL OUTER JOIN</td><td>Tất cả dòng ở cả hai bên</td><td>Kiểm tra thiếu dữ liệu hai chiều</td></tr>
+                    <tr><td>CROSS JOIN</td><td>Tích Cartesian</td><td>Cẩn thận bùng nổ số dòng</td></tr>
+                    <tr><td>SELF JOIN</td><td>Bảng tự join với chính nó</td><td>Quan hệ cha-con, nhân viên-quản lý</td></tr>
+                    <tr><td>SEMI / ANTI</td><td>Tồn tại / không tồn tại (EXISTS, NOT EXISTS)</td><td>Không nhân bản dòng</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p><strong>Cách DB thực thi:</strong> nested loop (bảng nhỏ/có index), hash join (bảng lớn, equi-join), merge join (dữ liệu đã sắp xếp/có index). Optimizer chọn dựa trên thống kê.</p>
+              <pre><code>-- Khác tên cột vẫn join bình thường
+SELECT o.id, c.name
+FROM orders o
+JOIN customers c ON o.customer_id = c.id;
+
+-- Non-equi join theo khoảng thời gian
+SELECT *
+FROM promotions p
+JOIN orders o
+  ON o.created_at BETWEEN p.start_at AND p.end_at;</code></pre>
+            </div>
+          </details>
+
+          <details class="qa" id="q-sql-sp-function">
+            <summary>
+              <span class="q-index">16</span>
+              <span class="q-text">Phân biệt stored procedure và function?</span>
+              <span class="q-tag blue">SQL</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Tiêu chí</th><th>Stored Procedure</th><th>Function</th></tr></thead>
+                  <tbody>
+                    <tr><td>Giá trị trả về</td><td>0..n result set, tham số OUT, mã trạng thái</td><td>Một giá trị scalar hoặc table</td></tr>
+                    <tr><td>Gọi</td><td><code>EXEC</code> / <code>CALL</code></td><td>Trong <code>SELECT</code>, <code>WHERE</code>, <code>JOIN</code></td></tr>
+                    <tr><td>DML</td><td>Có thể INSERT/UPDATE/DELETE</td><td>Thường bị giới hạn (SQL Server không cho sửa dữ liệu trong UDF)</td></tr>
+                    <tr><td>Transaction</td><td>Có thể quản lý transaction</td><td>Chạy trong transaction của caller</td></tr>
+                    <tr><td>Mục đích</td><td>Xử lý nghiệp vụ, batch, nhiều bước</td><td>Tính toán, tái sử dụng trong câu SQL</td></tr>
+                    <tr><td>Hiệu năng</td><td>Phù hợp xử lý tập dữ liệu lớn</td><td>Có thể bị gọi lặp nhiều lần; cần cân nhắc</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p>Khác biệt chi tiết phụ thuộc DB (SQL Server, Oracle, PostgreSQL). Khi trả lời phỏng vấn nên nêu rõ “theo SQL Server/Oracle” nếu được hỏi sâu.</p>
+            </div>
+          </details>
+
+          <details class="qa" id="q-sql-view">
+            <summary>
+              <span class="q-index">17</span>
+              <span class="q-text">VIEW là gì? VIEW thường khác materialized view thế nào?</span>
+              <span class="q-tag blue">SQL</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p><strong>VIEW</strong> là truy vấn được lưu tên trong DB; khi SELECT view, DB chạy truy vấn bên dưới. View thường không lưu dữ liệu, dùng để:</p>
+              <ul>
+                <li>Đơn giản hóa join phức tạp cho cả team (view tổng hợp đơn hàng + khách hàng).</li>
+                <li>Giới hạn cột nhạy cảm (che lương) và cấp quyền theo view thay vì theo bảng.</li>
+                <li>Giữ API ổn định khi cấu trúc bảng thay đổi.</li>
+              </ul>
+              <p><strong>Materialized view:</strong> lưu kết quả vật lý, đọc nhanh như bảng; dữ liệu cũ cho đến khi REFRESH (on demand/on commit). Dùng cho báo cáo, aggregate nặng; đánh đổi bằng dung lượng và lịch refresh.</p>
+              <p><strong>Ở SEIXX:</strong> nhiều màn hình cùng cần join 4 bảng (equipment, factory, category, status master) — cả team thống nhất dùng chung view <code>vw_equipment_list</code> để chỉ giữ 1 định nghĩa join; nhưng dashboard thống kê sản lượng chạy lại join mỗi lần quá chậm nên để job tổng hợp sẵn vào bảng summary (kiểu materialized) thay vì view thường.</p>
+              <p><strong>Lưu ý:</strong> view lồng nhiều tầng khó tối ưu; updatable view có giới hạn (không chứa aggregate, DISTINCT...); đừng dùng view như tầng logic nghiệp vụ thay code.</p>
+            </div>
+          </details>
+
+          <details class="qa" id="q-sql-having">
+            <summary>
+              <span class="q-index">18</span>
+              <span class="q-text">HAVING dùng ở đâu? JOIN khác cột thì sao? DISTINCT dùng thế nào?</span>
+              <span class="q-tag blue">SQL</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <ul>
+                <li><strong>HAVING</strong> lọc sau <code>GROUP BY</code>, thường dùng với aggregate: <code>HAVING COUNT(*) &gt; 5</code>. <code>WHERE</code> lọc trước khi gom nhóm nên không dùng aggregate trong WHERE.</li>
+                <li><strong>JOIN khác cột:</strong> chỉ cần đặt điều kiện trong <code>ON</code>, ví dụ <code>ON orders.customer_id = customers.id</code>. Không bắt buộc tên cột giống nhau. Có thể join theo nhiều cột hoặc điều kiện không bằng nhau.</li>
+                <li><strong>DISTINCT</strong> loại bỏ các dòng trùng nhau trên danh sách cột SELECT. <code>COUNT(DISTINCT col)</code> đếm giá trị khác nhau. Lưu ý DISTINCT có thể che dấu việc JOIN bị nhân bản dòng — nên kiểm tra quan hệ dữ liệu trước.</li>
+              </ul>
+              <pre><code>SELECT c.id, c.name, COUNT(o.id) AS order_count
+FROM customers c
+LEFT JOIN orders o ON o.customer_id = c.id
+GROUP BY c.id, c.name
+HAVING COUNT(o.id) &gt;= 3
+ORDER BY order_count DESC;</code></pre>
+            </div>
+          </details>
+
+          <details class="qa" id="q-sql-databases">
+            <summary>
+              <span class="q-index">19</span>
+              <span class="q-text">Đã dùng những cơ sở dữ liệu nào? Khác nhau ra sao?</span>
+              <span class="q-tag blue">Database</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p><strong>Trong dự án:</strong> SQL Server (ENEXX) và PostgreSQL (SEIXX). Ngoài ra có kiến thức với Oracle/MySQL ở mức học tập.</p>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Đặc điểm</th><th>SQL Server</th><th>PostgreSQL</th></tr></thead>
+                  <tbody>
+                    <tr><td>Tự tăng</td><td><code>IDENTITY</code></td><td><code>SERIAL</code> / <code>GENERATED ... AS IDENTITY</code></td></tr>
+                    <tr><td>Giới hạn dòng</td><td><code>TOP n</code> / <code>OFFSET ... FETCH</code></td><td><code>LIMIT n OFFSET m</code></td></tr>
+                    <tr><td>Chuỗi</td><td><code>NVARCHAR</code>, nối bằng <code>+</code></td><td><code>TEXT/VARCHAR</code>, nối bằng <code>||</code></td></tr>
+                    <tr><td>Boolean</td><td><code>BIT</code></td><td><code>BOOLEAN</code></td></tr>
+                    <tr><td>JSON</td><td><code>JSON</code> (hạn chế hơn)</td><td><code>JSONB</code> mạnh, có index GIN</td></tr>
+                    <tr><td>Upsert</td><td><code>MERGE</code></td><td><code>INSERT ... ON CONFLICT</code></td></tr>
+                    <tr><td>Thủ tục</td><td>T-SQL</td><td>PL/pgSQL</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </details>
+
+          <details class="qa" id="q-sql-optimization">
+            <summary>
+              <span class="q-index">20</span>
+              <span class="q-text">SQL optimization: làm gì khi truy vấn chậm?</span>
+              <span class="q-tag blue">Performance</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p>Quy trình nên làm: <strong>đo → tìm nguyên nhân → sửa → đo lại</strong>, không tối ưu cảm tính.</p>
+              <ul>
+                <li><strong>Đo:</strong> slow query log, <code>EXPLAIN ANALYZE</code> (PostgreSQL), execution plan (SQL Server); xem full scan, sort, nested loop, số dòng ước lượng.</li>
+                <li><strong>Index:</strong> tạo index đúng cột WHERE/JOIN/ORDER BY; composite đúng thứ tự; covering index; tránh index thừa.</li>
+                <li><strong>Viết lại query:</strong> tránh hàm trên cột index (<code>WHERE YEAR(created_at)=2026</code>), tránh <code>%keyword%</code> nếu không cần, tránh implicit conversion, dùng EXISTS thay NOT IN khi có NULL.</li>
+                <li><strong>Giảm dữ liệu:</strong> chỉ SELECT cột cần, phân trang, lọc sớm, tránh N+1, batch insert/update.</li>
+                <li><strong>Thống kê &amp; cấu trúc:</strong> cập nhật statistics, rebuild/reorganize index, partition bảng lớn, archive dữ liệu cũ.</li>
+                <li><strong>Kiến trúc:</strong> cache Redis, read replica, connection pool, materialized view, denormalize có kiểm soát khi thật cần.</li>
+                <li><strong>Khóa:</strong> kiểm tra lock contention, transaction quá dài, deadlock; giữ transaction ngắn.</li>
+              </ul>
+              <div class="callout tip"><strong>Câu trả lời phỏng vấn:</strong> “Em sẽ xem execution plan và slow query log trước, sau đó kiểm tra index/statistics, viết lại query, rồi mới cân nhắc cache hoặc partition. Mỗi thay đổi đều đo lại hiệu năng.”</div>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section class="section" id="java" data-section>
+        <div class="section-head">
+          <div>
+            <span class="section-kicker">04 · Java Core</span>
+            <h2>Java Core</h2>
+            <p>Đa hình, truyền tham trị, Stream API, collection, BigDecimal và các câu hỏi nền tảng.</p>
+          </div>
+          <div class="section-actions">
+            <span class="qa-count">17 câu hỏi</span>
+            <button class="mini-btn" type="button" data-toggle-section="java">Mở tất cả</button>
+          </div>
+        </div>
+
+        <div class="qa-list">
+          <details class="qa" id="q-java-polymorphism">
+            <summary>
+              <span class="q-index">01</span>
+              <span class="q-text">Tính đa hình là gì? Thể hiện trong Java như thế nào?</span>
+              <span class="q-tag orange">Java</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p><strong>Đa hình</strong> là khả năng cùng một lời gọi phương thức nhưng có nhiều cách thực thi khác nhau, tùy vào kiểu thực tế của đối tượng.</p>
+              <ul>
+                <li><strong>Compile-time (overloading):</strong> chọn phương thức dựa trên số lượng/kiểu tham số ngay khi biên dịch.</li>
+                <li><strong>Runtime (overriding):</strong> lớp con ghi đè phương thức lớp cha; JVM chọn implementation theo object thực tế (dynamic dispatch).</li>
+                <li>Thể hiện qua kế thừa, interface, abstract class, upcasting và method overriding.</li>
+              </ul>
+              <pre><code>abstract class Animal {
+  abstract void speak();
+}
+
+class Dog extends Animal {
+  @Override void speak() { System.out.println("Woof"); }
+}
+
+class Cat extends Animal {
+  @Override void speak() { System.out.println("Meow"); }
+}
+
+Animal a = new Dog();
+a.speak(); // Woof — chọn theo object thực tế
+Animal b = new Cat();
+b.speak(); // Meow</code></pre>
+              <p>Lợi ích: mở rộng hành vi không sửa code cũ, giảm coupling, dễ áp dụng Strategy/Factory/DI.</p>
+            </div>
+          </details>
+
+          <details class="qa" id="q-java-equals-hashcode">
+            <summary>
+              <span class="q-index">02</span>
+              <span class="q-text">So sánh == và equals trong Java? Vì sao override equals phải override cả hashCode?</span>
+              <span class="q-tag orange">Java</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <ul>
+                <li><strong>==</strong> so sánh giá trị bit: primitive so sánh giá trị, object so sánh địa chỉ tham chiếu.</li>
+                <li><strong>equals()</strong> mặc định của Object cũng là ==; String, Integer... override để so sánh nội dung. So sánh chuỗi luôn dùng equals, không dùng ==.</li>
+                <li><strong>Contract:</strong> a.equals(b) → a.hashCode() == b.hashCode() (chiều ngược lại không bắt buộc).</li>
+                <li><strong>HashMap/HashSet:</strong> hashCode dùng để tìm bucket, equals dùng để so sánh trong bucket. Override equals mà quên hashCode thì hai object “bằng nhau” có thể rơi vào 2 bucket khác nhau → contains/get sai.</li>
+              </ul>
+              <pre><code>@Override
+public boolean equals(Object o) {
+  if (this == o) return true;
+  if (o == null || getClass() != o.getClass()) return false;
+  Student s = (Student) o;
+  return Objects.equals(id, s.id);
+}
+
+@Override
+public int hashCode() {
+  return Objects.hash(id);
+}</code></pre>
+              <p>Với entity JPA: không nên equals dựa trên toàn bộ field hoặc id tự tăng khi chưa persist; thường dùng khóa nghiệp vụ (business key). Record hoặc Lombok @EqualsAndHashCode giúp sinh tự động.</p>
+              <p><strong>Ở SEIXX:</strong> khi import CSV, danh sách <code>equipment_code</code> được nạp vào <code>HashSet&lt;String&gt;</code> để phát hiện trùng ngay trong file; entity <code>Equipment</code> so sánh theo <code>equipmentCode</code> (business key) vì lúc import ID tự tăng chưa được sinh — nếu equals theo ID thì mọi dòng đều “khác nhau”.</p>
+            </div>
+          </details>
+
+          <details class="qa" id="q-java-string">
+            <summary>
+              <span class="q-index">03</span>
+              <span class="q-text">String, StringBuilder, StringBuffer khác nhau? String pool là gì?</span>
+              <span class="q-tag orange">Java</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <ul>
+                <li><strong>String immutable:</strong> mọi phép nối/chỉnh sửa tạo object mới; an toàn khi chia sẻ và dùng làm key HashMap tốt.</li>
+                <li><strong>StringBuilder:</strong> mutable, không synchronized — nhanh, dùng khi nối chuỗi trong vòng lặp hoặc build SQL/CSV.</li>
+                <li><strong>StringBuffer:</strong> mutable + synchronized — an toàn đa luồng nhưng chậm hơn; ít dùng trong code mới.</li>
+                <li><strong>String pool:</strong> vùng nhớ lưu literal; <code>"abc" == "abc"</code> là true vì cùng tham chiếu pool. <code>new String("abc")</code> tạo object mới ngoài pool → phải dùng equals. <code>intern()</code> đưa chuỗi về pool.</li>
+              </ul>
+              <pre><code>String s = "";
+for (int i = 0; i &lt; 1000; i++) s += i; // tạo ~1000 object rác
+
+StringBuilder sb = new StringBuilder();
+for (int i = 0; i &lt; 1000; i++) sb.append(i); // dùng 1 vùng đệm</code></pre>
+              <p><strong>Ở SEIXX:</strong> hàm validate CSV trả về danh sách lỗi dạng “Dòng 12: mã thiết bị không tồn tại” cho file 10.000 dòng — dùng StringBuilder append từng lỗi, thay vì <code>+=</code> tạo hàng nghìn object trung gian; phần format cố định thì dùng <code>String.format</code> cho dễ đọc.</p>
+            </div>
+          </details>
+
+          <details class="qa" id="q-java-static-final">
+            <summary>
+              <span class="q-index">04</span>
+              <span class="q-text">static và final khác nhau thế nào?</span>
+              <span class="q-tag orange">Java</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <ul>
+                <li><strong>static:</strong> thuộc về class, không thuộc instance — field static dùng chung một bản; method static gọi không cần khởi tạo; static block chạy một lần khi class được load; có static nested class.</li>
+                <li><strong>final:</strong> không thể thay đổi — biến final chỉ gán một lần; method final không cho override; class final không cho kế thừa (String, Integer).</li>
+                <li><strong>static final:</strong> hằng số dùng chung, ví dụ <code>public static final int MAX_SIZE = 100;</code>.</li>
+              </ul>
+              <p><strong>Lưu ý:</strong> static mutable state gây khó test và lỗi đa luồng — bean Spring mặc định singleton cũng vì thế cần stateless. final với object chỉ khóa tham chiếu, nội dung vẫn đổi được (final List vẫn add được).</p>
+              <p><strong>Ở SEIXX:</strong> các hằng như <code>MAX_IMPORT_ROWS</code>, <code>DATE_PATTERN</code> để <code>static final</code> trong class config; <code>DateTimeFormatter</code> cũng static final vì thread-safe — rút ra từ bug thật: <code>SimpleDateFormat</code> static bị lệch/parse sai ngày khi nhiều request import chạy cùng lúc.</p>
+            </div>
+          </details>
+
+          <details class="qa" id="q-java-exception">
+            <summary>
+              <span class="q-index">05</span>
+              <span class="q-text">Checked và unchecked exception khác nhau? try-with-resources hoạt động thế nào?</span>
+              <span class="q-tag orange">Java</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Loại</th><th>Đặc điểm</th><th>Ví dụ</th></tr></thead>
+                  <tbody>
+                    <tr><td>Checked (Exception)</td><td>Compiler bắt handle hoặc throws</td><td>IOException, SQLException, FileNotFoundException</td></tr>
+                    <tr><td>Unchecked (RuntimeException)</td><td>Không bắt buộc; thường là lỗi lập trình</td><td>NullPointerException, IllegalArgumentException, IndexOutOfBoundsException</td></tr>
+                    <tr><td>Error</td><td>Lỗi hệ thống, không nên bắt</td><td>OutOfMemoryError, StackOverflowError</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <pre><code>try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+  return br.readLine();
+} catch (IOException e) {
+  throw new CsvImportException("Không đọc được file: " + path, e);
+}</code></pre>
+              <ul>
+                <li><strong>try-with-resources:</strong> tự gọi close() theo thứ tự ngược khi ra khỏi block (AutoCloseable), chạy cả khi có exception — thay cho finally thủ công.</li>
+                <li><strong>Best practice:</strong> bắt exception cụ thể thay vì Exception chung; không nuốt lỗi (catch rồi bỏ qua); giữ nguyên cause khi wrap <code>new X(msg, e)</code>; log kèm context; tạo custom exception cho lỗi nghiệp vụ.</li>
+              </ul>
+              <p><strong>Ở SEIXX:</strong> đọc file CSV luôn bọc trong try-with-resources; dòng sai định dạng thì ném <code>CsvImportException</code> (custom, mang theo lineNumber) để ControllerAdvice map thành response lỗi chuẩn cho FE; <code>IOException</code> khi mở file được wrap giữ nguyên cause để log đủ ngữ cảnh.</p>
+            </div>
+          </details>
+
+          <details class="qa" id="q-java-arraylist-linkedlist">
+            <summary>
+              <span class="q-index">06</span>
+              <span class="q-text">ArrayList và LinkedList khác nhau? Khi nào dùng loại nào?</span>
+              <span class="q-tag orange">Java</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Tiêu chí</th><th>ArrayList</th><th>LinkedList</th></tr></thead>
+                  <tbody>
+                    <tr><td>Cấu trúc</td><td>Mảng động liền kề</td><td>Danh sách liên kết đôi (node + 2 con trỏ)</td></tr>
+                    <tr><td>Truy cập theo index</td><td>O(1)</td><td>O(n) — phải duyệt từ đầu/cuối</td></tr>
+                    <tr><td>Chèn/xóa giữa</td><td>O(n) do dịch phần tử</td><td>O(1) nếu đã có node, nhưng tìm node vẫn O(n)</td></tr>
+                    <tr><td>Bộ nhớ</td><td>Ít overhead, cache-friendly</td><td>Tốn thêm bộ nhớ cho con trỏ</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p><strong>Thực tế:</strong> ArrayList là mặc định cho hầu hết nhu cầu list (đọc nhiều, duyệt tuần tự). LinkedList hầu như không nhanh hơn trừ khi chèn/xóa ở đầu danh sách lớn; cần queue/deque thì dùng ArrayDeque thay vì LinkedList.</p>
+              <p><strong>Ở SEIXX:</strong> kết quả search thiết bị trả về dùng <code>ArrayList</code> (đọc và duyệt là chính); hàng đợi tác vụ gửi thông báo sau import dùng <code>ArrayDeque</code> — không chọn LinkedList dù tên nghe “hợp” với queue.</p>
+            </div>
+          </details>
+
+          <details class="qa" id="q-java-pass-by-value">
+            <summary>
+              <span class="q-index">07</span>
+              <span class="q-text">Tham trị và tham chiếu là gì? Java truyền tham trị hay tham chiếu?</span>
+              <span class="q-tag orange">Java</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <div class="callout info"><strong>Java luôn truyền tham trị (pass-by-value).</strong> Với object, giá trị được truyền là <em>bản sao của reference</em>, không phải bản thân object.</div>
+              <ul>
+                <li>Primitive: truyền bản sao giá trị; thay đổi trong method không ảnh hưởng biến gốc.</li>
+                <li>Object: truyền bản sao reference; cả hai reference cùng trỏ tới một object. Nếu method <strong>thay đổi nội dung object</strong>, caller thấy thay đổi. Nếu method <strong>gán lại reference</strong>, caller không thấy.</li>
+                <li>String là immutable: mọi phép “thay đổi” tạo object mới, nên hành vi giống primitive khi nhìn từ bên ngoài.</li>
+              </ul>
+              <pre><code>void mutate(StringBuilder sb) {
+  sb.append(" world"); // caller thấy thay đổi
+}
+
+void reassign(StringBuilder sb) {
+  sb = new StringBuilder("new"); // caller KHÔNG thấy
+}
+
+StringBuilder x = new StringBuilder("hello");
+mutate(x);   // x = "hello world"
+reassign(x); // x vẫn là "hello world"</code></pre>
+            </div>
+          </details>
+
+          <details class="qa" id="q-java-stream">
+            <summary>
+              <span class="q-index">08</span>
+              <span class="q-text">Cách dùng Stream API? Các thao tác trung gian và kết thúc?</span>
+              <span class="q-tag orange">Java</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p>Stream là pipeline xử lý dữ liệu theo kiểu declarative, gồm 3 phần: <strong>source → intermediate operations → terminal operation</strong>.</p>
+              <ul>
+                <li><strong>Intermediate (lazy):</strong> <code>filter</code>, <code>map</code>, <code>flatMap</code>, <code>distinct</code>, <code>sorted</code>, <code>limit</code>, <code>skip</code>, <code>peek</code>.</li>
+                <li><strong>Terminal (kích hoạt xử lý):</strong> <code>collect</code>, <code>toList</code>, <code>forEach</code>, <code>reduce</code>, <code>count</code>, <code>anyMatch</code>, <code>findFirst</code>, <code>min</code>/<code>max</code>.</li>
+                <li>Stream chỉ dùng một lần; không tái sử dụng sau terminal operation.</li>
+                <li>Hạn chế side effect trong lambda; cẩn thận khi dùng <code>parallelStream</code>.</li>
+              </ul>
+              <pre><code>List&lt;StudentDto&gt; result = students.stream()
+    .filter(s -&gt; s.getStatus() == Status.ACTIVE)
+    .sorted(Comparator.comparing(Student::getName))
+    .map(s -&gt; new StudentDto(s.getId(), s.getName()))
+    .toList();
+
+Map&lt;String, List&lt;Student&gt;&gt; byClass = students.stream()
+    .collect(Collectors.groupingBy(Student::getClassName));
+
+int total = scores.stream().mapToInt(Integer::intValue).sum();</code></pre>
+            </div>
+          </details>
+
+          <details class="qa" id="q-java-list-set">
+            <summary>
+              <span class="q-index">09</span>
+              <span class="q-text">So sánh List và Set?</span>
+              <span class="q-tag orange">Java</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Tiêu chí</th><th>List</th><th>Set</th></tr></thead>
+                  <tbody>
+                    <tr><td>Thứ tự</td><td>Có thứ tự theo vị trí chèn</td><td>HashSet không đảm bảo; LinkedHashSet giữ thứ tự chèn; TreeSet sắp xếp</td></tr>
+                    <tr><td>Trùng lặp</td><td>Cho phép</td><td>Không cho phép</td></tr>
+                    <tr><td>Truy cập</td><td>Qua index <code>get(i)</code></td><td>Không có index</td></tr>
+                    <tr><td>Implement phổ biến</td><td>ArrayList, LinkedList, Vector</td><td>HashSet, LinkedHashSet, TreeSet</td></tr>
+                    <tr><td>Hiệu năng</td><td>ArrayList get O(1), add cuối amortized O(1)</td><td>HashSet add/contains O(1) trung bình; TreeSet O(log n)</td></tr>
+                    <tr><td>Dùng khi</td><td>Cần thứ tự, truy cập theo vị trí, cho phép trùng</td><td>Cần duy nhất, kiểm tra tồn tại nhanh</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p><strong>Lưu ý:</strong> HashSet/TreeSet dựa vào <code>equals()</code>/<code>hashCode()</code> hoặc <code>compareTo()</code>/<code>Comparator</code>. Nếu override <code>equals</code> mà không override <code>hashCode</code>, Set có thể chứa phần tử “trùng” ngoài ý muốn.</p>
+            </div>
+          </details>
+
+          <details class="qa" id="q-java-bigdecimal">
+            <summary>
+              <span class="q-index">10</span>
+              <span class="q-text">Sự khác nhau giữa equals và compareTo trong BigDecimal?</span>
+              <span class="q-tag orange">Java</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <ul>
+                <li><code>equals()</code> so sánh cả <strong>giá trị và scale</strong>: <code>new BigDecimal("2.0").equals(new BigDecimal("2.00"))</code> trả về <strong>false</strong>.</li>
+                <li><code>compareTo()</code> chỉ so sánh <strong>giá trị số học</strong>: trả về 0 nếu bằng nhau, bỏ qua scale.</li>
+                <li>Vì vậy khi so sánh số tiền/giá trị số, dùng <code>compareTo(...) == 0</code>, không dùng <code>equals</code>.</li>
+                <li>Không dùng <code>double</code> cho tiền tệ vì sai số nhị phân. Dùng <code>BigDecimal</code>, constructor từ String, và <code>RoundingMode</code> khi chia/làm tròn.</li>
+              </ul>
+              <pre><code>BigDecimal a = new BigDecimal("2.0");
+BigDecimal b = new BigDecimal("2.00");
+
+a.equals(b);          // false
+a.compareTo(b) == 0;  // true
+
+BigDecimal price = new BigDecimal("19.99");
+BigDecimal total = price.multiply(BigDecimal.valueOf(3))
+    .setScale(2, RoundingMode.HALF_UP);</code></pre>
+            </div>
+          </details>
+
+          <details class="qa" id="q-java-access-modifier">
+            <summary>
+              <span class="q-index">11</span>
+              <span class="q-text">Các access modifier trong Java khác nhau thế nào?</span>
+              <span class="q-tag orange">Java</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Modifier</th><th>Cùng class</th><th>Cùng package</th><th>Lớp con</th><th>Bên ngoài</th></tr></thead>
+                  <tbody>
+                    <tr><td><code>private</code></td><td>Có</td><td>Không</td><td>Không</td><td>Không</td></tr>
+                    <tr><td><em>default</em> (không ghi)</td><td>Có</td><td>Có</td><td>Không*</td><td>Không</td></tr>
+                    <tr><td><code>protected</code></td><td>Có</td><td>Có</td><td>Có</td><td>Không</td></tr>
+                    <tr><td><code>public</code></td><td>Có</td><td>Có</td><td>Có</td><td>Có</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p>*Lớp con ở package khác chỉ truy cập được thành viên <code>protected</code> thông qua kế thừa (trên chính instance của lớp con), không truy cập qua instance lớp cha.</p>
+              <ul>
+                <li>Class top-level chỉ có thể là <code>public</code> hoặc package-private.</li>
+                <li>Thành viên interface mặc định là <code>public</code>; field là <code>public static final</code>.</li>
+                <li>Nguyên tắc: giữ phạm vi nhỏ nhất có thể (encapsulation).</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="qa" id="q-java-override-overload">
+            <summary>
+              <span class="q-index">12</span>
+              <span class="q-text">So sánh Override và Overload?</span>
+              <span class="q-tag orange">Java</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Tiêu chí</th><th>Override</th><th>Overload</th></tr></thead>
+                  <tbody>
+                    <tr><td>Xảy ra</td><td>Lớp con ghi đè lớp cha/interface</td><td>Cùng class, nhiều method cùng tên</td></tr>
+                    <tr><td>Chọn lúc</td><td>Runtime (dynamic dispatch)</td><td>Compile-time</td></tr>
+                    <tr><td>Chữ ký</td><td>Cùng tên + cùng tham số</td><td>Khác số lượng/kiểu/thứ tự tham số</td></tr>
+                    <tr><td>Kiểu trả về</td><td>Có thể covariant (lớp con cụ thể hơn)</td><td>Có thể khác, nhưng không đủ để phân biệt</td></tr>
+                    <tr><td>Access</td><td>Không được thu hẹp</td><td>Không ràng buộc theo kiểu này</td></tr>
+                    <tr><td>Exception</td><td>Không được ném checked exception rộng hơn</td><td>Không ràng buộc</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <ul>
+                <li><code>@Override</code> nên dùng để compiler kiểm tra chữ ký.</li>
+                <li><code>static</code>, <code>private</code>, <code>final</code> không override được; static là hiding.</li>
+                <li>Overload không dựa vào kiểu trả về hoặc tên tham số.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="qa" id="q-java-abstract-interface">
+            <summary>
+              <span class="q-index">13</span>
+              <span class="q-text">So sánh Abstract class và Interface?</span>
+              <span class="q-tag orange">Java</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Tiêu chí</th><th>Abstract class</th><th>Interface</th></tr></thead>
+                  <tbody>
+                    <tr><td>Kế thừa</td><td>Một lớp cha</td><td>Nhiều interface</td></tr>
+                    <tr><td>Trạng thái</td><td>Có field instance, constructor</td><td>Chỉ hằng số <code>public static final</code></td></tr>
+                    <tr><td>Phương thức</td><td>Abstract + concrete, có thể protected</td><td>Abstract, default, static, private (Java 9+)</td></tr>
+                    <tr><td>Mục đích</td><td>Chia sẻ state/hành vi chung, quan hệ is-a</td><td>Contract/capability, đa kế thừa kiểu</td></tr>
+                    <tr><td>Dùng khi</td><td>Các lớp con có nhiều code chung</td><td>Nhiều lớp khác nhau cần cùng hợp đồng</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p><strong>Chọn:</strong> ưu tiên interface cho abstraction linh hoạt; dùng abstract class khi thực sự cần state/constructor hoặc hành vi dùng chung. Có thể kết hợp: abstract class implements interface.</p>
+            </div>
+          </details>
+
+          <details class="qa" id="q-java-hashmap-hashtable">
+            <summary>
+              <span class="q-index">14</span>
+              <span class="q-text">So sánh HashMap và Hashtable?</span>
+              <span class="q-tag orange">Java</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Tiêu chí</th><th>HashMap</th><th>Hashtable</th></tr></thead>
+                  <tbody>
+                    <tr><td>Đồng bộ</td><td>Không synchronized</td><td>Synchronized toàn bộ</td></tr>
+                    <tr><td>NULL</td><td>1 null key, nhiều null value</td><td>Không cho null key/value</td></tr>
+                    <tr><td>Hiệu năng</td><td>Nhanh hơn trong đơn luồng</td><td>Chậm hơn do khóa</td></tr>
+                    <tr><td>Iterator</td><td>Fail-fast</td><td>Enumerator không fail-fast</td></tr>
+                    <tr><td>Kế thừa</td><td>AbstractMap, Java Collections Framework</td><td>Legacy, trước Collections Framework</td></tr>
+                    <tr><td>Thay thế khi concurrent</td><td>ConcurrentHashMap</td><td>ConcurrentHashMap</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p><strong>Bên trong HashMap:</strong> mảng bucket + linked list; từ Java 8, bucket dài ≥ 8 (và capacity ≥ 64) chuyển thành red-black tree để giảm O(n) xuống O(log n). Load factor mặc định 0.75.</p>
+            </div>
+          </details>
+
+          <details class="qa" id="q-java-dto-stream">
+            <summary>
+              <span class="q-index">15</span>
+              <span class="q-text">Xử lý DTO &amp; Entity với Stream API như thế nào?</span>
+              <span class="q-tag orange">Java</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p>Không nên trả Entity trực tiếp ra API vì lộ cấu trúc DB, vòng lặp lazy-loading và rủi ro bảo mật. Dùng Stream để map Entity → DTO.</p>
+              <pre><code>public record StudentDto(Long id, String name, double averageScore) {}
+
+List&lt;StudentDto&gt; dtos = students.stream()
+    .map(s -&gt; new StudentDto(
+        s.getId(),
+        s.getName(),
+        s.getScores().stream()
+            .mapToInt(Integer::intValue)
+            .average()
+            .orElse(0)
+    ))
+    .toList();</code></pre>
+              <ul>
+                <li>Với quan hệ LAZY, truy cập trong lúc map có thể gây <code>LazyInitializationException</code> hoặc N+1. Dùng fetch join, projection hoặc DTO query.</li>
+                <li>Có thể dùng MapStruct để generate mapper, giảm code thủ công.</li>
+                <li>Với danh sách lớn, cân nhắc <code>Collectors.groupingBy</code> và tránh gọi DB trong lambda.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="qa" id="q-java-optional">
+            <summary>
+              <span class="q-index">16</span>
+              <span class="q-text">Quản lý ngoại lệ và Null Safety với Optional?</span>
+              <span class="q-tag orange">Java</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p><code>Optional&lt;T&gt;</code> là container biểu diễn “có thể có hoặc không có giá trị”, giúp tránh NullPointerException và thể hiện ý định trong API.</p>
+              <ul>
+                <li>Tạo: <code>Optional.of(value)</code> (không null), <code>Optional.ofNullable(value)</code>, <code>Optional.empty()</code>.</li>
+                <li>Xử lý: <code>map</code>, <code>flatMap</code>, <code>filter</code>, <code>orElse</code>, <code>orElseGet</code>, <code>orElseThrow</code>, <code>ifPresent</code>.</li>
+                <li>Tránh <code>optional.get()</code> khi chưa kiểm tra; tránh dùng Optional cho field/parameter/collection; không trả về <code>null</code> thay cho Optional.</li>
+                <li><code>orElse</code> đánh giá tham số ngay cả khi có giá trị; <code>orElseGet</code> chỉ gọi supplier khi empty.</li>
+              </ul>
+              <pre><code>String name = Optional.ofNullable(student)
+    .map(Student::getName)
+    .filter(s -&gt; !s.isBlank())
+    .orElseThrow(() -&gt; new NotFoundException("Student not found"));</code></pre>
+              <p><strong>Ngoại lệ:</strong> dùng unchecked exception cho lỗi nghiệp vụ; bắt exception cụ thể; không nuốt lỗi; log kèm context; không lộ stack trace ra client.</p>
+            </div>
+          </details>
+
+          <details class="qa" id="q-java-predicate">
+            <summary>
+              <span class="q-index">17</span>
+              <span class="q-text">Xử lý điều kiện động &amp; validate dữ liệu với Predicate?</span>
+              <span class="q-tag orange">Java</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p><code>Predicate&lt;T&gt;</code> là functional interface nhận một giá trị và trả về boolean. Có thể kết hợp bằng <code>and()</code>, <code>or()</code>, <code>negate()</code>.</p>
+              <pre><code>Predicate&lt;Student&gt; active = s -&gt; s.getStatus() == ACTIVE;
+Predicate&lt;Student&gt; hasEmail = s -&gt; s.getEmail() != null;
+
+List&lt;Student&gt; result = students.stream()
+    .filter(active.and(hasEmail))
+    .toList();</code></pre>
+              <ul>
+                <li><strong>Điều kiện động:</strong> ghép Predicate theo request filter thay vì viết nhiều câu if/else.</li>
+                <li><strong>JPA Specification:</strong> dùng <code>CriteriaBuilder</code> để build điều kiện động an toàn với type.</li>
+                <li><strong>Validate:</strong> dùng Bean Validation (<code>@NotNull</code>, <code>@Size</code>, <code>@Pattern</code>) cho input; Predicate phù hợp cho rule nội bộ.</li>
+                <li>Không lạm dụng Predicate cho logic quá phức tạp; tách hàm có tên rõ ràng để dễ test.</li>
+              </ul>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section class="section" id="backend" data-section>
+        <div class="section-head">
+          <div>
+            <span class="section-kicker">05 · Spring &amp; Backend</span>
+            <h2>Spring Boot &amp; Backend</h2>
+            <p>Từ IoC, bean, REST, JPA đến transaction, Redis, microservices và xử lý lỗi production.</p>
+          </div>
+          <div class="section-actions">
+            <span class="qa-count">29 câu hỏi</span>
+            <button class="mini-btn" type="button" data-toggle-section="backend">Mở tất cả</button>
+          </div>
+        </div>
+
+        <div class="qa-list">
+          <details class="qa" id="q-be-mvc-jsf">
+            <summary>
+              <span class="q-index">01</span>
+              <span class="q-text">Spring Boot MVC và JSF khác nhau ở điểm nào?</span>
+              <span class="q-tag green">Spring</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Tiêu chí</th><th>Spring MVC / Spring Boot</th><th>JSF</th></tr></thead>
+                  <tbody>
+                    <tr><td>Mô hình</td><td>Request-driven, controller-based</td><td>Component-based, server-side UI</td></tr>
+                    <tr><td>Entry point</td><td><code>DispatcherServlet</code> → HandlerMapping → Controller</td><td>FacesServlet, lifecycle 6 pha</td></tr>
+                    <tr><td>View</td><td>Thymeleaf, JSP, JSON/REST</td><td>Facelets (XHTML), component tree</td></tr>
+                    <tr><td>State</td><td>Stateless, phù hợp REST/API</td><td>Lưu state component trên server</td></tr>
+                    <tr><td>Hệ sinh thái</td><td>Spring Boot auto-config, starters, security, data</td><td>Java EE/Jakarta EE, CDI, PrimeFaces</td></tr>
+                    <tr><td>Phù hợp</td><td>API, SPA backend, microservices</td><td>Intranet form-heavy, ứng dụng component</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p><strong>Kết luận:</strong> JSF mạnh về component server-side nhưng nặng state và ít phù hợp REST; Spring MVC linh hoạt, dễ tích hợp SPA và phổ biến hơn trong các dự án backend hiện đại.</p>
+            </div>
+          </details>
+
+          <details class="qa" id="q-be-controller-service">
+            <summary>
+              <span class="q-index">02</span>
+              <span class="q-text">@Controller và @Service có thể thay thế cho nhau được không?</span>
+              <span class="q-tag green">Spring</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p><strong>Về mặt tạo bean:</strong> có. Cả hai đều là stereotype của <code>@Component</code>, nên đều được component scan và đăng ký vào ApplicationContext.</p>
+              <p><strong>Về mặt thiết kế:</strong> không nên thay thế. Chúng mang ý nghĩa khác nhau:</p>
+              <ul>
+                <li><code>@Controller</code> đánh dấu tầng web; Spring MVC dùng nó để phát hiện handler method (<code>@RequestMapping</code>).</li>
+                <li><code>@Service</code> đánh dấu tầng business logic; là nơi đặt transaction boundary, orchestration và rule nghiệp vụ.</li>
+                <li>Đổi chỗ có thể chạy nhưng làm mất tính rõ ràng, ảnh hưởng AOP/transaction và khó bảo trì.</li>
+              </ul>
+              <p><strong>Trả lời ngắn:</strong> “Có thể về mặt kỹ thuật vì cùng là <code>@Component</code>, nhưng không nên vì sai semantic và làm hỏng kiến trúc tầng.”</p>
+            </div>
+          </details>
+
+          <details class="qa" id="q-be-create-bean">
+            <summary>
+              <span class="q-index">03</span>
+              <span class="q-text">Muốn tạo một bean thì cần những gì?</span>
+              <span class="q-tag green">Spring</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p>Bean là object do IoC container quản lý. Có nhiều cách khai báo:</p>
+              <ul>
+                <li><strong>Stereotype + component scan:</strong> <code>@Component</code>, <code>@Service</code>, <code>@Repository</code>, <code>@Controller</code>, <code>@RestController</code>.</li>
+                <li><strong>@Bean</strong> trong lớp <code>@Configuration</code> — phù hợp với third-party class hoặc cần cấu hình thủ công.</li>
+                <li><strong>@Import</strong>, <code>@ImportResource</code> (XML), hoặc XML cấu hình cũ.</li>
+                <li><strong>@Conditional...</strong> để tạo bean theo điều kiện; <code>@Profile</code> theo môi trường.</li>
+              </ul>
+              <p>Ngoài annotation, bean cần nằm trong phạm vi component scan (hoặc được import) và có constructor/khởi tạo hợp lệ. Mặc định scope là <code>singleton</code>.</p>
+              <pre><code>@Configuration
+public class AppConfig {
+  @Bean
+  public RestTemplate restTemplate() {
+    return new RestTemplate();
+  }
+}</code></pre>
+            </div>
+          </details>
+
+          <details class="qa" id="q-be-two-beans">
+            <summary>
+              <span class="q-index">04</span>
+              <span class="q-text">Muốn tạo 2 bean từ cùng một kiểu dữ liệu thì làm thế nào?</span>
+              <span class="q-tag green">Spring</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <ul>
+                <li>Tạo hai bean với <strong>tên khác nhau</strong>: hai method <code>@Bean("beanA")</code> / <code>@Bean("beanB")</code> hoặc <code>@Component("beanA")</code>.</li>
+                <li>Khi inject, dùng <code>@Qualifier("beanA")</code> để chọn chính xác.</li>
+                <li>Dùng <code>@Primary</code> cho bean mặc định khi không có qualifier.</li>
+                <li>Có thể inject <code>Map&lt;String, T&gt;</code> hoặc <code>List&lt;T&gt;</code> để lấy tất cả bean cùng type.</li>
+              </ul>
+              <pre><code>@Bean("cashPayment")
+PaymentService cashPayment() { return new CashPaymentService(); }
+
+@Bean("cardPayment")
+@Primary
+PaymentService cardPayment() { return new CardPaymentService(); }
+
+@Service
+class CheckoutService {
+  CheckoutService(@Qualifier("cashPayment") PaymentService payment) { ... }
+}</code></pre>
+              <div class="callout warn">Nếu có nhiều bean cùng type mà không có <code>@Primary</code> hoặc <code>@Qualifier</code>, Spring sẽ ném <code>NoUniqueBeanDefinitionException</code>.</div>
+            </div>
+          </details>
+
+          <details class="qa" id="q-be-di-types">
+            <summary>
+              <span class="q-index">05</span>
+              <span class="q-text">Có mấy cách inject dependency trong Spring? Vì sao ưu tiên constructor injection?</span>
+              <span class="q-tag green">Spring Core</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <ul>
+                <li><strong>Constructor injection (khuyến nghị):</strong> field để được final, dependency bắt buộc và rõ ràng, dễ test (<code>new OrderService(mockRepo)</code>), fail-fast nếu thiếu bean, phát hiện circular dependency ngay khi khởi động. Từ Spring 4.3, class chỉ có 1 constructor thì không cần @Autowired.</li>
+                <li><strong>Setter injection:</strong> dependency optional, có thể thay sau khởi tạo — phù hợp cấu hình; cũng là cách né circular dependency (không khuyến khích).</li>
+                <li><strong>Field injection (@Autowired trên field):</strong> ngắn gọn nhưng khó test ngoài container, che giấu dependency, không dùng được final — tránh trong code mới.</li>
+              </ul>
+              <pre><code>@Service
+public class OrderService {
+  private final OrderRepository repository;
+  private final PaymentClient paymentClient;
+
+  public OrderService(OrderRepository repository, PaymentClient paymentClient) {
+    this.repository = repository;
+    this.paymentClient = paymentClient;
+  }
+}</code></pre>
+            </div>
+          </details>
+
+          <details class="qa" id="q-be-bean-scope">
+            <summary>
+              <span class="q-index">06</span>
+              <span class="q-text">Bean scope trong Spring? Singleton và prototype khác nhau thế nào?</span>
+              <span class="q-tag green">Spring Core</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <ul>
+                <li><strong>singleton (mặc định):</strong> một instance cho mỗi ApplicationContext — mọi nơi inject cùng một bean; bean nên stateless để an toàn đa luồng.</li>
+                <li><strong>prototype:</strong> mỗi lần lấy (getBean hoặc inject) tạo instance mới; Spring không quản lý vòng đời đầy đủ — không tự gọi @PreDestroy.</li>
+                <li><strong>Web scopes:</strong> request (mỗi HTTP request), session (mỗi session), application (mỗi ServletContext), websocket.</li>
+              </ul>
+              <p><strong>Lưu ý:</strong> inject prototype vào singleton chỉ tạo mới một lần lúc khởi tạo; muốn luôn nhận instance mới thì dùng ObjectProvider, @Lookup hoặc scoped proxy. Chọn sai scope — singleton giữ state của từng request — là lỗi kinh điển gây lẫn dữ liệu giữa người dùng.</p>
+            </div>
+          </details>
+
+          <details class="qa" id="q-be-restcontroller">
+            <summary>
+              <span class="q-index">07</span>
+              <span class="q-text">@RestController và @Controller khác nhau như thế nào?</span>
+              <span class="q-tag green">Spring</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <ul>
+                <li><code>@Controller</code>: đánh dấu controller MVC. Giá trị trả về thường là <strong>tên view</strong> (JSP/Thymeleaf) và được <code>ViewResolver</code> xử lý.</li>
+                <li><code>@RestController</code> = <code>@Controller</code> + <code>@ResponseBody</code>. Giá trị trả về được ghi trực tiếp vào response body, thường serialize thành JSON/XML.</li>
+                <li>Với <code>@Controller</code>, muốn trả JSON thì thêm <code>@ResponseBody</code> trên method hoặc class.</li>
+                <li>Cả hai đều là <code>@Component</code>; khác nhau ở cách xử lý return value.</li>
+              </ul>
+              <pre><code>@RestController
+@RequestMapping("/api/students")
+class StudentApiController {
+  @GetMapping("/{id}")
+  StudentDto get(@PathVariable Long id) { ... } // JSON
+}
+
+@Controller
+class PageController {
+  @GetMapping("/students")
+  String page() { return "students"; } // view name
+}</code></pre>
+            </div>
+          </details>
+
+          <details class="qa" id="q-be-error-handling">
+            <summary>
+              <span class="q-index">08</span>
+              <span class="q-text">Cách xử lý lỗi (error handling) trong Spring?</span>
+              <span class="q-tag green">Spring</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <ul>
+                <li><strong>Cục bộ:</strong> <code>@ExceptionHandler</code> trong controller.</li>
+                <li><strong>Toàn cục:</strong> <code>@RestControllerAdvice</code> + <code>@ExceptionHandler</code> để trả cùng format lỗi cho API.</li>
+                <li><strong>HTTP status:</strong> dùng <code>@ResponseStatus</code> hoặc <code>ResponseEntity</code>; Spring Boot 3 hỗ trợ <code>ProblemDetail</code> (RFC 7807).</li>
+                <li><strong>Validation:</strong> bắt <code>MethodArgumentNotValidException</code>, <code>ConstraintViolationException</code> và trả danh sách lỗi field.</li>
+                <li><strong>Không lộ</strong> stack trace, SQL, thông tin nội bộ; log kèm correlation ID; phân biệt 4xx (client) và 5xx (server).</li>
+              </ul>
+              <pre><code>@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+  @ExceptionHandler(NotFoundException.class)
+  public ResponseEntity&lt;ProblemDetail&gt; notFound(NotFoundException ex) {
+    ProblemDetail pd = ProblemDetail.forStatusAndDetail(
+        HttpStatus.NOT_FOUND, ex.getMessage());
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(pd);
+  }
+
+  @ExceptionHandler(Exception.class)
+  public ResponseEntity&lt;ProblemDetail&gt; fallback(Exception ex) {
+    log.error("Unexpected error", ex);
+    return ResponseEntity.internalServerError()
+        .body(ProblemDetail.forStatus(500));
+  }
+}</code></pre>
+            </div>
+          </details>
+
+          <details class="qa" id="q-be-repository">
+            <summary>
+              <span class="q-index">09</span>
+              <span class="q-text">Trong JPA, class StudentRepository có cần @Repository không?</span>
+              <span class="q-tag green">JPA</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p><strong>Không cần.</strong> Với Spring Data JPA, repository chỉ cần là interface kế thừa <code>JpaRepository</code>/<code>CrudRepository</code>; Spring tự tạo proxy implementation và đăng ký bean thông qua cơ chế scan repository.</p>
+              <ul>
+                <li><code>@Repository</code> chủ yếu dùng cho DAO class tự viết, giúp chuyển đổi exception persistence sang <code>DataAccessException</code> của Spring.</li>
+                <li>Thêm <code>@Repository</code> vào interface repository thường không sai nhưng dư thừa và không cần thiết.</li>
+                <li>Cần <code>@EnableJpaRepositories</code> (Spring Boot auto-config thường đã bật) và entity manager/data source đúng cấu hình.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="qa" id="q-be-list-update">
+            <summary>
+              <span class="q-index">10</span>
+              <span class="q-text">Cách lấy và update một list trong web như thế nào?</span>
+              <span class="q-tag green">Backend</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p><strong>Lấy danh sách:</strong> API <code>GET /api/students?page=0&amp;size=20&amp;sort=name,asc</code>, trả DTO + metadata phân trang. Không trả Entity trực tiếp; tránh N+1 bằng fetch join/projection.</p>
+              <p><strong>Update danh sách:</strong> dùng <code>PUT /api/students/batch</code> hoặc <code>PATCH</code> tùy semantics; nhận list DTO có id, validate, kiểm tra tồn tại, cập nhật trong một transaction.</p>
+              <ul>
+                <li>Dùng <code>@Transactional</code> ở service; <code>saveAll</code> + batch size nếu cập nhật nhiều.</li>
+                <li>Kiểm tra optimistic locking bằng <code>@Version</code>; xử lý conflict trả 409.</li>
+                <li>Validate toàn bộ trước khi ghi; nếu cần partial success thì trả báo cáo từng dòng.</li>
+                <li>FE cập nhật state theo response; nếu optimistic update thì cần rollback khi lỗi.</li>
+              </ul>
+              <pre><code>@Transactional
+public List&lt;StudentDto&gt; updateBatch(List&lt;StudentUpdateDto&gt; items) {
+  Map&lt;Long, Student&gt; existing = repo.findAllById(
+      items.stream().map(StudentUpdateDto::id).toList())
+      .stream().collect(Collectors.toMap(Student::getId, s -&gt; s));
+
+  for (var dto : items) {
+    Student s = existing.get(dto.id());
+    if (s == null) throw new NotFoundException(dto.id());
+    s.update(dto);
+  }
+  return existing.values().stream().map(StudentDto::from).toList();
+}</code></pre>
+            </div>
+          </details>
+
+          <details class="qa" id="q-be-context-structure">
+            <summary>
+              <span class="q-index">11</span>
+              <span class="q-text">Giải thích cấu trúc Spring và ApplicationContext?</span>
+              <span class="q-tag green">Spring Core</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <h4>Cấu trúc tầng thường dùng</h4>
+              <div class="flow"><span>Controller</span><i>→</i><span>Service</span><i>→</i><span>Repository</span><i>→</i><span>Database</span></div>
+              <p>Kèm theo: DTO, Mapper, Entity, Config, Exception Handler, Security, Validation. Controller chỉ nhận request/trả response; Service chứa nghiệp vụ và transaction; Repository giao tiếp DB.</p>
+              <h4>ApplicationContext</h4>
+              <p>Là IoC container trung tâm: tạo, cấu hình, quản lý vòng đời bean, thực hiện dependency injection, cung cấp event, resource, message source và AOP. <code>BeanFactory</code> là interface nền; <code>ApplicationContext</code> mở rộng nhiều tính năng hơn.</p>
+              <h4>Bean scope</h4>
+              <ul>
+                <li><code>singleton</code> (mặc định): một instance cho mỗi container.</li>
+                <li><code>prototype</code>: instance mới mỗi lần lấy bean.</li>
+                <li><code>request</code>, <code>session</code>, <code>application</code>, <code>websocket</code>: gắn với web context.</li>
+              </ul>
+              <h4>Vòng đời cơ bản</h4>
+              <p>Khởi tạo → inject dependency → BeanPostProcessor before → <code>@PostConstruct</code>/<code>afterPropertiesSet</code> → BeanPostProcessor after → sử dụng → <code>@PreDestroy</code>/<code>destroy</code>.</p>
+            </div>
+          </details>
+
+          <details class="qa" id="q-be-xss">
+            <summary>
+              <span class="q-index">12</span>
+              <span class="q-text">Làm gì để không bị tấn công XSS?</span>
+              <span class="q-tag green">Security</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p>XSS xảy ra khi dữ liệu không tin cậy được chèn vào HTML/JS mà không encode đúng ngữ cảnh. Có 3 loại: stored, reflected, DOM-based.</p>
+              <ul>
+                <li><strong>Output encoding:</strong> encode theo context (HTML, attribute, URL, JavaScript). Thymeleaf tự escape; không dùng <code>th:utext</code> với dữ liệu người dùng.</li>
+                <li><strong>Vue/React:</strong> interpolation <code>{{ }}</code> tự escape; tránh <code>v-html</code>/<code>dangerouslySetInnerHTML</code>; nếu buộc phải dùng, sanitize bằng DOMPurify.</li>
+                <li><strong>Validate input</strong> theo whitelist; không chỉ blacklist ký tự.</li>
+                <li><strong>CSP</strong> (Content-Security-Policy), <code>X-Content-Type-Options: nosniff</code>, <code>X-Frame-Options</code>.</li>
+                <li><strong>Cookie:</strong> HttpOnly, Secure, SameSite.</li>
+                <li><strong>Java:</strong> OWASP Java Encoder, <code>HtmlUtils.htmlEscape</code>; không nối chuỗi HTML thủ công.</li>
+                <li>Không render lỗi/stack trace ra HTML; cập nhật dependency và framework.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="qa" id="q-be-password-jwt">
+            <summary>
+              <span class="q-index">13</span>
+              <span class="q-text">Hash mật khẩu và JWT: lưu mật khẩu thế nào cho an toàn? JWT hoạt động ra sao?</span>
+              <span class="q-tag green">Security</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <h4>1. Hash mật khẩu — lưu trong DB</h4>
+              <ul>
+                <li>Không bao giờ lưu plaintext; không dùng MD5/SHA-256 đơn thuần (hash quá nhanh, dễ brute force/rainbow table).</li>
+                <li>Dùng BCrypt/Argon2/PBKDF2 có salt; Spring Security dùng <code>BCryptPasswordEncoder</code>. Đăng nhập chỉ so khớp bằng <code>matches(raw, hash)</code> — hash một chiều, không giải mã được.</li>
+              </ul>
+              <h4>2. Luồng đăng nhập — qua từng tầng</h4>
+              <div class="flow" aria-label="Luồng đăng nhập">
+                <span>FE · POST /api/auth/login</span><i>→</i><span>AuthController</span><i>→</i><span>AuthService</span><i>→</i><span>UserRepository / DB</span><i>→</i><span>TokenProvider</span><i>→</i><span>FE</span>
+              </div>
+              <ul>
+                <li><strong>AuthController:</strong> nhận <code>{username, password}</code>, validate <code>@NotBlank</code>; không xử lý nghiệp vụ.</li>
+                <li><strong>AuthService:</strong> <code>userRepository.findByUsername()</code> → kiểm tra user tồn tại và đang active → <code>encoder.matches(raw, user.passwordHash)</code>. Sai thì trả thông báo chung “sai tài khoản hoặc mật khẩu”, không tiết lộ cái nào sai.</li>
+                <li><strong>DB:</strong> bảng <code>users</code> (username unique, password_hash, role, status). User bị khóa thì từ chối dù mật khẩu đúng.</li>
+                <li><strong>TokenProvider:</strong> ký access token 15–30 phút (claims: sub, role, exp; HS256 secret hoặc RS256 private key) và refresh token 7–30 ngày lưu DB kèm user_id, expires_at, revoked.</li>
+                <li><strong>Trả về FE:</strong> access token trong body (FE giữ trong memory); refresh token set vào cookie <code>httpOnly + Secure + SameSite</code> — JavaScript không đọc được.</li>
+              </ul>
+              <h4>3. Xác thực Bearer — mỗi request sau đó</h4>
+              <div class="flow" aria-label="Luồng xác thực Bearer">
+                <span>FE · Authorization: Bearer …</span><i>→</i><span>JwtAuthenticationFilter</span><i>→</i><span>SecurityContext</span><i>→</i><span>Controller / Service</span>
+              </div>
+              <ul>
+                <li><strong>Filter</strong> (OncePerRequestFilter, đặt trước filter chuẩn của Spring Security): lấy header → bỏ tiền tố <code>Bearer </code> → verify chữ ký + <code>exp</code> → lấy username/roles từ claims → tạo <code>UsernamePasswordAuthenticationToken</code> → <code>SecurityContextHolder.getContext().setAuthentication(...)</code>.</li>
+                <li>Token sai/hết hạn → không set authentication, request đi tiếp và tầng phân quyền trả <strong>401/403</strong> (không ném lỗi trong filter để tránh lộ chi tiết).</li>
+                <li><strong>Controller/Service:</strong> lấy user hiện tại qua <code>@AuthenticationPrincipal</code>; kiểm tra quyền nghiệp vụ thêm — user nhà máy A không được xem dữ liệu nhà máy B (phân quyền theo dữ liệu, không chỉ theo role).</li>
+              </ul>
+              <pre><code>public class JwtAuthenticationFilter extends OncePerRequestFilter {
+  @Override
+  protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res,
+      FilterChain chain) throws ServletException, IOException {
+    String header = req.getHeader("Authorization");
+    if (header != null &amp;&amp; header.startsWith("Bearer ")) {
+      String token = header.substring(7);
+      if (tokenProvider.isValid(token)) {
+        SecurityContextHolder.getContext()
+            .setAuthentication(tokenProvider.toAuthentication(token));
+      }
+    }
+    chain.doFilter(req, res);
+  }
+}</code></pre>
+              <h4>4. Refresh token và logout</h4>
+              <ul>
+                <li><strong>Refresh:</strong> access token hết hạn → FE gọi <code>POST /api/auth/refresh</code> (cookie tự gửi kèm) → server kiểm tra refresh token trong DB (còn hạn, chưa revoked) → cấp access token mới + <strong>rotation</strong> (revoke token cũ, phát token mới).</li>
+                <li><strong>Logout/thu hồi:</strong> revoke refresh token trong DB + xóa cookie; access token còn hạn xử lý bằng blacklist ngắn hạn (Redis) hoặc token version.</li>
+              </ul>
+              <div class="callout warn"><strong>Nhớ:</strong> payload JWT chỉ base64, không mã hóa — không đặt dữ liệu nhạy cảm; server luôn verify chữ ký + exp và không tin dữ liệu client gửi; tránh lưu access token trong localStorage (XSS đọc được).</div>
+            </div>
+          </details>
+
+          <details class="qa" id="q-be-jdbc">
+            <summary>
+              <span class="q-index">14</span>
+              <span class="q-text">Kết nối database dùng gì? JDBC hoạt động thế nào?</span>
+              <span class="q-tag green">Backend</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p>Java kết nối DB qua <strong>JDBC</strong> (Java Database Connectivity). Có thể dùng trực tiếp <code>DriverManager</code>, <code>DataSource</code>, <code>JdbcTemplate</code>, hoặc qua ORM (Hibernate/JPA), MyBatis, Doma — tất cả đều dùng JDBC bên dưới.</p>
+              <ul>
+                <li><strong>DataSource + connection pool</strong> (HikariCP mặc định trong Spring Boot) để tái sử dụng connection, giảm chi phí mở kết nối.</li>
+                <li><strong>PreparedStatement</strong> để bind tham số, tránh SQL injection và tăng hiệu năng.</li>
+                <li><strong>try-with-resources</strong> để đóng ResultSet/Statement/Connection.</li>
+                <li>Transaction: tắt auto-commit, <code>commit()</code>/<code>rollback()</code>; Spring quản lý qua <code>@Transactional</code>.</li>
+              </ul>
+              <pre><code>try (Connection c = dataSource.getConnection();
+     PreparedStatement ps = c.prepareStatement(
+         "SELECT id, name FROM students WHERE id = ?")) {
+  ps.setLong(1, id);
+  try (ResultSet rs = ps.executeQuery()) {
+    if (rs.next()) return new Student(rs.getLong("id"), rs.getString("name"));
+  }
+}</code></pre>
+              <div class="callout warn">Luôn dùng tham số bind (<code>?</code>) thay vì nối chuỗi SQL từ input người dùng.</div>
+            </div>
+          </details>
+
+          <details class="qa" id="q-be-doma">
+            <summary>
+              <span class="q-index">15</span>
+              <span class="q-text">Doma query hoạt động như thế nào? Dùng ra sao?</span>
+              <span class="q-tag green">Doma</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p><strong>Doma</strong> là framework truy cập DB theo hướng SQL-centric cho Java, dùng annotation processing để generate implementation tại compile-time. Nó phù hợp khi muốn kiểm soát SQL nhưng vẫn có type safety.</p>
+              <ul>
+                <li>Khai báo <code>@Dao</code> interface; method dùng <code>@Select</code>, <code>@Insert</code>, <code>@Update</code>, <code>@Delete</code> hoặc SQL file.</li>
+                <li>SQL file hỗ trợ <strong>two-way SQL</strong>: vẫn chạy được trực tiếp trên DB để test, đồng thời Doma bind tham số.</li>
+                <li>Entity dùng <code>@Entity</code>, <code>@Table</code>, <code>@Id</code>; kết quả được map tự động theo tên cột.</li>
+                <li>Có Criteria API type-safe cho điều kiện động.</li>
+                <li>Doma dùng JDBC bên dưới; có thể tích hợp Spring Boot qua starter.</li>
+              </ul>
+              <pre><code>@Dao
+public interface StudentDao {
+  @Select
+  List&lt;Student&gt; selectAll();
+
+  @Select
+  Optional&lt;Student&gt; selectById(Long id);
+}</code></pre>
+              <p><strong>So với MyBatis:</strong> Doma kiểm tra SQL/annotation sớm hơn ở compile-time và có two-way SQL; MyBatis linh hoạt dynamic SQL và phổ biến hơn.</p>
+            </div>
+          </details>
+
+          <details class="qa" id="q-be-mybatis-hibernate">
+            <summary>
+              <span class="q-index">16</span>
+              <span class="q-text">So sánh MyBatis và Hibernate? Khi nào dùng loại nào?</span>
+              <span class="q-tag green">ORM</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Tiêu chí</th><th>MyBatis</th><th>Hibernate / JPA</th></tr></thead>
+                  <tbody>
+                    <tr><td>Triết lý</td><td>SQL mapping, bạn viết SQL</td><td>ORM, map object ↔ table</td></tr>
+                    <tr><td>Kiểm soát SQL</td><td>Cao, rõ từng câu</td><td>Thấp hơn, sinh SQL tự động</td></tr>
+                    <tr><td>Dynamic SQL</td><td>Rất mạnh (XML/annotation)</td><td>Criteria/HQL, ít linh hoạt hơn với SQL phức tạp</td></tr>
+                    <tr><td>Mapping</td><td>Thủ công hoặc auto result map</td><td>Tự động theo annotation</td></tr>
+                    <tr><td>Caching</td><td>Đơn giản (local/second-level tùy cấu hình)</td><td>First-level, second-level, query cache</td></tr>
+                    <tr><td>N+1 / lazy</td><td>Ít gặp hơn vì SQL viết tay</td><td>Cần kiểm soát fetch/lazy cẩn thận</td></tr>
+                    <tr><td>Phù hợp</td><td>SQL phức tạp, legacy, báo cáo, kiểm soát hiệu năng</td><td>CRUD nhanh, domain model rõ, đổi DB dễ hơn</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p><strong>Trong dự án SEIXX:</strong> dùng MyBatis với XML Mapper, viết SQL trực tiếp và map về model — phù hợp với đặc thù nghiệp vụ và yêu cầu kiểm soát truy vấn.</p>
+            </div>
+          </details>
+
+          <details class="qa" id="q-be-rest">
+            <summary>
+              <span class="q-index">17</span>
+              <span class="q-text">RESTful API là gì? Có bao nhiêu HTTP method?</span>
+              <span class="q-tag green">API</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p><strong>REST</strong> là phong cách kiến trúc cho API, xoay quanh tài nguyên (resource) và giao tiếp qua HTTP. Các nguyên tắc chính: client-server, stateless, cacheable, uniform interface, layered system, code-on-demand (tùy chọn).</p>
+              <ul>
+                <li><strong>Resource</strong> dùng danh từ, số nhiều: <code>/students</code>, <code>/students/1/scores</code>.</li>
+                <li><strong>5 method chính:</strong> GET (đọc), POST (tạo), PUT (thay thế), PATCH (cập nhật một phần), DELETE (xóa). Ngoài ra HEAD, OPTIONS.</li>
+                <li><strong>Idempotent:</strong> GET, PUT, DELETE; POST thường không. PATCH không nhất thiết.</li>
+                <li><strong>Status code:</strong> 200/201/204, 400/401/403/404/409/422/429, 500/503.</li>
+                <li>Versioning (<code>/api/v1</code>), phân trang, lọc, sắp xếp, HATEOAS (tùy mức độ).</li>
+              </ul>
+              <pre><code>GET    /api/v1/students?page=0&amp;size=20
+POST   /api/v1/students
+GET    /api/v1/students/{id}
+PUT    /api/v1/students/{id}
+PATCH  /api/v1/students/{id}
+DELETE /api/v1/students/{id}</code></pre>
+            </div>
+          </details>
+
+          <details class="qa" id="q-be-redis">
+            <summary>
+              <span class="q-index">18</span>
+              <span class="q-text">Xử lý caching với Redis như thế nào? Redis hoạt động ra sao? Nếu Redis lỗi thì sao?</span>
+              <span class="q-tag green">Redis</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <h4>Redis hoạt động</h4>
+              <p>Redis là in-memory key-value store, xử lý lệnh chủ yếu trên một event loop đơn luồng (một số phiên bản có I/O threads), hỗ trợ nhiều cấu trúc: string, hash, list, set, sorted set, stream. Dữ liệu có thể được persist bằng RDB snapshot hoặc AOF; hỗ trợ replication, Sentinel và Cluster.</p>
+              <h4>Cache-aside (phổ biến)</h4>
+              <ol>
+                <li>Đọc <code>GET key</code> từ Redis.</li>
+                <li>Nếu miss → query DB → ghi <code>SET key value EX ttl</code> → trả kết quả.</li>
+                <li>Khi update → cập nhật DB rồi <strong>xóa/invalidate cache</strong> (hoặc write-through có kiểm soát).</li>
+              </ol>
+              <h4>Nếu Redis không trả dữ liệu</h4>
+              <ul>
+                <li><strong>Miss:</strong> fallback DB bình thường.</li>
+                <li><strong>Redis down/timeout:</strong> bắt exception, fallback DB, không để cache failure làm sập request; dùng timeout ngắn, circuit breaker, local cache tạm, log/metrics.</li>
+                <li><strong>Cache stampede:</strong> dùng lock/mutex, jitter TTL, stale-while-revalidate, singleflight.</li>
+                <li><strong>Hot key:</strong> local cache, sharding key, replica.</li>
+                <li><strong>Nhất quán:</strong> TTL hợp lý, invalidate sau commit, chấp nhận eventual consistency; không cache dữ liệu nhạy cảm chưa mã hóa.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="qa" id="q-be-db-slow">
+            <summary>
+              <span class="q-index">19</span>
+              <span class="q-text">Nếu DB bị nặng, truy vấn lâu hơn trước thì làm gì?</span>
+              <span class="q-tag green">Performance</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <ol>
+                <li><strong>Đo:</strong> slow query log, APM, execution plan; xác định query nào chậm, tần suất, dữ liệu tăng hay lock.</li>
+                <li><strong>Index/statistics:</strong> kiểm tra index thiếu/thừa, cập nhật statistics, tránh function trên cột index.</li>
+                <li><strong>Query:</strong> giảm N+1, bỏ SELECT *, phân trang, viết lại join/subquery, batch.</li>
+                <li><strong>Khóa:</strong> transaction dài, lock contention, deadlock; giảm phạm vi transaction.</li>
+                <li><strong>Dữ liệu lớn:</strong> partition, archive dữ liệu cũ, materialized view.</li>
+                <li><strong>Kiến trúc:</strong> cache Redis, read replica, connection pool, scale up/out.</li>
+                <li><strong>Đo lại</strong> sau mỗi thay đổi; không tối ưu mù quáng.</li>
+              </ol>
+              <div class="callout tip"><strong>Trả lời ngắn:</strong> “Em ưu tiên đo bằng execution plan và slow query log, sau đó xử lý index/query/lock trước khi thêm cache hoặc scale DB.”</div>
+            </div>
+          </details>
+
+          <details class="qa" id="q-be-deploy-error">
+            <summary>
+              <span class="q-index">20</span>
+              <span class="q-text">Code đã pass test nhưng deploy lên service lại lỗi thì làm sao?</span>
+              <span class="q-tag green">Production</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <ol>
+                <li><strong>Bình tĩnh &amp; bảo vệ hệ thống:</strong> rollback bản deploy trước hoặc tắt feature flag; ưu tiên giảm ảnh hưởng người dùng.</li>
+                <li><strong>Quan sát:</strong> log, metrics, tracing, health check, error rate; xác định phạm vi và thời điểm.</li>
+                <li><strong>Reproduce:</strong> kiểm tra khác biệt môi trường (config, biến môi trường, DB, network, quyền, version JDK, timezone, dữ liệu).</li>
+                <li><strong>Hotfix:</strong> sửa tối thiểu, review nhanh, test lại, deploy theo canary/blue-green nếu có.</li>
+                <li><strong>Sau sự cố:</strong> viết postmortem, thêm test/regression, cải thiện CI/CD, alerting và checklist deploy.</li>
+              </ol>
+              <p>Điểm quan trọng khi phỏng vấn: không đổ lỗi, có quy trình rollback, monitoring và học từ sự cố.</p>
+            </div>
+          </details>
+
+          <details class="qa" id="q-be-microservice">
+            <summary>
+              <span class="q-index">21</span>
+              <span class="q-text">Phân biệt microservices và monolith?</span>
+              <span class="q-tag green">Architecture</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Tiêu chí</th><th>Monolith</th><th>Microservices</th></tr></thead>
+                  <tbody>
+                    <tr><td>Deploy</td><td>Một artifact, deploy cùng lúc</td><td>Nhiều service độc lập</td></tr>
+                    <tr><td>Scale</td><td>Scale toàn bộ ứng dụng</td><td>Scale từng service theo nhu cầu</td></tr>
+                    <tr><td>Giao tiếp</td><td>Gọi method nội bộ</td><td>HTTP/gRPC/message broker</td></tr>
+                    <tr><td>Dữ liệu</td><td>Một DB, transaction ACID dễ</td><td>DB riêng, eventual consistency, Saga/outbox</td></tr>
+                    <tr><td>Độ phức tạp</td><td>Thấp lúc đầu, khó khi lớn</td><td>Cao: network, observability, versioning, vận hành</td></tr>
+                    <tr><td>Team</td><td>Team chung</td><td>Team tự chủ theo domain</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p><strong>Khuyến nghị:</strong> bắt đầu monolith/modular monolith nếu domain chưa rõ; chỉ tách microservices khi có nhu cầu scale, team autonomy hoặc ranh giới domain rõ ràng. Microservices không tự động “tốt hơn”.</p>
+            </div>
+          </details>
+
+          <details class="qa" id="q-be-grpc">
+            <summary>
+              <span class="q-index">22</span>
+              <span class="q-text">gRPC và event push khác nhau thế nào?</span>
+              <span class="q-tag green">Architecture</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Tiêu chí</th><th>gRPC</th><th>Event-driven / push</th></tr></thead>
+                  <tbody>
+                    <tr><td>Mô hình</td><td>RPC đồng bộ, request-response</td><td>Bất đồng bộ, publish/subscribe</td></tr>
+                    <tr><td>Giao thức</td><td>HTTP/2 + Protobuf</td><td>Kafka, RabbitMQ, WebSocket/SSE (tùy bài toán)</td></tr>
+                    <tr><td>Độ trễ</td><td>Thấp, strongly typed</td><td>Phụ thuộc broker, eventual consistency</td></tr>
+                    <tr><td>Coupling</td><td>Service gọi trực tiếp, biết contract</td><td>Loose coupling qua event</td></tr>
+                    <tr><td>Lỗi/retry</td><td>Timeout, retry, deadline</td><td>Cần idempotency, retry, DLQ</td></tr>
+                    <tr><td>Phù hợp</td><td>Service-to-service cần phản hồi ngay</td><td>Workflow, notification, tích hợp, xử lý nền</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p>Nếu “event push” là đẩy sự kiện xuống client, có thể dùng WebSocket/SSE; nếu là giao tiếp giữa service, dùng message broker. Chọn sync khi cần kết quả ngay, async khi cần decoupling và chịu tải.</p>
+            </div>
+          </details>
+
+          <details class="qa" id="q-be-ioc">
+            <summary>
+              <span class="q-index">23</span>
+              <span class="q-text">Giải thích IoC và bean trong Spring? @Autowired hoạt động thế nào?</span>
+              <span class="q-tag green">Spring Core</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p><strong>IoC (Inversion of Control):</strong> thay vì class tự tạo dependency, container Spring tạo và inject dependency. <strong>DI (Dependency Injection)</strong> là cách hiện thực IoC.</p>
+              <ul>
+                <li><strong>Bean:</strong> object được Spring quản lý (tạo, inject, lifecycle).</li>
+                <li><strong>@Autowired:</strong> inject theo type; nếu có nhiều bean cùng type, Spring xét <code>@Qualifier</code>, <code>@Primary</code> hoặc tên field/parameter.</li>
+                <li><strong>Constructor injection</strong> được khuyến nghị: dependency bắt buộc, dễ test, hỗ trợ immutable (<code>final</code>).</li>
+                <li>Field injection dễ viết nhưng khó test và che giấu dependency; setter injection phù hợp dependency tùy chọn.</li>
+              </ul>
+              <pre><code>@Service
+public class StudentService {
+  private final StudentRepository repo;
+
+  public StudentService(StudentRepository repo) { // Spring inject
+    this.repo = repo;
+  }
+}</code></pre>
+            </div>
+          </details>
+
+          <details class="qa" id="q-be-qualifier-primary">
+            <summary>
+              <span class="q-index">24</span>
+              <span class="q-text">Phân biệt @Qualifier và @Primary?</span>
+              <span class="q-tag green">Spring Core</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <ul>
+                <li><strong>@Primary:</strong> đặt trên một bean để nó là lựa chọn mặc định khi có nhiều bean cùng type.</li>
+                <li><strong>@Qualifier:</strong> đặt tại điểm injection để chỉ định chính xác bean theo tên/qualifier.</li>
+                <li>Nếu vừa có @Primary vừa có @Qualifier, @Qualifier thắng.</li>
+                <li>Có thể dùng <code>@Resource(name="...")</code> để inject theo tên (JSR-250).</li>
+              </ul>
+              <pre><code>@Bean @Primary
+PaymentService cardPayment() { ... }
+
+@Bean("cashPayment")
+PaymentService cashPayment() { ... }
+
+@Autowired
+@Qualifier("cashPayment")
+PaymentService payment; // chọn cash, không dùng primary</code></pre>
+            </div>
+          </details>
+
+          <details class="qa" id="q-be-stereotypes">
+            <summary>
+              <span class="q-index">25</span>
+              <span class="q-text">Phân biệt @Component, @Service, @Repository?</span>
+              <span class="q-tag green">Spring Core</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <ul>
+                <li><strong>@Component:</strong> stereotype chung cho bất kỳ bean nào do Spring quản lý.</li>
+                <li><strong>@Service:</strong> dành cho tầng business logic; về kỹ thuật tương đương @Component nhưng thể hiện ý định.</li>
+                <li><strong>@Repository:</strong> dành cho tầng persistence; bổ sung cơ chế chuyển đổi exception DB sang <code>DataAccessException</code> của Spring.</li>
+                <li><strong>@Controller/@RestController:</strong> tầng web.</li>
+              </ul>
+              <p>Tất cả đều là <code>@Component</code> ở metadata; khác nhau ở semantic và một số hành vi được Spring áp dụng thêm.</p>
+            </div>
+          </details>
+
+          <details class="qa" id="q-be-jpa-hibernate">
+            <summary>
+              <span class="q-index">26</span>
+              <span class="q-text">Hibernate và JPA khác nhau thế nào?</span>
+              <span class="q-tag green">JPA</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <ul>
+                <li><strong>JPA</strong> là specification (Jakarta Persistence): định nghĩa annotation, EntityManager, JPQL, lifecycle, transaction. JPA không phải implementation.</li>
+                <li><strong>Hibernate</strong> là một implementation phổ biến của JPA; cung cấp Session, HQL, caching, dirty checking, dialect.</li>
+                <li><strong>Spring Data JPA</strong> là abstraction trên JPA, giúp viết repository interface, query derivation, pagination.</li>
+                <li><strong>Entity lifecycle:</strong> transient → managed (persist) → detached → removed; thay đổi trên managed entity được dirty checking và flush khi transaction commit.</li>
+                <li><strong>Cẩn thận:</strong> lazy loading ngoài transaction, N+1, cascade, orphanRemoval, flush mode.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="qa" id="q-be-aop">
+            <summary>
+              <span class="q-index">27</span>
+              <span class="q-text">AOP là gì? Ứng dụng trong Spring và liên hệ với @Transactional?</span>
+              <span class="q-tag green">Spring Core</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <ul>
+                <li><strong>AOP (Aspect-Oriented Programming):</strong> tách các mối quan tâm cắt ngang (logging, security, transaction, metrics) ra khỏi logic nghiệp vụ.</li>
+                <li><strong>Khái niệm:</strong> aspect, pointcut (điều kiện khớp), advice (before/after/around), join point, weaving.</li>
+                <li><strong>Spring AOP</strong> triển khai bằng proxy: interface → JDK dynamic proxy, class thường → CGLIB; chỉ áp dụng cho method public được gọi từ bean khác.</li>
+                <li><strong>Ứng dụng:</strong> @Transactional, @Cacheable, @PreAuthorize, custom annotation logging.</li>
+              </ul>
+              <div class="callout warn"><strong>Nhớ kỹ:</strong> @Transactional hoạt động qua proxy — self-invocation (gọi trong cùng class) hoặc method non-public sẽ không được áp dụng. Rollback mặc định chỉ với RuntimeException/Error; checked exception cần rollbackFor.</div>
+            </div>
+          </details>
+
+          <details class="qa" id="q-be-transaction">
+            <summary>
+              <span class="q-index">28</span>
+              <span class="q-text">Quản lý transaction trong Java và @Transactional?</span>
+              <span class="q-tag green">Transaction</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p>Transaction đảm bảo <strong>ACID</strong>. Trong Spring, có thể dùng programmatic (<code>TransactionTemplate</code>) hoặc declarative (<code>@Transactional</code>).</p>
+              <ul>
+                <li><code>@Transactional</code> thường đặt ở service, trên method public; Spring tạo proxy bao quanh để mở/commit/rollback transaction.</li>
+                <li><strong>Propagation:</strong> REQUIRED (mặc định), REQUIRES_NEW, NESTED, SUPPORTS, NOT_SUPPORTED, MANDATORY, NEVER.</li>
+                <li><strong>Isolation:</strong> READ_COMMITTED, REPEATABLE_READ, SERIALIZABLE... chọn theo yêu cầu nhất quán và hiệu năng.</li>
+                <li><strong>Rollback:</strong> mặc định với RuntimeException và Error; checked exception không rollback trừ khi <code>rollbackFor</code>.</li>
+                <li><code>readOnly = true</code> cho query; <code>timeout</code> để tránh transaction treo.</li>
+              </ul>
+              <div class="callout warn"><strong>Self-invocation:</strong> gọi method <code>@Transactional</code> từ chính class đó không đi qua proxy → annotation không có tác dụng. Tách sang bean khác hoặc dùng AspectJ/TransactionTemplate.</div>
+              <p><strong>Distributed transaction:</strong> 2PC/XA nặng và ít dùng; thực tế dùng Saga, outbox pattern, idempotency, eventual consistency.</p>
+            </div>
+          </details>
+
+          <details class="qa" id="q-be-double-transfer">
+            <summary>
+              <span class="q-index">29</span>
+              <span class="q-text">Khách hàng bấm chuyển tiền 2 lần, làm sao chặn?</span>
+              <span class="q-tag green">Banking</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p>Phải chặn ở nhiều tầng; chỉ disable nút trên UI là không đủ vì request có thể bị gửi lại hoặc bị replay.</p>
+              <ul>
+                <li><strong>UI:</strong> disable nút sau click, debounce, hiển thị trạng thái đang xử lý; nhưng chỉ là lớp UX.</li>
+                <li><strong>Idempotency key:</strong> client tạo <code>requestId</code> duy nhất cho mỗi lần chuyển; server lưu key và trả lại cùng kết quả nếu request lặp.</li>
+                <li><strong>Redis:</strong> <code>SET key value NX EX ttl</code> để lock/đánh dấu request đang xử lý; dùng lock theo tài khoản/transaction, có timeout và giải phóng an toàn.</li>
+                <li><strong>DB:</strong> unique constraint trên <code>request_id</code>/<code>transaction_ref</code>; transaction ACID; <code>SELECT ... FOR UPDATE</code> hoặc optimistic lock <code>@Version</code>; kiểm tra số dư trong transaction.</li>
+                <li><strong>State machine:</strong> INIT → PROCESSING → SUCCESS/FAILED; không cho chuyển sang bước tiếp nếu trạng thái không hợp lệ.</li>
+                <li><strong>Reconciliation:</strong> truy vấn theo requestId trả cùng kết quả; retry an toàn; đối soát cuối ngày.</li>
+              </ul>
+              <div class="callout tip"><strong>Trả lời phỏng vấn:</strong> “Em sẽ dùng idempotency key + unique constraint ở DB, kết hợp Redis lock và transaction/row lock; UI chỉ hỗ trợ giảm thao tác, không phải lớp bảo vệ chính.”</div>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section class="section" id="frontend" data-section>
+        <div class="section-head">
+          <div>
+            <span class="section-kicker">06 · Frontend</span>
+            <h2>Frontend &amp; Web</h2>
+            <p>Vue, CSS layout, SCSS, TypeScript/JavaScript, hiệu năng và quy trình làm việc nhóm.</p>
+          </div>
+          <div class="section-actions">
+            <span class="qa-count">18 câu hỏi</span>
+            <button class="mini-btn" type="button" data-toggle-section="frontend">Mở tất cả</button>
+          </div>
+        </div>
+
+        <div class="qa-list">
+          <details class="qa" id="q-fe-vue">
+            <summary>
+              <span class="q-index">01</span>
+              <span class="q-text">Các directive/thẻ thường dùng trong Vue? Vì sao không dùng thẻ “service”?</span>
+              <span class="q-tag pink">Vue</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <ul>
+                <li><strong>Render:</strong> <code>v-if</code>, <code>v-else-if</code>, <code>v-else</code>, <code>v-show</code>, <code>v-for</code>.</li>
+                <li><strong>Binding:</strong> <code>v-bind</code> (viết tắt <code>:</code>), <code>v-on</code> (<code>@</code>), <code>v-model</code> (two-way binding cho form).</li>
+                <li><strong>Component:</strong> <code>&lt;component&gt;</code>, <code>&lt;slot&gt;</code>, <code>&lt;template&gt;</code>, <code>&lt;transition&gt;</code>, <code>&lt;keep-alive&gt;</code>, <code>&lt;teleport&gt;</code>.</li>
+                <li>Vue là framework client-side; không có thẻ HTML “service” để gọi backend. Muốn gọi API, dùng fetch/axios trong composable/service JS. “Thẻ” chỉ là component do bạn định nghĩa hoặc directive của Vue.</li>
+                <li>Nên dùng HTML semantic (<code>header</code>, <code>nav</code>, <code>main</code>, <code>button</code>) thay vì lạm dụng <code>div</code> để dễ accessibility/SEO.</li>
+              </ul>
+              <pre><code>&lt;template&gt;
+  &lt;ul&gt;
+    &lt;li v-for="s in students" :key="s.id"&gt;
+      {{ s.name }} — &lt;span v-if="s.active"&gt;Active&lt;/span&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/template&gt;</code></pre>
+            </div>
+          </details>
+
+          <details class="qa" id="q-fe-flex-grid">
+            <summary>
+              <span class="q-index">02</span>
+              <span class="q-text">Khi nào dùng Flexbox, khi nào dùng Grid?</span>
+              <span class="q-tag pink">CSS</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <ul>
+                <li><strong>Flexbox:</strong> layout một chiều (hàng hoặc cột); phân bố khoảng trống, căn giữa, navigation, toolbar, card row, form inline. Rất mạnh khi kích thước item linh hoạt.</li>
+                <li><strong>Grid:</strong> layout hai chiều (hàng + cột); page layout, dashboard, gallery, form nhiều cột. Kiểm soát vị trí và kích thước theo track tốt hơn.</li>
+                <li>Thực tế có thể kết hợp: Grid cho khung trang, Flex cho nội dung bên trong.</li>
+              </ul>
+              <pre><code>.page {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 24px;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}</code></pre>
+            </div>
+          </details>
+
+          <details class="qa" id="q-fe-margin-padding">
+            <summary>
+              <span class="q-index">03</span>
+              <span class="q-text">Margin và Padding khác nhau thế nào?</span>
+              <span class="q-tag pink">CSS</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <ul>
+                <li><strong>Margin:</strong> khoảng cách <em>bên ngoài</em> phần tử, tách phần tử với các phần tử khác. Margin có thể âm; margin dọc của block có thể collapse.</li>
+                <li><strong>Padding:</strong> khoảng cách <em>bên trong</em> giữa border và content; làm tăng kích thước nếu <code>box-sizing: content-box</code>; không nhận giá trị âm.</li>
+                <li><strong>Mẹo nhớ:</strong> margin là “khoảng thở giữa các hộp”, padding là “đệm bên trong hộp”.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="qa" id="q-fe-box-sizing">
+            <summary>
+              <span class="q-index">04</span>
+              <span class="q-text">box-sizing là gì? Vì sao thường dùng border-box?</span>
+              <span class="q-tag pink">CSS</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <ul>
+                <li><code>content-box</code> (mặc định): <code>width</code> chỉ tính content; padding và border cộng thêm vào kích thước thực tế.</li>
+                <li><code>border-box</code>: <code>width/height</code> bao gồm cả padding và border; content tự co lại. Dễ tính layout, đặc biệt khi dùng phần trăm.</li>
+                <li>Thường reset toàn bộ: <code>*, *::before, *::after { box-sizing: border-box; }</code>.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="qa" id="q-fe-css-props">
+            <summary>
+              <span class="q-index">05</span>
+              <span class="q-text">Kể một số thuộc tính CSS hay dùng?</span>
+              <span class="q-tag pink">CSS</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p><strong>Layout:</strong> <code>display</code>, <code>position</code>, <code>top/right/bottom/left</code>, <code>z-index</code>, <code>flex</code>, <code>grid</code>, <code>gap</code>, <code>width/height</code>, <code>max-width</code>, <code>overflow</code>.</p>
+              <p><strong>Box:</strong> <code>margin</code>, <code>padding</code>, <code>border</code>, <code>border-radius</code>, <code>box-shadow</code>, <code>box-sizing</code>.</p>
+              <p><strong>Text/visual:</strong> <code>color</code>, <code>background</code>, <code>font-family</code>, <code>font-size</code>, <code>font-weight</code>, <code>line-height</code>, <code>text-align</code>, <code>text-overflow</code>, <code>opacity</code>.</p>
+              <p><strong>Hiệu ứng:</strong> <code>transition</code>, <code>transform</code>, <code>animation</code>, <code>cursor</code>. Nên hạn chế animate layout properties; ưu tiên <code>transform</code>/<code>opacity</code>.</p>
+            </div>
+          </details>
+
+          <details class="qa" id="q-fe-position">
+            <summary>
+              <span class="q-index">06</span>
+              <span class="q-text">Thuộc tính position dùng làm gì?</span>
+              <span class="q-tag pink">CSS</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <ul>
+                <li><code>static</code> (mặc định): theo luồng document, không nhận top/left/z-index.</li>
+                <li><code>relative</code>: giữ chỗ trong luồng, dịch chuyển tương đối so với vị trí gốc; thường làm containing block cho absolute con.</li>
+                <li><code>absolute</code>: bỏ khỏi luồng, định vị theo ancestor gần nhất có position khác static.</li>
+                <li><code>fixed</code>: định vị theo viewport, không cuộn theo trang.</li>
+                <li><code>sticky</code>: bình thường theo luồng, dính khi cuộn tới ngưỡng (cần top/bottom).</li>
+                <li><code>z-index</code> chỉ có tác dụng khi phần tử tạo stacking context và position khác static (hoặc flex/grid item).</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="qa" id="q-fe-specificity">
+            <summary>
+              <span class="q-index">07</span>
+              <span class="q-text">Thứ tự ưu tiên của CSS selector được tính như thế nào?</span>
+              <span class="q-tag pink">CSS</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p><strong>Specificity</strong> (độ đặc hiệu) theo thứ tự:</p>
+              <ol>
+                <li>Inline style (<code>style="..."</code>) — cao nhất (trừ <code>!important</code>).</li>
+                <li>ID selector (<code>#id</code>).</li>
+                <li>Class, attribute, pseudo-class (<code>.class</code>, <code>[type]</code>, <code>:hover</code>).</li>
+                <li>Element, pseudo-element (<code>div</code>, <code>::before</code>).</li>
+                <li>Universal (<code>*</code>) và combinator có specificity 0.</li>
+              </ol>
+              <ul>
+                <li>Nếu specificity bằng nhau, rule khai báo sau thắng.</li>
+                <li><code>!important</code> thắng normal declaration; hạn chế dùng vì khó bảo trì.</li>
+                <li>Kế thừa (inheritance) không phải specificity; property inherited chỉ áp dụng nếu không có rule trực tiếp.</li>
+                <li>Nên dùng class, tránh ID cho styling và tránh nesting quá sâu.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="qa" id="q-fe-hide">
+            <summary>
+              <span class="q-index">08</span>
+              <span class="q-text">Phân biệt display: none, visibility: hidden và opacity: 0?</span>
+              <span class="q-tag pink">CSS</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Thuộc tính</th><th>Chiếm chỗ?</th><th>Nhận event?</th><th>Render?</th><th>Dùng khi</th></tr></thead>
+                  <tbody>
+                    <tr><td><code>display: none</code></td><td>Không</td><td>Không</td><td>Không</td><td>Ẩn hoàn toàn khỏi layout</td></tr>
+                    <tr><td><code>visibility: hidden</code></td><td>Có</td><td>Không</td><td>Không (giữ không gian)</td><td>Ẩn nhưng giữ layout</td></tr>
+                    <tr><td><code>opacity: 0</code></td><td>Có</td><td>Có</td><td>Có (trong suốt)</td><td>Hiệu ứng mờ, vẫn tương tác</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p>Cả ba đều còn trong DOM (trừ khi bị remove bằng JS). <code>display: none</code> khiến screen reader bỏ qua; nếu cần ẩn khỏi thị giác nhưng vẫn cho screen reader, dùng kỹ thuật “visually hidden” (clip/position) thay vì display none.</p>
+            </div>
+          </details>
+
+          <details class="qa" id="q-fe-scss">
+            <summary>
+              <span class="q-index">09</span>
+              <span class="q-text">SCSS là gì? Có những tính năng gì?</span>
+              <span class="q-tag pink">CSS</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p>SCSS là cú pháp của Sass (Syntactically Awesome Style Sheets), biên dịch thành CSS. Nó bổ sung:</p>
+              <ul>
+                <li><strong>Variables:</strong> <code>$primary: #4f46e5;</code></li>
+                <li><strong>Nesting:</strong> viết selector lồng nhau (không nên lồng quá sâu).</li>
+                <li><strong>Partials &amp; @use/@import:</strong> chia nhỏ file.</li>
+                <li><strong>Mixins &amp; functions:</strong> tái sử dụng style/logic.</li>
+                <li><strong>@extend:</strong> kế thừa selector (dùng cẩn thận).</li>
+                <li><strong>Control directives:</strong> <code>@if</code>, <code>@for</code>, <code>@each</code>.</li>
+                <li><strong>Modules:</strong> <code>@use</code> thay cho <code>@import</code> trong Sass hiện đại.</li>
+              </ul>
+              <pre><code>$radius: 12px;
+
+@mixin card($padding: 16px) {
+  padding: $padding;
+  border-radius: $radius;
+  background: white;
+}
+
+.card { @include card(24px); }</code></pre>
+            </div>
+          </details>
+
+          <details class="qa" id="q-fe-ts-js">
+            <summary>
+              <span class="q-index">10</span>
+              <span class="q-text">So sánh TypeScript và JavaScript?</span>
+              <span class="q-tag pink">JavaScript</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Tiêu chí</th><th>JavaScript</th><th>TypeScript</th></tr></thead>
+                  <tbody>
+                    <tr><td>Kiểu</td><td>Dynamic typing</td><td>Static typing (compile-time)</td></tr>
+                    <tr><td>Chạy</td><td>Trực tiếp trên browser/Node</td><td>Compile sang JS rồi chạy</td></tr>
+                    <tr><td>Tính năng</td><td>ES standard</td><td>Interface, generic, enum, access modifier, decorator...</td></tr>
+                    <tr><td>Lợi ích</td><td>Linh hoạt, ít setup</td><td>Bắt lỗi sớm, autocomplete, refactor an toàn, dễ bảo trì</td></tr>
+                    <tr><td>Chi phí</td><td>Dễ sai kiểu khi project lớn</td><td>Cần build step, học thêm type system</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p>TypeScript là superset của JavaScript: mọi code JS hợp lệ đều là TS hợp lệ (về cú pháp), nhưng TS bổ sung kiểm tra kiểu trước khi chạy.</p>
+            </div>
+          </details>
+
+          <details class="qa" id="q-fe-var-let-const">
+            <summary>
+              <span class="q-index">11</span>
+              <span class="q-text">So sánh var, let và const?</span>
+              <span class="q-tag pink">JavaScript</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Tiêu chí</th><th>var</th><th>let</th><th>const</th></tr></thead>
+                  <tbody>
+                    <tr><td>Scope</td><td>Function/global</td><td>Block</td><td>Block</td></tr>
+                    <tr><td>Hoisting</td><td>Có, khởi tạo undefined</td><td>Có, nhưng TDZ</td><td>Có, nhưng TDZ</td></tr>
+                    <tr><td>Gán lại</td><td>Có</td><td>Có</td><td>Không</td></tr>
+                    <tr><td>Khai báo lại</td><td>Có</td><td>Không</td><td>Không</td></tr>
+                    <tr><td>Global object</td><td>Thành property của window (browser)</td><td>Không</td><td>Không</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p><code>const</code> không làm object immutable; chỉ không cho gán lại reference. Nội dung object/array vẫn có thể thay đổi. Ưu tiên <code>const</code>, dùng <code>let</code> khi cần gán lại; tránh <code>var</code>.</p>
+            </div>
+          </details>
+
+          <details class="qa" id="q-fe-eq">
+            <summary>
+              <span class="q-index">12</span>
+              <span class="q-text">So sánh == và === trong JavaScript?</span>
+              <span class="q-tag pink">JavaScript</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <ul>
+                <li><code>==</code> (loose equality): so sánh sau khi <strong>ép kiểu</strong> (type coercion). Ví dụ <code>'5' == 5</code> là true, <code>null == undefined</code> là true.</li>
+                <li><code>===</code> (strict equality): so sánh cả giá trị và kiểu, không ép kiểu. <code>'5' === 5</code> là false.</li>
+                <li>Nên dùng <code>===</code> để tránh hành vi bất ngờ; ngoại lệ có thể là kiểm tra <code>value == null</code> để bắt cả null/undefined nếu thật sự muốn.</li>
+                <li><code>NaN === NaN</code> là false; dùng <code>Number.isNaN()</code>. <code>Object.is</code> xử lý một số case đặc biệt.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="qa" id="q-fe-promise">
+            <summary>
+              <span class="q-index">13</span>
+              <span class="q-text">Promise và async/await khác nhau thế nào?</span>
+              <span class="q-tag pink">JavaScript</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <ul>
+                <li><strong>Promise:</strong> object đại diện cho kết quả bất đồng bộ, có 3 trạng thái pending/fulfilled/rejected; xử lý bằng <code>.then()</code>, <code>.catch()</code>, <code>.finally()</code>.</li>
+                <li><strong>async/await:</strong> cú pháp đường (syntactic sugar) trên Promise, giúp viết code bất đồng bộ như đồng bộ. <code>async</code> luôn trả Promise; <code>await</code> chờ Promise và có thể dùng <code>try/catch</code>.</li>
+                <li><strong>Tuần tự vs song song:</strong> <code>await</code> trong vòng lặp là tuần tự; muốn song song dùng <code>Promise.all</code>.</li>
+                <li>Không quên xử lý lỗi; tránh <code>await</code> trong <code>forEach</code> (không chờ đúng); dùng <code>for...of</code> hoặc <code>Promise.all</code>.</li>
+              </ul>
+              <pre><code>async function load() {
+  try {
+    const [a, b] = await Promise.all([fetchA(), fetchB()]);
+    return { a, b };
+  } catch (e) {
+    console.error(e);
+    throw e;
+  }
+}</code></pre>
+            </div>
+          </details>
+
+          <details class="qa" id="q-fe-lcp">
+            <summary>
+              <span class="q-index">14</span>
+              <span class="q-text">LCP là gì? Làm sao cải thiện?</span>
+              <span class="q-tag pink">Performance</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p><strong>LCP (Largest Contentful Paint)</strong> đo thời điểm phần tử nội dung lớn nhất trong viewport được render — thường là ảnh hero, video poster hoặc block text lớn. Đây là một trong Core Web Vitals.</p>
+              <ul>
+                <li><strong>Mốc tốt:</strong> ≤ 2.5s; cần cải thiện: 2.5–4s; kém: &gt; 4s (theo Web Vitals).</li>
+                <li>Tối ưu ảnh: đúng kích thước, định dạng WebP/AVIF, <code>srcset</code>, preload ảnh hero, không lazy-load ảnh above-the-fold.</li>
+                <li>Giảm render-blocking CSS/JS; defer/async JS; critical CSS; preconnect/CDN.</li>
+                <li>Server nhanh, SSR/SSG nếu phù hợp; cache; giảm TTFB.</li>
+                <li>Tránh layout shift và font chậm: <code>font-display: swap</code>, preload font.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="qa" id="q-fe-rag">
+            <summary>
+              <span class="q-index">15</span>
+              <span class="q-text">RAG là gì? Ứng dụng thế nào?</span>
+              <span class="q-tag pink">AI</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p><strong>RAG (Retrieval-Augmented Generation)</strong> là kỹ thuật kết hợp truy xuất dữ liệu với LLM: tìm tài liệu liên quan trong knowledge base, đưa context đó vào prompt để model trả lời chính xác và cập nhật hơn.</p>
+              <ol>
+                <li>Chunk tài liệu → embedding → lưu vector DB.</li>
+                <li>Nhận câu hỏi → embedding → tìm top-k chunk tương đồng.</li>
+                <li>Ghép chunk vào prompt + câu hỏi → gọi LLM.</li>
+                <li>Trả lời kèm nguồn; đánh giá retrieval và faithfulness.</li>
+              </ol>
+              <p><strong>Lợi ích:</strong> giảm hallucination, dùng dữ liệu nội bộ, cập nhật không cần train lại. <strong>Thách thức:</strong> chất lượng chunk/embedding, truy xuất sai, context quá dài, bảo mật dữ liệu.</p>
+            </div>
+          </details>
+
+          <details class="qa" id="q-fe-git-conflict">
+            <summary>
+              <span class="q-index">16</span>
+              <span class="q-text">Giải quyết conflict trong Git như thế nào?</span>
+              <span class="q-tag pink">Git</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <ol>
+                <li><code>git pull --rebase</code> hoặc merge nhánh mới nhất; Git báo file conflict.</li>
+                <li>Mở file, tìm marker <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code>=======</code>, <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>; hiểu thay đổi hai bên, giữ logic đúng (có thể kết hợp cả hai).</li>
+                <li>Xóa marker, chạy build/test, kiểm tra lại.</li>
+                <li><code>git add</code> file đã giải quyết; <code>git rebase --continue</code> hoặc <code>git commit</code>.</li>
+                <li>Nếu rối: <code>git rebase --abort</code>/<code>git merge --abort</code> và trao đổi với người cùng sửa.</li>
+              </ol>
+              <p>Phòng tránh: pull thường xuyên, chia task nhỏ, commit sớm, tránh sửa cùng file lớn, thống nhất format code.</p>
+            </div>
+          </details>
+
+          <details class="qa" id="q-fe-project-management">
+            <summary>
+              <span class="q-index">17</span>
+              <span class="q-text">Quản lý dự án ở đâu? So sánh Scrum và Kanban?</span>
+              <span class="q-tag pink">Agile</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <ul>
+                <li><strong>Công cụ:</strong> Jira (phổ biến cho Scrum/Kanban), Trello, Confluence (tài liệu), Notion, Azure DevOps. Dự án của em dùng Jira để quản lý task/bug và theo dõi tiến độ.</li>
+                <li><strong>Scrum:</strong> sprint cố định (1–4 tuần), backlog, sprint planning, daily, review, retrospective; vai trò Product Owner/Scrum Master/Team.</li>
+                <li><strong>Kanban:</strong> luồng công việc liên tục, giới hạn WIP, kéo task qua cột; phù hợp support/vận hành, thay đổi liên tục.</li>
+                <li><strong>Chọn:</strong> Scrum khi cần nhịp sprint và planning; Kanban khi công việc đến liên tục và cần tối ưu flow.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="qa" id="q-fe-layout-ai">
+            <summary>
+              <span class="q-index">18</span>
+              <span class="q-text">Làm layout bằng AI hay code tay? Quy trình của em?</span>
+              <span class="q-tag pink">Workflow</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p>Em dùng AI như công cụ hỗ trợ, không thay thế việc hiểu layout:</p>
+              <ol>
+                <li>Phân tích wireframe/requirement, xác định breakpoint và component.</li>
+                <li>Chọn Grid cho khung trang, Flex cho hàng/cụm nội dung; đặt tên class theo convention.</li>
+                <li>Có thể nhờ AI generate skeleton CSS/HTML, sau đó tự review responsive, accessibility và spacing.</li>
+                <li>Kiểm tra trên mobile/tablet/desktop, dark mode, trạng thái loading/empty/error.</li>
+              </ol>
+              <p><strong>Khi nào dùng AI:</strong> tạo nhanh boilerplate, gợi ý layout, đổi CSS; <strong>khi nào code tay:</strong> logic phức tạp, design system, hiệu năng, accessibility và các chi tiết cần kiểm soát.</p>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section class="section" id="ai" data-section>
+        <div class="section-head">
+          <div>
+            <span class="section-kicker">07 · AI &amp; Claude</span>
+            <h2>AI Workflow &amp; Context Management</h2>
+            <p>Cách dùng AI có kiểm soát: claude.md, skill, prompt, agent và quản lý context.</p>
+          </div>
+          <div class="section-actions">
+            <span class="qa-count">8 câu hỏi</span>
+            <button class="mini-btn" type="button" data-toggle-section="ai">Mở tất cả</button>
+          </div>
+        </div>
+
+        <div class="qa-list">
+          <details class="qa" id="q-ai-apply">
+            <summary>
+              <span class="q-index">01</span>
+              <span class="q-text">Em áp dụng AI vào dự án như thế nào? Năng suất và chất lượng thay đổi ra sao?</span>
+              <span class="q-tag purple">AI</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p>Em dùng AI như một công cụ hỗ trợ trong quy trình phát triển, chủ yếu để:</p>
+              <ul>
+                <li>Phân tích requirement và lập kế hoạch implementation.</li>
+                <li>Generate code mẫu, refactor, viết Unit Test, gợi ý edge case.</li>
+                <li>Review code, tìm lỗi tiềm ẩn, giải thích lỗi và đề xuất cách sửa.</li>
+                <li>Viết tài liệu kỹ thuật, tổng hợp kiến thức.</li>
+              </ul>
+              <p><strong>Tuy nhiên em luôn review lại:</strong> business logic, security, performance, transaction, exception handling và coding convention trước khi đưa vào project.</p>
+              <p><strong>Cách đo hiệu quả:</strong> so sánh thời gian hoàn thành task, số bug/review comment, thời gian viết test và mức độ phải sửa lại. Không nên chỉ nói “nhanh hơn” mà cần số liệu thực tế.</p>
+              <div class="callout tip"><strong>Mẫu trả lời:</strong> “Trước đây em mất khoảng X giờ cho một màn hình; khi dùng AI để phân tích DD, generate skeleton và test case, thời gian giảm còn Y giờ. Em vẫn tự review phần nghiệp vụ và security, nên chất lượng không giảm; số lỗi phát hiện ở review cũng ít hơn nhờ checklist rõ ràng.” Hãy thay X/Y bằng số liệu thật của bạn.</div>
+            </div>
+          </details>
+
+          <details class="qa" id="q-ai-claude-md">
+            <summary>
+              <span class="q-index">02</span>
+              <span class="q-text">claude.md là gì? Nên viết những gì?</span>
+              <span class="q-tag purple">AI</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p><code>claude.md</code> (hoặc <code>AGENTS.md</code>) là file context chung của dự án, giúp AI hiểu cách làm việc mà không phải đọc lại toàn bộ source. Nên viết ngắn gọn, có cấu trúc, bằng tiếng Anh để tiết kiệm token.</p>
+              <ul>
+                <li><strong>Overview:</strong> mục đích dự án, tech stack, kiến trúc tầng, module chính.</li>
+                <li><strong>Build &amp; test:</strong> lệnh build, chạy test, lint, format.</li>
+                <li><strong>Coding convention:</strong> naming, package structure, DTO/Entity, error format, logging.</li>
+                <li><strong>Do / Don't:</strong> những điều không được làm; nếu dài, tách file rule và reference.</li>
+                <li><strong>Workflow:</strong> trước khi sửa phải đọc file nào, chạy test gì, output mong muốn.</li>
+                <li><strong>References:</strong> link tới rule/security/testing docs.</li>
+              </ul>
+              <pre><code># Project Overview
+Spring Boot 3 + PostgreSQL + MyBatis. Layered: Controller -&gt; Service -&gt; Repository.
+
+## Build &amp; Test
+- ./gradlew build
+- ./gradlew test
+
+## Conventions
+- Constructor injection only.
+- DTOs are records; never expose entities from controllers.
+- All SQL in MyBatis XML; no string concatenation.
+
+## Do Not
+- Do not commit secrets or application-local.yml.
+- Do not use field injection.
+
+## References
+- rules/security.md
+- rules/testing.md</code></pre>
+            </div>
+          </details>
+
+          <details class="qa" id="q-ai-skill">
+            <summary>
+              <span class="q-index">03</span>
+              <span class="q-text">Skill là gì? Có mấy loại skill?</span>
+              <span class="q-tag purple">AI</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p><strong>Skill</strong> là bộ hướng dẫn/workflow tái sử dụng cho một loại công việc cụ thể. Skill mô tả input, các bước thực hiện, rule cần tuân thủ, output và tiêu chí hoàn thành.</p>
+              <ul>
+                <li><strong>Loại 1 — Creative coding skill:</strong> sinh code theo nghiệp vụ, ví dụ “import CSV”, “tạo CRUD màn hình”, “viết Unit Test”. Cần AI hiểu context và có khả năng sáng tạo trong khuôn khổ.</li>
+                <li><strong>Loại 2 — Tool/API skill:</strong> cách gọi API, dùng CLI, đọc log, query DB. Ít sáng tạo, chủ yếu là thao tác chính xác theo quy trình.</li>
+              </ul>
+              <p>Cấu trúc gợi ý cho một skill: <code>name</code>, <code>description</code>, <code>inputs</code>, <code>workflow</code>, <code>rules</code>, <code>output</code>, <code>done when</code>.</p>
+            </div>
+          </details>
+
+          <details class="qa" id="q-ai-csv-skill">
+            <summary>
+              <span class="q-index">04</span>
+              <span class="q-text">Viết thử skill “import CSV” cho dự án Spring Boot?</span>
+              <span class="q-tag purple">AI</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p><strong>Input:</strong> file CSV (UTF-8), mapping cột, rule validate, endpoint, quyền truy cập, chiến lược lỗi (all-or-nothing hay partial).</p>
+              <p><strong>Workflow:</strong></p>
+              <ol>
+                <li>Kiểm tra source hiện có: controller, service, repository, DTO, exception handler, convention.</li>
+                <li>Tạo DTO cho dòng CSV và response import (success/failed, danh sách lỗi).</li>
+                <li>Tạo controller nhận <code>multipart/form-data</code>, giới hạn size, kiểm tra content type.</li>
+                <li>Service đọc CSV bằng thư viện (OpenCSV/Commons CSV), bỏ header, trim, validate từng dòng.</li>
+                <li>Insert theo batch trong transaction; nếu partial thì lưu lỗi từng dòng và không rollback toàn bộ.</li>
+                <li>Trả summary; ghi log không chứa dữ liệu nhạy cảm.</li>
+                <li>Viết Unit Test cho file hợp lệ, thiếu cột, sai định dạng, trùng key, file rỗng, ký tự đặc biệt.</li>
+              </ol>
+              <p><strong>Done when:</strong> build pass, test pass, endpoint trả đúng format, không N+1, có giới hạn file và báo cáo lỗi rõ ràng.</p>
+              <pre><code>---
+name: csv-import
+description: Implement a safe CSV import feature in Spring Boot.
+---
+# Inputs
+- CSV schema and validation rules
+- Target entity/repository
+- Error strategy: all-or-nothing | partial
+
+# Steps
+1. Inspect existing controller/service/repository conventions.
+2. Create CSV row DTO and import result DTO.
+3. Add multipart endpoint with size/type validation.
+4. Parse with OpenCSV, validate, batch insert.
+5. Return {success, failed, errors[]}; add tests.
+
+# Rules
+- No SQL string concatenation.
+- Do not log PII.
+- Use @Transactional correctly.
+- Add tests for empty, malformed, duplicate rows.
+
+# Done when
+- ./gradlew test passes
+- Error report covers row number and reason</code></pre>
+            </div>
+          </details>
+
+          <details class="qa" id="q-ai-sql">
+            <summary>
+              <span class="q-index">05</span>
+              <span class="q-text">Dùng AI vào công việc SQL/database như thế nào cho hiệu quả và an toàn?</span>
+              <span class="q-tag purple">AI</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <ul>
+                <li><strong>Dùng cho:</strong> viết query nháp từ mô tả nghiệp vụ, giải thích câu SQL legacy khó đọc, chuyển logic sang JOIN/window function, sinh dữ liệu test, viết migration/DDL nháp, review query trước khi gửi leader.</li>
+                <li><strong>Prompt hiệu quả:</strong> đưa DDL bảng + vài dòng dữ liệu mẫu <em>đã che</em> + mục tiêu + ràng buộc (DBMS, phiên bản, không dùng cú pháp không hỗ trợ).</li>
+                <li><strong>An toàn:</strong> không dán dữ liệu thật/PII vào prompt; không để AI tự chạy DDL/DML trên môi trường thật; mọi query phải xem execution plan và test trên dev trước.</li>
+                <li><strong>Kiểm chứng:</strong> đối chiếu kết quả với query cũ, kiểm tra index nào được dùng, đo thời gian trên dữ liệu gần production.</li>
+              </ul>
+              <p><strong>Ở SEIXX:</strong> trước khi import CSV, em dùng AI sinh script đối chiếu nhanh danh sách <code>equipment_code</code> trong file với bảng <code>equipment</code> để biết trước dòng nào thiếu master; AI cũng gợi ý viết lại query dashboard từ 3 subquery sang JOIN + composite index <code>(factory_id, status)</code> — em chạy <code>EXPLAIN ANALYZE</code> trước/sau để chứng minh hiệu quả (nhớ thay bằng số liệu thật của bạn khi kể), không tin kết quả AI cho tới khi đo.</p>
+            </div>
+          </details>
+
+          <details class="qa" id="q-ai-prompt-agent">
+            <summary>
+              <span class="q-index">06</span>
+              <span class="q-text">Khi nào viết prompt, khi nào tạo agent?</span>
+              <span class="q-tag purple">AI</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <ul>
+                <li><strong>Prompt:</strong> task đơn giản, phạm vi rõ, ít bước. Prompt nên tham chiếu <code>claude.md</code>, rule và skill; nêu mục tiêu, input, output, tiêu chí hoàn thành.</li>
+                <li><strong>Agent:</strong> task lớn, nhiều bước, cần vai trò và workflow riêng. Agent giống một “nhân viên” có mục tiêu, memory/context, tool/skill và rule.</li>
+                <li>Mỗi agent nên có một vai trò: coder, reviewer, tester, documenter. Không nên nhồi mọi việc vào một agent.</li>
+              </ul>
+              <p><strong>Cấu trúc agent gợi ý:</strong></p>
+              <ol>
+                <li><strong>Role &amp; goal:</strong> bạn là ai, mục tiêu là gì.</li>
+                <li><strong>Memory:</strong> file context cần đọc (<code>claude.md</code>, rule, skill summary).</li>
+                <li><strong>Tools/skills:</strong> liệt kê ngắn gọn kèm từ khóa, không bắt AI đọc lại toàn bộ tài liệu dài.</li>
+                <li><strong>Rules:</strong> bảo mật, coding convention, điều cấm.</li>
+                <li><strong>Workflow:</strong> các bước bắt buộc, điểm dừng, output format.</li>
+              </ol>
+              <div class="callout info"><strong>Ví dụ prompt đơn giản:</strong> “Dựa vào <code>claude.md</code> và <code>rules/testing.md</code>, dùng skill <code>csv-import</code> để implement chức năng import sinh viên. Trả về diff, danh sách file đã sửa và test đã chạy.”</div>
+            </div>
+          </details>
+
+          <details class="qa" id="q-ai-context">
+            <summary>
+              <span class="q-index">07</span>
+              <span class="q-text">Quản lý context như thế nào để AI trả lời tốt?</span>
+              <span class="q-tag purple">AI</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p>Context gồm: system prompt, project context (<code>claude.md</code>), lịch sử chat, file/tool output, skill, MCP... Context càng dài thì chi phí càng cao và độ chính xác càng giảm.</p>
+              <ul>
+                <li><strong>0–50%:</strong> vùng tốt nhất, AI tập trung và cho kết quả ổn định.</li>
+                <li><strong>50–70%:</strong> bắt đầu loãng, dễ bỏ sót chi tiết; nên dọn bớt.</li>
+                <li><strong>&gt;70–80%:</strong> dễ lan man, sai hoặc quên rule; nên <code>/compact</code> hoặc mở session mới.</li>
+                <li><strong>Tối ưu file:</strong> viết <code>claude.md</code> ngắn, có cấu trúc, tiếng Anh; tách rule dài thành file riêng và reference.</li>
+                <li><strong>Prompt:</strong> nêu rõ mục tiêu, file liên quan, output; tránh dán cả repo.</li>
+                <li><strong>Compact:</strong> thực hiện khi 70–80% hoặc kết thúc một feature; giữ lại quyết định, constraint, file đã sửa, TODO, lỗi đang gặp.</li>
+                <li><strong>Plan mode:</strong> dùng cho task lớn: AI chỉ đọc/phân tích và lập kế hoạch trước khi sửa, giảm rủi ro.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="qa" id="q-ai-adoption">
+            <summary>
+              <span class="q-index">08</span>
+              <span class="q-text">Đưa AI vào dự án theo lộ trình nào? Plan mode dùng khi nào?</span>
+              <span class="q-tag purple">AI</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <ol>
+                <li><strong>Pilot:</strong> chọn task ít rủi ro (viết test, tài liệu, refactor nhỏ), đo thời gian và chất lượng.</li>
+                <li><strong>Chuẩn hóa:</strong> tạo <code>claude.md</code>, rule, skill library, prompt template; thống nhất review process.</li>
+                <li><strong>Mở rộng:</strong> dùng agent cho feature lớn; tách agent code/review/test; luôn có human review.</li>
+                <li><strong>Đo lường:</strong> thời gian task, bug rate, review comment, test coverage; không chỉ “cảm thấy nhanh”.</li>
+                <li><strong>Bảo mật:</strong> không đưa secret/PII vào prompt; kiểm tra license; giới hạn quyền tool; log và audit khi cần.</li>
+                <li><strong>Chia sẻ:</strong> viết lesson learned, cập nhật skill/rule sau mỗi sprint.</li>
+              </ol>
+              <p><strong>Plan mode</strong> phù hợp khi task phức tạp, nhiều file, thay đổi kiến trúc hoặc chưa rõ requirement. AI sẽ khảo sát code, đề xuất kế hoạch và chờ duyệt trước khi chỉnh sửa — giảm việc sửa sai lan rộng.</p>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section class="section" id="company" data-section>
+        <div class="section-head">
+          <div>
+            <span class="section-kicker">08 · Company &amp; HR</span>
+            <h2>Theo công ty &amp; câu hỏi hành vi</h2>
+            <p>Trọng tâm khi phỏng vấn VNPT, MB Bank, FPT và cách kể câu chuyện của bạn.</p>
+          </div>
+          <div class="section-actions">
+            <span class="qa-count">6 câu hỏi</span>
+            <button class="mini-btn" type="button" data-toggle-section="company">Mở tất cả</button>
+          </div>
+        </div>
+
+        <div class="company-grid">
+          <article class="company-card vnpt">
+            <span class="company-label">VNPT</span>
+            <h3>Java Backend · API · Vận hành</h3>
+            <p>Trọng tâm: nền tảng Java/Spring, REST API, caching, tối ưu DB, xử lý sự cố và ứng dụng AI.</p>
+            <div class="link-list">
+              <a href="#q-be-rest">RESTful API &amp; HTTP method</a>
+              <a href="#q-be-redis">Redis &amp; cache fallback</a>
+              <a href="#q-be-db-slow">Tối ưu DB chậm</a>
+              <a href="#q-be-deploy-error">Lỗi sau deploy</a>
+              <a href="#q-ai-apply">Áp dụng AI &amp; context</a>
+              <a href="#q-be-password-jwt">Hash mật khẩu &amp; JWT</a>
+            </div>
+          </article>
+
+          <article class="company-card mbbank">
+            <span class="company-label">MB Bank</span>
+            <h3>Transaction · Banking · Spring Core</h3>
+            <p>Trọng tâm: transaction, chống chuyển tiền trùng, microservices, index/partition và nền tảng Spring/JPA.</p>
+            <div class="link-list">
+              <a href="#q-be-transaction">Transaction &amp; @Transactional</a>
+              <a href="#q-be-double-transfer">Chặn chuyển tiền 2 lần</a>
+              <a href="#q-be-microservice">Microservices vs Monolith</a>
+              <a href="#q-sql-index">Index &amp; partition</a>
+              <a href="#q-be-ioc">IoC, bean, @Autowired</a>
+              <a href="#q-be-jpa-hibernate">Hibernate &amp; JPA</a>
+              <a href="#q-be-aop">AOP &amp; @Transactional</a>
+            </div>
+          </article>
+
+          <article class="company-card fpt">
+            <span class="company-label">FPT Software</span>
+            <h3>Quy trình · Khách hàng Nhật · Học hỏi</h3>
+            <p>Trọng tâm: Agile, tài liệu DD, chất lượng, giao tiếp và tinh thần học hỏi lâu dài.</p>
+            <div class="link-list">
+              <a href="#intro">Giới thiệu &amp; dự án</a>
+              <a href="#daily">Quy trình hằng ngày</a>
+              <a href="#q-ai-apply">AI &amp; năng suất</a>
+              <a href="#q-hr-challenge">Câu chuyện khó khăn</a>
+              <a href="#q-hr-flow">Trình bày flow chức năng</a>
+            </div>
+          </article>
+        </div>
+
+        <div class="qa-list">
+          <details class="qa" id="q-hr-project-tech">
+            <summary>
+              <span class="q-index">01</span>
+              <span class="q-text">Kể về dự án em đã tham gia: công nghệ sử dụng, vai trò và đóng góp?</span>
+              <span class="q-tag gray">Project</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p>Trả lời theo cấu trúc: <strong>bối cảnh → công nghệ → vai trò → việc mình làm → kết quả</strong>. Nói 2 dự án, mỗi dự án 30–45 giây là đủ.</p>
+              <p><strong>ENEXX — hệ thống quản lý thiết bị &amp; máy móc (khách hàng Nhật):</strong> Java Servlet, J2EE, MVC, SQL Server, Jira. Vai trò Java Developer: đọc Detailed Design, phát triển màn hình, viết SQL, Unit Test/Free Test, tạo bug và phối hợp xử lý.</p>
+              <p><strong>SEIXX — hệ thống quản lý hoạt động &amp; quy trình nhà máy (đang tham gia):</strong> Java Spring Boot MVC, PostgreSQL, MyBatis, Eclipse, Git. Vai trò: xây dựng Controller → Service → Mapper XML theo DD, viết SQL trong MyBatis, viết UTC/UTR và chụp evidence.</p>
+              <div class="callout tip"><strong>Mẹo:</strong> đừng liệt kê công nghệ dàn trải — gắn mỗi công nghệ với việc mình đã làm (“MyBatis dùng để viết SQL trong XML và map ResultMap”), và chốt bằng điểm mạnh: quy trình DD/UT/UTR, làm việc với khách Nhật, đọc tài liệu tốt.</div>
+            </div>
+          </details>
+
+          <details class="qa" id="q-hr-flow">
+            <summary>
+              <span class="q-index">02</span>
+              <span class="q-text">Bốc một chức năng bất kỳ trong dự án — trình bày flow (ví dụ màn hình search danh sách, import/export CSV)?</span>
+              <span class="q-tag gray">Project</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p><strong>Cách trình bày:</strong> chọn <em>một chức năng cụ thể</em>, vẽ flow theo tầng, nói 1–2 điểm khó và kết quả. Ví dụ ở SEIXX: <strong>màn hình “Quản lý danh mục thiết bị”</strong> gồm search danh sách, import CSV và export CSV.</p>
+              <p><strong>Bối cảnh:</strong> bảng <code>equipment</code> (equipment_code PK, name, factory_id, category_id, status, updated_at) là master cho các màn hình sản xuất; màn hình cho lọc theo mã/tên/nhà máy/trạng thái, import hàng loạt bằng CSV và export đúng dữ liệu đang xem.</p>
+              <h4>1. Search danh sách</h4>
+              <ul>
+                <li><strong>FE:</strong> form filter + phân trang → <code>GET /api/equipments?code=&amp;factoryId=&amp;status=&amp;page=0&amp;size=20</code>; giữ filter trên URL để chia sẻ link.</li>
+                <li><strong>Controller:</strong> nhận DTO filter (không nhận SQL từ client); <strong>Service:</strong> trim, mặc định sắp xếp theo updated_at, giới hạn theo nhà máy của user.</li>
+                <li><strong>MyBatis XML:</strong> SQL động theo điều kiện có/không:</li>
+              </ul>
+              <pre><code>&lt;select id="searchEquipment" resultType="EquipmentDto"&gt;
+  SELECT e.equipment_code, e.name, f.factory_name, e.status
+  FROM equipment e
+  JOIN factory f ON f.factory_id = e.factory_id
+  WHERE e.deleted_flag = '0'
+  &lt;if test="code != null"&gt; AND e.equipment_code LIKE #{code} || '%' &lt;/if&gt;
+  &lt;if test="factoryId != null"&gt; AND e.factory_id = #{factoryId} &lt;/if&gt;
+  ORDER BY e.updated_at DESC
+  LIMIT #{size} OFFSET #{offset}
+&lt;/select&gt;</code></pre>
+              <p>Index composite <code>(factory_id, status)</code> cho điều kiện lọc hay dùng; dữ liệu rất lớn thì chuyển dần sang keyset pagination.</p>
+              <h4>2. Import CSV (batch, báo lỗi từng dòng)</h4>
+              <ul>
+                <li>FE gửi <code>multipart/form-data</code> (giới hạn size, chỉ nhận .csv) → Controller → Service.</li>
+                <li>Service đọc theo stream (không load cả file), validate từng dòng: đủ cột, đúng format ngày, <code>factory_code</code> phải tồn tại, mã thiết bị chưa trùng → gom lỗi kèm số dòng.</li>
+                <li>Hợp lệ hết thì ghi theo batch trong 1 transaction (batch ~500 dòng); có lỗi thì trả file kết quả để user sửa và import lại.</li>
+                <li>Điểm khó đã gặp: file từ khách Nhật có thể là Shift-JIS → phải detect encoding; mã kiểu <code>0012</code> bị Excel tự đổi định dạng khi mở lại file export.</li>
+              </ul>
+              <h4>3. Export CSV</h4>
+              <ul>
+                <li>Dùng đúng filter hiện tại: <code>GET /api/equipments/export?...</code> — export ra đúng những gì user đang thấy.</li>
+                <li>Ghi trực tiếp từng dòng ra <code>response.getOutputStream()</code> (streaming), không build list lớn trong RAM; set <code>Content-Disposition: attachment; filename="equipments_YYYYMMDD.csv"</code>.</li>
+                <li>Header tiếng Nhật theo tài liệu DD; UTF-8 (kèm BOM nếu mở bằng Excel); ngày format <code>yyyy/MM/dd</code>.</li>
+              </ul>
+              <div class="callout tip"><strong>Điểm ăn điểm:</strong> chốt bằng số liệu và câu chuyện thật (thay số của bạn vào) — “10.000 dòng import theo batch mất vài giây thay vì vài phút nếu insert từng dòng; dòng lỗi được báo đúng số để BA kiểm tra”. Nhắc thêm đã dùng <a href="#q-ai-csv-skill">skill import CSV</a> để viết nhanh phần lặp lại và tự review nghiệp vụ.</div>
+            </div>
+          </details>
+
+          <details class="qa" id="q-hr-csv-skill">
+            <summary>
+              <span class="q-index">03</span>
+              <span class="q-text">Trình bày skill “import CSV” em viết cho dự án nhà máy (khi được hỏi về AI)?</span>
+              <span class="q-tag purple">AI</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p><strong>Cách trình bày (30–60 giây):</strong> bối cảnh → vấn đề → cách làm → kết quả.</p>
+              <ul>
+                <li><strong>Bối cảnh:</strong> SEIXX có nhiều màn hình import CSV (thiết bị, phụ tùng, định mức) cho khách Nhật; mỗi lần làm lại phải nhắc AI từ đầu và dễ quên rule (encoding Shift-JIS, batch, báo lỗi theo dòng, không log dữ liệu nhạy cảm).</li>
+                <li><strong>Cách làm:</strong> viết một <em>skill</em> — file SKILL.md mô tả quy trình chuẩn để AI đọc theo; viết 1 lần, dùng cho mọi màn hình import sau đó.</li>
+                <li><strong>Kết quả:</strong> AI sinh đúng skeleton Controller → Service → Mapper → test theo convention; em tập trung review nghiệp vụ và edge case; các phần lặp (DTO, validate, batch, error report) nhanh và ổn định hơn.</li>
+              </ul>
+              <p><strong>Nội dung skill (rút gọn để show cho nhà tuyển dụng):</strong></p>
+              <pre><code>---
+name: csv-import
+description: Implement a safe, batch CSV import in a Spring Boot + MyBatis factory
+  management project (SEIXX conventions).
+---
+
+# Khi nào dùng
+Thêm hoặc sửa chức năng import CSV cho một màn hình (equipment, part, định mức...).
+
+# Inputs
+- Đối tượng + DDL (VD equipment: equipment_code PK, factory_id FK, status CHECK)
+- File CSV mẫu (header theo DD, có thể Shift-JIS từ khách Nhật)
+- Rule validate từng cột + mã master phải tồn tại (factory_code, category_code)
+- Chiến lược lỗi: all-or-nothing | partial kèm báo cáo lỗi
+- Endpoint + quyền theo nhà máy của user
+
+# Workflow
+1. Đọc convention hiện có: controller, service, mapper XML, DTO, exception handler.
+2. Tạo DTO cho dòng CSV + DTO kết quả import {success, failed, errors[{line, reason}]}.
+3. POST multipart/form-data: giới hạn size (VD 5MB), chỉ nhận .csv.
+4. Detect encoding (UTF-8 / Shift-JIS), đọc theo stream (không load cả file),
+   bỏ header, trim, validate từng dòng — gom lỗi kèm số dòng, không dừng ở lỗi đầu.
+5. Kiểm tra master 1 lần, gom vào Set (tránh N+1), rồi mới validate từng dòng.
+6. Check trùng: mã trùng trong file hoặc đã tồn tại trong DB.
+7. Ghi batch insert/update qua MyBatis foreach (batch ~500) trong 1 @Transactional.
+8. Trả summary + danh sách lỗi để FE hiển thị và user sửa, import lại.
+9. Unit Test: file hợp lệ, thiếu cột, sai format ngày, trùng mã, file rỗng,
+   encoding Shift-JIS, dòng quá dài.
+
+# Rules
+- Không nối chuỗi SQL — luôn bind param MyBatis (#{}).
+- Không log PII/giá trị nhạy cảm; log line number + reason.
+- @Transactional chỉ ở tầng service; rollback khi batch lỗi.
+- Không insert từng dòng, không SELECT trong vòng lặp.
+- Đo thời gian import 10.000 dòng và ghi lại để đối chiếu UTR.
+
+# Done when
+- Build + Unit Test pass.
+- File lỗi trả đúng số dòng + lý do, import lại được.
+- Query kiểm tra master dùng index (xem execution plan).
+- Không còn TODO, không hard-code encoding/limit.</code></pre>
+              <div class="callout tip"><strong>Khi phỏng vấn:</strong> đừng chỉ đọc skill — kể “trước và sau”: trước phải nhắc AI từng bước và hay sót rule; sau chỉ cần gọi skill rồi review. Nhấn mạnh <em>em vẫn tự quyết định edge case, AI không tự chạy trên dữ liệu thật</em>. Liên hệ: <a href="#q-ai-csv-skill">skill import CSV (mục AI)</a> và <a href="#q-hr-flow">flow import/export CSV</a>.</div>
+            </div>
+          </details>
+
+          <details class="qa" id="q-hr-challenge">
+            <summary>
+              <span class="q-index">04</span>
+              <span class="q-text">Điều khó khăn nhất từng gặp khi đi làm? Giải quyết thế nào?</span>
+              <span class="q-tag gray">Behavior</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p>Dùng cấu trúc <strong>STAR</strong>: Situation → Task → Action → Result. Nên chọn câu chuyện có số liệu hoặc kết quả rõ ràng, thể hiện bạn chủ động và biết phối hợp.</p>
+              <p><strong>Gợi ý câu chuyện từ SEIXX/ENEXX:</strong></p>
+              <ul>
+                <li><strong>Situation:</strong> một màn hình có tài liệu DD chưa rõ edge case, hoặc phát sinh lỗi khi tích hợp dữ liệu thực tế.</li>
+                <li><strong>Task:</strong> hoàn thành đúng deadline, không ảnh hưởng chức năng khác.</li>
+                <li><strong>Action:</strong> đọc lại DD, liệt kê điểm mơ hồ, hỏi BA/TL; chia nhỏ task; viết test case trước; log bug Jira; phối hợp với thành viên liên quan.</li>
+                <li><strong>Result:</strong> hoàn thành đúng hạn, giảm lỗi ở vòng test, tài liệu UTC/UTR đầy đủ; rút ra checklist để lần sau làm nhanh hơn.</li>
+              </ul>
+              <div class="callout tip"><strong>Mẹo:</strong> đừng kể “khó vì công nghệ mới” mà không nói cách học. Nhà tuyển dụng quan tâm cách bạn xử lý vấn đề và giao tiếp hơn là bản thân lỗi.</div>
+            </div>
+          </details>
+
+          <details class="qa" id="q-hr-salary">
+            <summary>
+              <span class="q-index">05</span>
+              <span class="q-text">Thu nhập hiện tại và mức lương mong muốn?</span>
+              <span class="q-tag gray">HR</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p>Không nên trả lời một con số cảm tính. Hãy chuẩn bị theo hướng:</p>
+              <ul>
+                <li><strong>Research:</strong> khảo sát mức lương Java Developer 1–2 năm kinh nghiệm tại Đà Nẵng và tại công ty mục tiêu; tính cả gross/net, thưởng, phụ cấp.</li>
+                <li><strong>Giá trị bản thân:</strong> nêu kinh nghiệm thực tế với hai dự án Nhật, Spring Boot, SQL, quy trình DD/UT và khả năng dùng AI có kiểm soát.</li>
+                <li><strong>Câu trả lời mẫu:</strong> “Hiện tại em đang ở mức [X]. Khi tìm môi trường mới, em mong muốn khoảng [Y–Z] tùy vào phạm vi công việc và phúc lợi. Em sẵn sàng trao đổi để hai bên có mức phù hợp.”</li>
+                <li>Nếu bị hỏi current salary quá sớm, có thể hỏi lại range của vị trí trước; không nói sai số liệu.</li>
+                <li>Điền số thật của bạn vào chỗ trống; không dùng con số minh họa mà không kiểm tra thị trường.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="qa" id="q-hr-questions">
+            <summary>
+              <span class="q-index">06</span>
+              <span class="q-text">Em kỳ vọng gì khi apply vào FPT/VNPT? Có câu hỏi gì cho nhà tuyển dụng?</span>
+              <span class="q-tag gray">HR</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="answer">
+              <p><strong>Kỳ vọng nên nói:</strong> môi trường được học và phát triển sâu về Java Backend, tham gia dự án thực tế, có quy trình review/chất lượng, được đào tạo thêm về kiến trúc và database; cam kết gắn bó và đóng góp lâu dài.</p>
+              <p><strong>Câu hỏi nên hỏi ngược:</strong></p>
+              <ul>
+                <li>Tech stack và kiến trúc hiện tại của team là gì? Có dùng Spring Boot, microservices hay monolith?</li>
+                <li>Quy trình phát triển, review code và testing đang diễn ra thế nào?</li>
+                <li>Lộ trình phát triển cho Java Developer trong 1–2 năm đầu?</li>
+                <li>Team size, cách phối hợp giữa BA/Dev/QA/TL?</li>
+                <li>Điều gì đang là thách thức lớn nhất của team hiện tại?</li>
+              </ul>
+              <p>Tránh hỏi ngay về lương/OT ở câu đầu; có thể hỏi sau khi đã trao đổi về công việc.</p>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section class="section" id="resources" data-section>
+        <div class="section-head">
+          <div>
+            <span class="section-kicker">09 · Resources</span>
+            <h2>Tài nguyên &amp; khóa học</h2>
+            <p>Các link học tập đã tổng hợp. Trang chỉ lưu email, không lưu mật khẩu.</p>
+          </div>
+          <div class="section-actions"><span class="qa-count">4 nhóm</span></div>
+        </div>
+
+        <div class="resource-grid">
+          <article class="resource-card">
+            <div class="resource-top"><span class="resource-icon">EN</span><span class="badge blue">Tiếng Anh</span></div>
+            <h3>Tiếng Anh giao tiếp</h3>
+            <p>Khóa Starter Course trên Anh Ngữ MB.</p>
+            <a class="resource-link" href="https://anhngumb.com/starter-course/" target="_blank" rel="noopener noreferrer">Mở khóa học
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17 17 7M8 7h9v9"/></svg>
+            </a>
+            <div class="credential"><span>Tài khoản</span><code>mhieu.ute@gmail.com</code></div>
+            <p class="hint">Mật khẩu không hiển thị trên trang. Lưu trong trình quản lý mật khẩu cá nhân.</p>
+          </article>
+
+          <article class="resource-card">
+            <div class="resource-top"><span class="resource-icon">DEV</span><span class="badge green">Lập trình</span></div>
+            <h3>Kho khóa học lập trình</h3>
+            <p>Tổng hợp nhiều khóa học lập trình trên Kho Khóa Học Academy.</p>
+            <a class="resource-link" href="https://khokhoahoc.academy/tai-khoan/downloads/" target="_blank" rel="noopener noreferrer">Mở kho khóa học
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17 17 7M8 7h9v9"/></svg>
+            </a>
+            <div class="credential"><span>Tài khoản</span><code>mhieu.ute@gmail.com</code></div>
+            <p class="hint">Mật khẩu không hiển thị trên trang. Không publish file này công khai.</p>
+          </article>
+
+          <article class="resource-card">
+            <div class="resource-top"><span class="resource-icon">AI</span><span class="badge purple">AI</span></div>
+            <h3>Playlist &amp; video AI</h3>
+            <p>Tài liệu học AI, prompt, agent và ứng dụng vào công việc.</p>
+            <div class="link-stack">
+              <a href="https://www.youtube.com/watch?v=UWWJZRwE14g" target="_blank" rel="noopener noreferrer">Video 1 · AI overview</a>
+              <a href="https://youtu.be/g-ZtK5u-iiw?si=PAuHqv6wd01jp2qD" target="_blank" rel="noopener noreferrer">Video 2 · AI workflow</a>
+              <a href="https://www.youtube.com/playlist?list=PLre8i5l585k7SdvFrfBYpMtf55nPXu_vV" target="_blank" rel="noopener noreferrer">Playlist 1</a>
+              <a href="https://www.youtube.com/playlist?list=PLIro1GlPm0pxa_8w9K1C0VbHd3K2fza0j" target="_blank" rel="noopener noreferrer">Playlist 2</a>
+              <a href="https://www.youtube.com/watch?v=bdyOM1hpnAE&amp;list=WL&amp;index=4&amp;t=12963s" target="_blank" rel="noopener noreferrer">Video dài · AI</a>
+              <a href="https://www.youtube.com/playlist?list=PLdGjBG9BjolMDWeK8Qj5x9RjEKnllYl7U" target="_blank" rel="noopener noreferrer">Playlist 3</a>
+              <a href="https://www.youtube.com/watch?v=tA4Fo9EEDgk&amp;list=WL&amp;index=1" target="_blank" rel="noopener noreferrer">Video 3 · AI</a>
+            </div>
+          </article>
+
+          <article class="resource-card">
+            <div class="resource-top"><span class="resource-icon">VN</span><span class="badge gray">VNPT</span></div>
+            <h3>Đề test &amp; tham khảo</h3>
+            <p>Bài test VNPT và video tham khảo.</p>
+            <div class="link-stack">
+              <a href="https://drive.google.com/file/d/1-VAun_DlMGnoGXSDUZSkCMfT5whuZsxy/view?usp=sharing" target="_blank" rel="noopener noreferrer">Bài test VNPT (Google Drive)</a>
+              <a href="https://www.facebook.com/share/r/1EfzPZiEGt/" target="_blank" rel="noopener noreferrer">Video tham khảo (Facebook)</a>
+            </div>
+            <div class="callout warn small"><strong>Lưu ý:</strong> đây là tài liệu học tập cá nhân; không chia sẻ công khai nội dung nội bộ hoặc thông tin tài khoản.</div>
+          </article>
+        </div>
+
+        <div class="callout info resources-note">
+          <strong>Bảo mật:</strong> trang này được thiết kế để chạy local. Không deploy lên hosting công khai khi còn chứa thông tin cá nhân. Mật khẩu khóa học đã được lược bỏ khỏi HTML; hãy lưu trong trình quản lý mật khẩu.
+        </div>
+      </section>
+
+      <footer class="footer">
+        <div>
+          <span class="brand-mark small">MT</span>
+          <p><strong>Interview Hub</strong> · Sổ tay ôn phỏng vấn Java Backend của Mai Trần Thị Thanh.</p>
+        </div>
+        <p class="footer-note">Nội dung tổng hợp phục vụ học tập cá nhân. Không đăng tải thông tin tài khoản hoặc dữ liệu nội bộ của dự án.</p>
+      </footer>
+    </main>
+  </div>
+
+  <button class="back-top" id="backTop" type="button" aria-label="Về đầu trang">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </button>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
